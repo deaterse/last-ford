@@ -1,2 +1,2 @@
-public enum TerrainType { Water, Sand, Grass, Mountain, Forest }
+public enum TerrainType { Grass, Sand, Water, Mountain, Forest }
 

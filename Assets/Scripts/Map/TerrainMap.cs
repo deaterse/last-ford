@@ -11,5 +11,19 @@ public class TerrainMap
         Width = width;
         Height = height;
         TerrainData = new TileData[width, height];
+    
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                TerrainData[x, y] = new TileData 
+                (
+                    TerrainType.Grass,  // ← должно быть Grass по умолчанию!
+                    Resource.None 
+                );
+            }
+        }
     }
+
+
 }

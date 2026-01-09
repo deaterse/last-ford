@@ -875,6 +875,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274243411}
   m_CullTransparentMesh: 1
+--- !u!1 &300043607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300043609}
+  - component: {fileID: 300043608}
+  m_Layer: 0
+  m_Name: RiverVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &300043608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300043607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b68419982bc4894288d330306478f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waterTile: {fileID: 11400000, guid: 886fd1ae0c25c4f43af45be808064173, type: 2}
+--- !u!4 &300043609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300043607}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 602.4284, y: 341.89136, z: 0.9876545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &332769469
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,6 +2852,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444059152}
   m_CullTransparentMesh: 1
+--- !u!1 &1465030909
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465030911}
+  - component: {fileID: 1465030910}
+  m_Layer: 0
+  m_Name: HeightMapVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1465030910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465030909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c61ad042671c8428a1c10952b62561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1465030911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465030909}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 602.4284, y: 341.89136, z: 0.9876545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1655402407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2851,8 +2940,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391207f9604515f4a9defc005310aacd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _terrainMap: {fileID: 108441100}
   _tilesConfig: {fileID: 11400000, guid: f36d6194aaf9b2e4787e2e20fcc0b58f, type: 2}
+  _terrainTilemap: {fileID: 108441100}
+  _heightVisualizer: {fileID: 1465030910}
+  _riverVisualizer: {fileID: 300043608}
 --- !u!4 &1673380621
 Transform:
   m_ObjectHideFlags: 0
@@ -3636,3 +3727,5 @@ SceneRoots:
   - {fileID: 332769471}
   - {fileID: 114443064}
   - {fileID: 1673380621}
+  - {fileID: 1465030911}
+  - {fileID: 300043609}

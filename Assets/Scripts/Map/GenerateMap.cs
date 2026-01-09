@@ -33,7 +33,7 @@ public class GenerateMap : MonoBehaviour
         HeightGenerator heightGenerator = new HeightGenerator(_noiseConfig);
         HeightMap heightMap = heightGenerator.GenerateHeightMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
 
-        _terrainRenderer.ColoringMap(heightMap);
+        _terrainRenderer.VisualizeHeightMap(heightMap);
 
         Debug.Log("Terrain succesfully generated.");
         //
@@ -44,6 +44,9 @@ public class GenerateMap : MonoBehaviour
 
         //Generate River
         CatmullRomRiver riverGenerator = new CatmullRomRiver(terrainMap);
-        riverGenerator.GenerateRivers();
+        terrainMap = riverGenerator.GenerateRivers();
+
+        _terrainRenderer.VisualizeRiver(terrainMap);
+        //
     }
 }

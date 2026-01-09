@@ -11,10 +11,12 @@ public class CatmullRomRiver
         _terrainMap = terrainMap;
     }
 
-    public void GenerateRivers()
+    public TerrainMap GenerateRivers()
     {
         List<Vector3Int> mainPoints = GenerateRiverControlPoints();
-        GenerateRiver(mainPoints);
+        TerrainMap terrainMap = GenerateRiver(mainPoints);
+
+        return terrainMap;
     }
     private Vector3Int RandomBorderPosYLeft(Vector2Int size)
     {
@@ -36,7 +38,7 @@ public class CatmullRomRiver
 
         for(int y = 1; y < size.y; y++)
         {
-            Vector3Int currentPos = new Vector3Int(63, y - 1, 0);
+            Vector3Int currentPos = new Vector3Int(size.x - 1, y - 1, 0);
 
             borderPosY.Add(currentPos);
         }
@@ -48,10 +50,15 @@ public class CatmullRomRiver
     {
         List<Vector3Int> points = new List<Vector3Int>();
 
-        Vector3Int p0 = RandomBorderPosYLeft(new Vector2Int(63, 63));
-        Vector3Int p1 = new Vector3Int(Random.Range(10, 53), Random.Range(0, 63));
-        Vector3Int p2 = new Vector3Int(Random.Range(p1.x, 53), Random.Range(0, 63));
-        Vector3Int p3 = RandomBorderPosYRight(new Vector2Int(63, 63));
+        Vector3Int p0 = RandomBorderPosYLeft(new Vector2Int(_terrainMap.Width, _terrainMap.Height));
+        Vector3Int p1 = new Vector3Int(Random.Range(20, 53), Random.Range(0, _terrainMap.Height - 1));
+        Vector3Int p2 = new Vector3Int(Random.Range(p1.x, 53), Random.Range(0, _terrainMap.Height - 1));
+        Vector3Int p3 = RandomBorderPosYRight(new Vector2Int(_terrainMap.Width, _terrainMap.Height));
+
+        Debug.Log($"x: {p0.x} y: {p0.y}");
+        Debug.Log($"x: {p1.x} y: {p1.y}");
+        Debug.Log($"x: {p2.x} y: {p2.y}");
+        Debug.Log($"x: {p3.x} y: {p3.y}");
 
         points.Add(p0);
         points.Add(p1);
@@ -61,9 +68,9 @@ public class CatmullRomRiver
         return points;
     }
 
-    public void GenerateRiver(List<Vector3Int> mainPoints)
+    public TerrainMap GenerateRiver(List<Vector3Int> mainPoints)
     {
-        if (mainPoints.Count < 4) return;
+        if (mainPoints.Count < 4) return _terrainMap;
         
         for (int i = 0; i < mainPoints.Count - 3; i++)
         {
@@ -73,12 +80,13 @@ public class CatmullRomRiver
             Vector3Int p3 = mainPoints[i + 3];
             
             List<Vector3Int> curvePoints = GetCurveSegment(p0, p1, p2, p3, 10);
-            Debug.Log(curvePoints.Count);
 
             DrawLineBetweenPoints(p0, p1);
             DrawLineBetweenPoints(p2, p3);
             DrawRiverThroughPoints(curvePoints);
         }
+
+        return _terrainMap;
     }
     
     private List<Vector3Int> GetCurveSegment(
@@ -119,12 +127,14 @@ public class CatmullRomRiver
         return points;
     }
 
-    private void DrawRiverThroughPoints(List<Vector3Int> points)
+    private TerrainMap DrawRiverThroughPoints(List<Vector3Int> points)
     {
         for (int i = 0; i < points.Count - 1; i++)
         {
             DrawLineBetweenPoints(points[i], points[i + 1]);
         }
+
+        return _terrainMap;
     }
 
     private void DrawLineBetweenPoints(Vector3Int start, Vector3Int end)
@@ -152,7 +162,14 @@ public class CatmullRomRiver
             {
                 Vector3Int waterPoint = currentPos + thicknessDir * t;
 
-                
+                TileData waterTile = new TileData(
+                    TerrainType.Water,
+                    Resource.None
+                );
+                if(waterPoint.x >= 0 && waterPoint.x < 64 && waterPoint.y >= 0 && waterPoint.y < 64)
+                {
+                    _terrainMap.TerrainData[waterPoint.x, waterPoint.y] = waterTile;
+                }
             }
             
             if(xIsMajor) currentPos.x += stepX;
