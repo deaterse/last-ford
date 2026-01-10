@@ -55,11 +55,6 @@ public class CatmullRomRiver
         Vector3Int p2 = new Vector3Int(Random.Range(p1.x, 53), Random.Range(0, _terrainMap.Height - 1));
         Vector3Int p3 = RandomBorderPosYRight(new Vector2Int(_terrainMap.Width, _terrainMap.Height));
 
-        Debug.Log($"x: {p0.x} y: {p0.y}");
-        Debug.Log($"x: {p1.x} y: {p1.y}");
-        Debug.Log($"x: {p2.x} y: {p2.y}");
-        Debug.Log($"x: {p3.x} y: {p3.y}");
-
         points.Add(p0);
         points.Add(p1);
         points.Add(p2);

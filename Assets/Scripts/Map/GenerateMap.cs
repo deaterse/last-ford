@@ -12,6 +12,10 @@ public class GenerateMap : MonoBehaviour
 
     [Header("Renderer Components")]
     [SerializeField] private TerrainRenderer _terrainRenderer;
+    [SerializeField] private ResourcesRenderer _resourcesRenderer;
+
+    private HeightMap _heightMap;
+    private TerrainMap _terrainMap;
 
     private void Start()
     {
@@ -27,26 +31,32 @@ public class GenerateMap : MonoBehaviour
     {
         //Generate Grass 64x64
         _terrainRenderer.GenerateTerrain(_mapConfig.MapSize);
-        //
 
         //Generate Heights
         HeightGenerator heightGenerator = new HeightGenerator(_noiseConfig);
-        HeightMap heightMap = heightGenerator.GenerateHeightMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
+        _heightMap = heightGenerator.GenerateHeightMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
 
-        _terrainRenderer.VisualizeHeightMap(heightMap);
+        _terrainRenderer.VisualizeHeightMap(_heightMap);
 
         Debug.Log("Terrain succesfully generated.");
-        //
 
         //Make a Terrain Map
-        TerrainMap terrainMap = new TerrainMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
-        //
+        _terrainMap = new TerrainMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
 
         //Generate River
-        CatmullRomRiver riverGenerator = new CatmullRomRiver(terrainMap);
-        terrainMap = riverGenerator.GenerateRivers();
+        CatmullRomRiver riverGenerator = new CatmullRomRiver(_terrainMap);
+        _terrainMap = riverGenerator.GenerateRivers();
 
-        _terrainRenderer.VisualizeRiver(terrainMap);
-        //
+        _terrainRenderer.VisualizeRiver(_terrainMap);
+
+        Debug.Log("River succesfully generated.");
+
+        //Generate Forests
+        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap);
+        forestsGenerator.GenerateForests();
+
+        _resourcesRenderer.VisualizeForests(_terrainMap);
+
+        Debug.Log("Forests succesfully generated.");
     }
 }

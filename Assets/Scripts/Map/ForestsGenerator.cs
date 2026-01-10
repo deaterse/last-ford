@@ -2,125 +2,112 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class GenerateForest : MonoBehaviour
+public class ForestsGenerator
 {
-    // [SerializeField] private TilesConfig _tilesConfig;
-    // [Header("List of Tiles")]
-    // [SerializeField] private List<TileBase> _forestTiles;
+    private TerrainMap _terrainMap;
 
-    // [Header("Tilemap Components")]
-    // [SerializeField] private Tilemap _resourceMap;
-    // [SerializeField] private Tilemap _terrainMap;
-    // [SerializeField] private Tilemap _waterMap;
+    public ForestsGenerator(TerrainMap terrainMap)
+    {
+        _terrainMap = terrainMap;
+    }
 
-    // private MapConfig _mapConfig;
+    public void GenerateForests()
+    {
+        int forestsCount = Random.Range(3, 5);
 
-    // private void Awake()
-    // {
-    //     Instance = this;
-    // }
+        float floatedForestSize = (0.8f*(_terrainMap.Width * _terrainMap.Height)) / forestsCount;
+        int forestSize = (int) floatedForestSize;
 
-    // public void GenerateForests(MapConfig mapConfig)
-    // {
-    //     _mapConfig = mapConfig;
+        for(int i = 0; i < forestsCount; i++)
+        {
+            GenerateSizedForest(forestSize);
+        }
+    }
+    
+    private Vector3Int RandomPosMap()
+    {
+        return new Vector3Int(Random.Range(0, _terrainMap.Width - 1), Random.Range(0, _terrainMap.Height - 1), 0);
+    }
 
-    //     int forestsCount = Random.Range(1, 5);
-    //     float forestSizeF = ((_mapConfig.ForestPercent/100f)*(_mapConfig.MapSize.x * _mapConfig.MapSize.y))/forestsCount;
-    //     int forestSize = (int) forestSizeF;
+    private void GenerateSizedForest(int forestSize)
+    {
+        Vector3Int current = RandomPosMap();
 
-    //     for(int i = 0; i < forestsCount; i++)
-    //     {
-    //         GenerateSizedForest(forestSize);
-    //     }
-    // }
+        int placedCount = 0;
+        int iterations = 0;
 
-    // private TileBase RandomTile(List<TileBase> tileList)
-    // {
-    //     return tileList[Random.Range(0, tileList.Count)];
-    // }
+        while (placedCount < forestSize && iterations < forestSize * 5)
+        {
+            iterations++;
 
-    // private Vector3Int RandomPosMap()
-    // {
-    //     return new Vector3Int(Random.Range(0, _mapConfig.MapSize.x), Random.Range(0, _mapConfig.MapSize.y), 0);
-    // }
+            if (IsEligiableTile(current) && !HasResource(current))
+            {
+                _terrainMap.TerrainData[current.x, current.y].Resource = new Resource
+                    (
+                        ResourceType.Wood,
+                        100
+                    );
 
-    // private void GenerateSizedForest(int forestSize)
-    // {
-    //     Vector2Int mapSize = _mapConfig.MapSize;
-    //     Vector3Int current = RandomPosMap();
-
-    //     bool isEligTile(Vector3Int pos) 
-    //     {
-    //         var waterCheck = _waterMap.GetTile(pos);
-    //         var sandCheck = _terrainMap.GetTile(pos);
-
-    //         if(!_tilesConfig._sandTiles.Contains(sandCheck) && waterCheck == null)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-
-    //     int placedCount = 0;
-    //     int iterations = 0;
-
-    //     while (placedCount < forestSize && iterations < forestSize*5)
-    //     {
-    //         iterations++;
-
-    //         if (GenerateMap.Instance.CanPlace(current))
-    //         {
-    //             if (isEligTile(current) && _resourceMap.GetTile(current) == null)
-    //             {
-    //                 _resourceMap.SetTile(current, RandomTile(_forestTiles));
-    //                 placedCount++;
-    //             }
-    //         }
+                placedCount++;
+            }
             
-    //         List<Vector3Int> allNeighbours = GetNeighbours(current);
+            List<Vector3Int> allNeighbours = GetNeighbours(current);
             
-    //         for (int j = 0; j < allNeighbours.Count; j++)
-    //         {
-    //             int randomIndex = Random.Range(j, allNeighbours.Count);
-    //             Vector3Int temp = allNeighbours[j];
-    //             allNeighbours[j] = allNeighbours[randomIndex];
-    //             allNeighbours[randomIndex] = temp;
-    //         }
+            for (int i = 0; i < allNeighbours.Count; i++)
+            {
+                int randomIndex = Random.Range(i, allNeighbours.Count);
+                Vector3Int temp = allNeighbours[i];
+                allNeighbours[i] = allNeighbours[randomIndex];
+                allNeighbours[randomIndex] = temp;
+            }
             
-    //         foreach (Vector3Int n in allNeighbours)
-    //         {
-    //             if (placedCount >= forestSize) break;
-                
-    //             if (GenerateMap.Instance.CanPlace(n))
-    //             {
-    //                 if (_resourceMap.GetTile(n) == null)
-    //                 {
-    //                     if (isEligTile(n))
-    //                     {
-    //                         _resourceMap.SetTile(n, RandomTile(_forestTiles));
-    //                         placedCount++;
-    //                     }
-    //                 }
-    //             }
-    //         }
+            foreach (Vector3Int neighbour in allNeighbours)
+            {
+                if (placedCount >= forestSize) break;
+
+                if (IsEligiableTile(neighbour))
+                {
+                    if(!HasResource(neighbour))
+                    {
+                        _terrainMap.TerrainData[neighbour.x, neighbour.y].Resource = new Resource
+                            (
+                                ResourceType.Wood,
+                                100
+                            );
+
+                        placedCount++;
+                    }
+                }
+            }
             
-    //         Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
-    //         current = randomN;
-    //     }
-    // }
+            Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
+            current = randomN;
+        }
+    }
+    private bool IsEligiableTile(Vector3Int pos) 
+    {
+        if(pos.x >= _terrainMap.Width || pos.y >= _terrainMap.Height || pos.x < 0 || pos.y < 0)
+        {
+            return false;
+        }
 
-    // private List<Vector3Int> GetNeighbours(Vector3Int pos)
-    // {
-    //     List<Vector3Int> allNeighbours = new List<Vector3Int>();
+        return _terrainMap.IsGrass(pos.x, pos.y);
+    }
 
-    //     allNeighbours.Add(new Vector3Int(pos.x-1, pos.y, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x+1, pos.y, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x, pos.y-1, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x, pos.y+1, 0));
+    private bool HasResource(Vector3Int pos)
+    {
+        return _terrainMap.HasResource(pos.x, pos.y);
+    }
 
-    //     return allNeighbours;
-    // }
+    private List<Vector3Int> GetNeighbours(Vector3Int pos)
+    {
+        List<Vector3Int> allNeighbours = new List<Vector3Int>();
+
+        allNeighbours.Add(new Vector3Int(pos.x-1, pos.y, 0));
+        allNeighbours.Add(new Vector3Int(pos.x+1, pos.y, 0));
+        allNeighbours.Add(new Vector3Int(pos.x, pos.y-1, 0));
+        allNeighbours.Add(new Vector3Int(pos.x, pos.y+1, 0));
+
+        return allNeighbours;
+    }
 }

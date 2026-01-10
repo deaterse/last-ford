@@ -25,5 +25,13 @@ public class TerrainMap
         }
     }
 
+    public bool IsGrass(int x, int y)
+    {
+        return TerrainData[x, y].Type == TerrainType.Grass;
+    }
 
+    public bool HasResource(int x, int y)
+    {
+        return TerrainData[x, y].HasResource;
+    }
 }
