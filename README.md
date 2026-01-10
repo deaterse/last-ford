@@ -10,3 +10,9 @@
 - Build portfolio.
 - Make a game of my dream.
 - Experiment with clean architecture in Unity.
+
+## Screenshots
+
+<img width="1124" height="1121" alt="Снимок экрана (2286)" src="https://github.com/user-attachments/assets/bc8c592a-8df5-4114-97ff-863eb1cff6ee" />
+
+**Example of Procedural Map Generation**
