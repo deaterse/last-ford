@@ -39,12 +39,20 @@ public class WorldGenerator : MonoBehaviour
         _terrainMap = new TerrainMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
 
         //Generate River
-        CatmullRomRiver riverGenerator = new CatmullRomRiver(_terrainMap);
-        _terrainMap = riverGenerator.GenerateRivers();
+        RiverGenerator riverGenerator = new RiverGenerator();
+        riverGenerator.GenerateRivers(_terrainMap);
 
         _terrainRenderer.VisualizeRiver(_terrainMap);
 
         Debug.Log("River succesfully generated.");
+
+        //Generate Shore
+        ShoreGenerator shoreGenerator = new ShoreGenerator();
+        shoreGenerator.GenerateShore(_terrainMap);
+
+        _terrainRenderer.VisualizeShore(_terrainMap);
+
+        Debug.Log("Shore succesfully generated.");
 
         //Generate Forests
         ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap);

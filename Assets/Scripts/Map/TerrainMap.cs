@@ -38,6 +38,13 @@ public class TerrainMap
         TerrainData[x, y] = tile;
     }
 
+    public TerrainType GetTerrainType(int x, int y)
+    {
+        TileData tile = TerrainData[x, y];
+
+        return tile.Type;
+    }
+
     public void SetResource(int x, int y, Resource resource)
     {
         TileData tile = TerrainData[x, y];
@@ -49,6 +56,11 @@ public class TerrainMap
     public bool IsGrass(int x, int y)
     {
         return TerrainData[x, y].Type == TerrainType.Grass;
+    }
+
+    public bool IsWater(int x, int y)
+    {
+        return TerrainData[x, y].Type == TerrainType.Water;
     }
 
     public bool HasResource(int x, int y)

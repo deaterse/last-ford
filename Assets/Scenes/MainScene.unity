@@ -335,7 +335,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mapConfig: {fileID: 11400000, guid: 319c0cc2c6766a447be3ad9fdd60571b, type: 2}
   _noiseConfig: {fileID: 11400000, guid: debfd9993b9616e48a82afb2008f34a8, type: 2}
-  _tilesConfig: {fileID: 11400000, guid: f36d6194aaf9b2e4787e2e20fcc0b58f, type: 2}
   _terrainRenderer: {fileID: 1673380620}
   _resourcesRenderer: {fileID: 1099372737}
 --- !u!1 &130258245
@@ -2977,6 +2976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c61ad042671c8428a1c10952b62561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heightTiles: []
 --- !u!4 &1465030911
 Transform:
   m_ObjectHideFlags: 0
@@ -3041,6 +3041,7 @@ MonoBehaviour:
   _fillTerrain: {fileID: 1673380622}
   _heightVisualizer: {fileID: 1465030910}
   _riverVisualizer: {fileID: 300043608}
+  _shoreVisualizer: {fileID: 2057048703}
 --- !u!4 &1673380621
 Transform:
   m_ObjectHideFlags: 0
@@ -3357,8 +3358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09ac2b030674e94f8932480f69c3575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dayLength: 5
-  _nightLength: 5
+  _dayLength: 100
+  _nightLength: 100
   _globalLight: {fileID: 1966852064}
   _dayText: {fileID: 939738024}
 --- !u!4 &1886054397
@@ -3408,6 +3409,7 @@ Transform:
   - {fileID: 1465030911}
   - {fileID: 300043609}
   - {fileID: 929325173}
+  - {fileID: 2057048702}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1966852063
@@ -3670,6 +3672,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2057048701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2057048702}
+  - component: {fileID: 2057048703}
+  m_Layer: 0
+  m_Name: ShoreVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2057048702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057048701}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1930420182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2057048703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057048701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4e4ddc8da54e8a418b3ecbaadf48e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sandTile: {fileID: 11400000, guid: 4141f722a27f0f6439bd6f6c04d80cdc, type: 2}
 --- !u!114 &1725903839063936826
 MonoBehaviour:
   m_ObjectHideFlags: 0

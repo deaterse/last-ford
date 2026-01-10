@@ -2,21 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-public class CatmullRomRiver
+public class RiverGenerator
 {
-    private TerrainMap _terrainMap;
-
-    public CatmullRomRiver(TerrainMap terrainMap)
+    public void GenerateRivers(TerrainMap _terrainMap)
     {
-        _terrainMap = terrainMap;
-    }
-
-    public TerrainMap GenerateRivers()
-    {
-        List<Vector3Int> mainPoints = GenerateRiverControlPoints();
-        TerrainMap terrainMap = GenerateRiver(mainPoints);
-
-        return terrainMap;
+        List<Vector3Int> mainPoints = GenerateRiverControlPoints(_terrainMap);
+        GenerateRiver(mainPoints, _terrainMap);
     }
     private Vector3Int RandomBorderPosYLeft(Vector2Int size)
     {
@@ -46,7 +37,7 @@ public class CatmullRomRiver
         return borderPosY[Random.Range(0, borderPosY.Count)];
     }
 
-    List<Vector3Int> GenerateRiverControlPoints()
+    List<Vector3Int> GenerateRiverControlPoints(TerrainMap _terrainMap)
     {
         List<Vector3Int> points = new List<Vector3Int>();
 
@@ -63,9 +54,9 @@ public class CatmullRomRiver
         return points;
     }
 
-    public TerrainMap GenerateRiver(List<Vector3Int> mainPoints)
+    public void GenerateRiver(List<Vector3Int> mainPoints, TerrainMap _terrainMap)
     {
-        if (mainPoints.Count < 4) return _terrainMap;
+        if (mainPoints.Count < 4) return;
         
         for (int i = 0; i < mainPoints.Count - 3; i++)
         {
@@ -76,12 +67,10 @@ public class CatmullRomRiver
             
             List<Vector3Int> curvePoints = GetCurveSegment(p0, p1, p2, p3, 10);
 
-            DrawLineBetweenPoints(p0, p1);
-            DrawLineBetweenPoints(p2, p3);
-            DrawRiverThroughPoints(curvePoints);
+            DrawLineBetweenPoints(p0, p1, _terrainMap);
+            DrawLineBetweenPoints(p2, p3, _terrainMap);
+            DrawRiverThroughPoints(curvePoints, _terrainMap);
         }
-
-        return _terrainMap;
     }
     
     private List<Vector3Int> GetCurveSegment(
@@ -122,17 +111,15 @@ public class CatmullRomRiver
         return points;
     }
 
-    private TerrainMap DrawRiverThroughPoints(List<Vector3Int> points)
+    private void DrawRiverThroughPoints(List<Vector3Int> points, TerrainMap _terrainMap)
     {
         for (int i = 0; i < points.Count - 1; i++)
         {
-            DrawLineBetweenPoints(points[i], points[i + 1]);
+            DrawLineBetweenPoints(points[i], points[i + 1], _terrainMap);
         }
-
-        return _terrainMap;
     }
 
-    private void DrawLineBetweenPoints(Vector3Int start, Vector3Int end)
+    private void DrawLineBetweenPoints(Vector3Int start, Vector3Int end, TerrainMap _terrainMap)
     {
         Vector3Int delta = end - start;
         Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);
