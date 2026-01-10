@@ -161,9 +161,10 @@ public class CatmullRomRiver
                     TerrainType.Water,
                     Resource.None
                 );
-                if(waterPoint.x >= 0 && waterPoint.x < 64 && waterPoint.y >= 0 && waterPoint.y < 64)
+
+                if(waterPoint.x >= 0 && waterPoint.x < _terrainMap.Width && waterPoint.y >= 0 && waterPoint.y < _terrainMap.Height)
                 {
-                    _terrainMap.TerrainData[waterPoint.x, waterPoint.y] = waterTile;
+                    _terrainMap.SetTile(waterPoint.x, waterPoint.y, waterTile);
                 }
             }
             

@@ -23,7 +23,7 @@ public class ForestsGenerator
             GenerateSizedForest(forestSize);
         }
     }
-    
+
     private Vector3Int RandomPosMap()
     {
         return new Vector3Int(Random.Range(0, _terrainMap.Width - 1), Random.Range(0, _terrainMap.Height - 1), 0);
@@ -40,18 +40,21 @@ public class ForestsGenerator
         {
             iterations++;
 
-            if (IsEligiableTile(current) && !HasResource(current))
+            if (IsEligibleTile(current) && !HasResource(current))
             {
-                _terrainMap.TerrainData[current.x, current.y].Resource = new Resource
-                    (
-                        ResourceType.Wood,
-                        100
-                    );
+                _terrainMap.SetResource
+                (current.x, current.y, 
+                new Resource(
+                    ResourceType.Wood,
+                    100
+                ));
 
                 placedCount++;
             }
             
             List<Vector3Int> allNeighbours = GetNeighbours(current);
+
+            if (allNeighbours.Count == 0) break;
             
             for (int i = 0; i < allNeighbours.Count; i++)
             {
@@ -65,15 +68,16 @@ public class ForestsGenerator
             {
                 if (placedCount >= forestSize) break;
 
-                if (IsEligiableTile(neighbour))
+                if (IsEligibleTile(neighbour))
                 {
                     if(!HasResource(neighbour))
                     {
-                        _terrainMap.TerrainData[neighbour.x, neighbour.y].Resource = new Resource
-                            (
-                                ResourceType.Wood,
-                                100
-                            );
+                        _terrainMap.SetResource
+                        (neighbour.x, neighbour.y, 
+                        new Resource(
+                            ResourceType.Wood,
+                            100
+                        ));
 
                         placedCount++;
                     }
@@ -83,8 +87,10 @@ public class ForestsGenerator
             Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
             current = randomN;
         }
+
+        Debug.Log($"Successfully placed: {placedCount} / {forestSize}");
     }
-    private bool IsEligiableTile(Vector3Int pos) 
+    private bool IsEligibleTile(Vector3Int pos) 
     {
         if(pos.x >= _terrainMap.Width || pos.y >= _terrainMap.Height || pos.x < 0 || pos.y < 0)
         {

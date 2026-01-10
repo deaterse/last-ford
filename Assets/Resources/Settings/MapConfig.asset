@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992214297e4569d409d8ea6fb7f9194d, type: 3}
   m_Name: MapConfig
   m_EditorClassIdentifier: 
-  _mapSize: {x: 64, y: 64}
+  _mapSize: {x: 100, y: 100}
   _forestPercent: 80
   _stoneClusterSize: 30

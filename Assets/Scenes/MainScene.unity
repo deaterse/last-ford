@@ -330,7 +330,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 118533751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89f4810c78b344e4d93d75f8327d3620, type: 3}
+  m_Script: {fileID: 11500000, guid: fef14b7240241254e8da8d54b2cbf686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _mapConfig: {fileID: 11400000, guid: 319c0cc2c6766a447be3ad9fdd60571b, type: 2}
@@ -3017,6 +3017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1673380621}
   - component: {fileID: 1673380620}
+  - component: {fileID: 1673380622}
   m_Layer: 0
   m_Name: TerrainRenderer
   m_TagString: Untagged
@@ -3036,8 +3037,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 391207f9604515f4a9defc005310aacd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tilesConfig: {fileID: 11400000, guid: f36d6194aaf9b2e4787e2e20fcc0b58f, type: 2}
   _terrainTilemap: {fileID: 108441100}
+  _fillTerrain: {fileID: 1673380622}
   _heightVisualizer: {fileID: 1465030910}
   _riverVisualizer: {fileID: 300043608}
 --- !u!4 &1673380621
@@ -3055,6 +3056,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673380622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673380619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29b80ac34bec474ba6e8b908ac3ffc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tilesConfig: {fileID: 11400000, guid: f36d6194aaf9b2e4787e2e20fcc0b58f, type: 2}
 --- !u!1 &1716856073
 GameObject:
   m_ObjectHideFlags: 0

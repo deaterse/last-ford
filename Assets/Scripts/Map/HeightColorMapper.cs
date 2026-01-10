@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class HeightColorMapper
 {
-    public Color GetColor(float weight)
+    public int GetColorInt(float weight)
     {
         if(weight < 0.5f)
         {
-            return Color.white;
+            return 0;
         }
         else if(weight < 0.7f)
         {
-            return new Color(0.9f, 0.9f, 0.9f);
+            return 1; 
+           // new Color(0.9f, 0.9f, 0.9f);
         }
         else
         {
-            return new Color(0.85f, 0.85f, 0.85f);
+            return 2;
+             //new Color(0.85f, 0.85f, 0.85f);
         }
     }
 }

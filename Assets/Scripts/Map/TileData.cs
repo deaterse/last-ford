@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public struct TileData {
-    public TerrainType Type {get;}
+    public TerrainType Type;
     public Resource Resource; // { ResourceType Type; int Amount; }
 
     public TileData(TerrainType type, Resource resource)

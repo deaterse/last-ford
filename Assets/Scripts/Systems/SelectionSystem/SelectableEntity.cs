@@ -12,8 +12,6 @@ public abstract class SelectableEntity : MonoBehaviour, ISelectable
     protected bool isHovered = false;
     
     // Реализация интерфейса
-    public GameObject gameObject => base.gameObject;
-    public Transform transform => base.transform;
     public bool IsSelectable => isSelectable;
 
     public virtual void Start()

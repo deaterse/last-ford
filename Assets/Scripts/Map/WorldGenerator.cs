@@ -3,12 +3,12 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class GenerateMap : MonoBehaviour
+public class WorldGenerator : MonoBehaviour
 {
     [Header("Configs")]
     [SerializeField] private MapConfig _mapConfig;
     [SerializeField] private NoiseConfig _noiseConfig;
-    [SerializeField] private TilesConfig _tilesConfig;
+    
 
     [Header("Renderer Components")]
     [SerializeField] private TerrainRenderer _terrainRenderer;
@@ -19,17 +19,12 @@ public class GenerateMap : MonoBehaviour
 
     private void Start()
     {
-        TerrainGenerate();
+        GenerateWorld();
     }
 
-    public void StartGenerating()
+    private void GenerateWorld()
     {
-        SceneManager.LoadScene("SampleScene");
-    }
-
-    private void TerrainGenerate()
-    {
-        //Generate Grass 64x64
+        //Generate Grass X x Y
         _terrainRenderer.GenerateTerrain(_mapConfig.MapSize);
 
         //Generate Heights
