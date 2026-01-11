@@ -42,24 +42,30 @@ public class WorldGenerator : MonoBehaviour
         RiverGenerator riverGenerator = new RiverGenerator();
         riverGenerator.GenerateRivers(_terrainMap);
 
-        _terrainRenderer.VisualizeRiver(_terrainMap);
-
         Debug.Log("River succesfully generated.");
 
         //Generate Shore
         ShoreGenerator shoreGenerator = new ShoreGenerator();
         shoreGenerator.GenerateShore(_terrainMap);
 
-        _terrainRenderer.VisualizeShore(_terrainMap);
-
         Debug.Log("Shore succesfully generated.");
+
+        //Visualize Terrain
+        _terrainRenderer.Visualize(_terrainMap);
+
+        //Generate Stones
+        StonesGenerator stonesGenerator = new StonesGenerator(_terrainMap);
+        stonesGenerator.Generate();
+
+        Debug.Log("Stones succesfully generated.");
 
         //Generate Forests
         ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap);
-        forestsGenerator.GenerateForests();
-
-        _resourcesRenderer.VisualizeForests(_terrainMap);
+        forestsGenerator.Generate();
 
         Debug.Log("Forests succesfully generated.");
+
+        //Visualize Resources
+        _resourcesRenderer.Visualize(_terrainMap);
     }
 }

@@ -10,8 +10,7 @@ public class TerrainRenderer : MonoBehaviour
     [Header("Visualizers Links")]
     [SerializeField] private FillTerrain _fillTerrain;
     [SerializeField] private HeightMapVisualizer _heightVisualizer;
-    [SerializeField] private RiverVisualizer _riverVisualizer;
-    [SerializeField] private ShoreVisualizer _shoreVisualizer;
+    [SerializeField] private TerrainVisualizer _terrainVisualizer;
 
     public void GenerateTerrain(Vector2Int mapSize)
     {
@@ -23,13 +22,8 @@ public class TerrainRenderer : MonoBehaviour
         _heightVisualizer.ColoringMap(_terrainTilemap, _heightMap);
     }
 
-    public void VisualizeRiver(TerrainMap _terrainMap)
+    public void Visualize(TerrainMap _terrainMap)
     {
-        _riverVisualizer.VisualizeRiver(_terrainTilemap, _terrainMap);
-    }
-
-    public void VisualizeShore(TerrainMap _terrainMap)
-    {
-        _shoreVisualizer.VisualizeShore(_terrainTilemap , _terrainMap);
+        _terrainVisualizer.Visualize(_terrainMap, _terrainTilemap);
     }
 }

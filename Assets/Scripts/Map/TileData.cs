@@ -11,5 +11,5 @@ public struct TileData {
     }
 
     public bool HasResource => Resource.Type != ResourceType.None;
-    public bool IsWalkable => Type != TerrainType.Water && Type != TerrainType.Mountain;
+    public bool IsWalkable => Type != TerrainType.Water;
 }

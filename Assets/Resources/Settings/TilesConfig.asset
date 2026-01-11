@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645ef783b82eef643afab71a05de776c, type: 3}
   m_Name: TilesConfig
   m_EditorClassIdentifier: 
-  _waterTiles:
-  - {fileID: 11400000, guid: 886fd1ae0c25c4f43af45be808064173, type: 2}
-  _sandTiles:
-  - {fileID: 11400000, guid: 4141f722a27f0f6439bd6f6c04d80cdc, type: 2}
+  _waterTiles: []
+  _sandTiles: []
   _grassTiles:
   - {fileID: 11400000, guid: 4c69e730157111840806cd3f1269d3bc, type: 2}
   - {fileID: 11400000, guid: e25efa5483dc2a84d84cadf59a2440c4, type: 2}

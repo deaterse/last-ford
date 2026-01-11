@@ -1,145 +1,74 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class StonesGenerator : MonoBehaviour
+public class StonesGenerator: ResourceGenerator
 {
-    // public static StonesGenerator Instance { get; private set; }
+    public StonesGenerator(TerrainMap terrainMap) : base(terrainMap) {}
 
-    // [SerializeField] private TilesConfig _tilesConfig;
-    // [Header("List of Tiles")]
-    // [SerializeField] private List<TileBase> _stoneTiles;
-    // [SerializeField] private List<TileBase> _stoneTerrainTiles;
-    
-    // [SerializeField] private List<TileBase> _ironTiles;
-    // [SerializeField] private List<TileBase> _goldTiles;
+    public override void Generate()
+    {
+        int stonesCount = Random.Range(5, 7);
+        int stoneSize = 10;
 
-    // [Header("Tilemap Components")]
-    // [SerializeField] private Tilemap _resourceMap;
-    // [SerializeField] private Tilemap _terrainMap;
-    // [SerializeField] private Tilemap _waterMap;
+        for(int i = 0; i < stonesCount; i++)
+        {
+            GenerateStones(stoneSize);
+        }
+    }
 
-    // private MapConfig _mapConfig;
+    private void GenerateStones(int stoneSize)
+    {
+        Vector3Int current = RandomPosMap();
 
-    // private void Awake()
-    // {
-    //     Instance = this;
-    // }
+        int placedCount = 0;
+        int iterations = 0;
 
-    // public void StartGenerateStones(MapConfig mapConfig)
-    // {
-    //     _mapConfig = mapConfig;
+        TileData stoneTile = new TileData(TerrainType.Stone,
+            new Resource(
+                ResourceType.Stone, 
+                100
+        ));
 
-    //     int stonesCount = Random.Range(5, 7);
-    //     int stoneSize = mapConfig.StoneClusterSize;
+        while (placedCount < stoneSize && iterations < stoneSize*5)
+        {
+            iterations++;
 
-    //     for(int i = 0; i < stonesCount; i++)
-    //     {
-    //         GenerateStones(stoneSize);
-    //     }
-    // }
+            if (IsEligibleTile(current) && !HasResource(current))
+            {
+                _terrainMap.SetTile(current.x, current.y, stoneTile);
 
-    // private TileBase RandomTile(List<TileBase> tileList)
-    // {
-    //     return tileList[Random.Range(0, tileList.Count)];
-    // }
-
-    // private Vector3Int RandomPosMap()
-    // {
-    //     return new Vector3Int(Random.Range(0, _mapConfig.MapSize.x), Random.Range(0, _mapConfig.MapSize.y), 0);
-    // }
-
-    // private void GenerateStones(int stoneSize)
-    // {
-    //     Vector2Int mapSize = _mapConfig.MapSize;
-    //     Vector3Int current = RandomPosMap();
-
-    //     bool isEligTile(Vector3Int pos) 
-    //     {
-    //         var waterCheck = _waterMap.GetTile(pos);
-    //         var sandCheck = _terrainMap.GetTile(pos);
-
-    //         if(!_tilesConfig._sandTiles.Contains(sandCheck) && waterCheck == null)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-
-    //     int placedCount = 0;
-    //     int iterations = 0;
-    //     int oreTiles = Random.Range(0, 10);
-        
-    //     List<TileBase> choosedOre = Random.Range(0, 2) == 0 ? _ironTiles : _goldTiles;
-
-    //     while (placedCount < stoneSize && iterations < stoneSize*5)
-    //     {
-    //         iterations++;
-
-    //         if (GenerateMap.Instance.CanPlace(current))
-    //         {
-    //             if (isEligTile(current) && _resourceMap.GetTile(current) == null)
-    //             {
-    //                 _resourceMap.SetTile(current, RandomTile(choosedOre));
-    //                 _terrainMap.SetTile(current, RandomTile(_stoneTerrainTiles));
-
-    //                 placedCount++;
-    //             }
-    //         }
+                placedCount++;
+            }
             
-    //         List<Vector3Int> allNeighbours = GetNeighbours(current);
+            List<Vector3Int> allNeighbours = GetNeighbours(current);
+
+            if (allNeighbours.Count == 0) break;
+
+            for (int i = 0; i < allNeighbours.Count; i++)
+            {
+                int randomIndex = Random.Range(i, allNeighbours.Count);
+                Vector3Int temp = allNeighbours[i];
+                allNeighbours[i] = allNeighbours[randomIndex];
+                allNeighbours[randomIndex] = temp;
+            }
             
-    //         for (int j = 0; j < allNeighbours.Count; j++)
-    //         {
-    //             int randomIndex = Random.Range(j, allNeighbours.Count);
-    //             Vector3Int temp = allNeighbours[j];
-    //             allNeighbours[j] = allNeighbours[randomIndex];
-    //             allNeighbours[randomIndex] = temp;
-    //         }
-            
-    //         foreach (Vector3Int n in allNeighbours)
-    //         {
-    //             if (placedCount >= stoneSize) break;
+            foreach (Vector3Int neighbour in allNeighbours)
+            {
+                if (placedCount >= stoneSize) break;
                 
-    //             if (GenerateMap.Instance.CanPlace(n))
-    //             {
-    //                 if (_resourceMap.GetTile(n) == null)
-    //                 {
-    //                     if (isEligTile(n))
-    //                     {
-    //                         if(placedCount < oreTiles)
-    //                         {
-    //                             _resourceMap.SetTile(n, RandomTile(choosedOre));
-    //                         }
-    //                         else
-    //                         {
-    //                             _resourceMap.SetTile(n, RandomTile(_stoneTiles));
-    //                         }
-    //                         _terrainMap.SetTile(n, RandomTile(_stoneTerrainTiles));
+                if (IsEligibleTile(neighbour))
+                {
+                    if(!HasResource(neighbour))
+                    {
+                        _terrainMap.SetTile(neighbour.x, neighbour.y, stoneTile);
 
-    //                         placedCount++;
-    //                     }
-    //                 }
-    //             }
-    //         }
+                        placedCount++;
+                    }
+                }
+            }
             
-    //         Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
-    //         current = randomN;
-    //     }
-    // }
-
-    // private List<Vector3Int> GetNeighbours(Vector3Int pos)
-    // {
-    //     List<Vector3Int> allNeighbours = new List<Vector3Int>();
-
-    //     allNeighbours.Add(new Vector3Int(pos.x-1, pos.y, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x+1, pos.y, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x, pos.y-1, 0));
-    //     allNeighbours.Add(new Vector3Int(pos.x, pos.y+1, 0));
-
-    //     return allNeighbours;
-    // }
+            Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
+            current = randomN;
+        }
+    }
 }
