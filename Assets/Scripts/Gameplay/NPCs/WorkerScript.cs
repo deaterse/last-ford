@@ -14,7 +14,7 @@ public class WorkerScript : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(1) && !BuildSystem.Instance.isBuilding() && GetComponent<NPController>().isChoosen)
+        if(Input.GetMouseButtonDown(1) && !BuildSystem.Instance.isBuilding && GetComponent<NPController>().isChoosen)
         {
             ClearPoint();
 

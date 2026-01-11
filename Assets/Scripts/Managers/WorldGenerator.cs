@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
@@ -67,5 +68,7 @@ public class WorldGenerator : MonoBehaviour
         _terrainRenderer.Visualize(_terrainMap);
         _terrainRenderer.VisualizeHeightMap(_heightMap);
         _resourcesRenderer.Visualize(_terrainMap);
+
+        GameEvents.InvokeOnTerrainMapGenerated(_terrainMap);
     }
 }
