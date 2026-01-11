@@ -19,7 +19,7 @@ public class TerrainRenderer : MonoBehaviour
 
     public void VisualizeHeightMap(HeightMap _heightMap)
     {
-        _heightVisualizer.ColoringMap(_terrainTilemap, _heightMap);
+        _heightVisualizer.ColoringMap(_heightMap);
     }
 
     public void Visualize(TerrainMap _terrainMap)

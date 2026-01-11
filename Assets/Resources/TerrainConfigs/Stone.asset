@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _terrainType: 3
   _terrainTiles:
-  - {fileID: 11400000, guid: 4141f722a27f0f6439bd6f6c04d80cdc, type: 2}
+  - {fileID: 11400000, guid: 8c8c427081302a14ca28977c413a569b, type: 2}

@@ -27,16 +27,17 @@ public class WorldGenerator : MonoBehaviour
         //Generate Grass X x Y
         _terrainRenderer.GenerateTerrain(_mapConfig.MapSize);
 
+        int widthX = _mapConfig.MapSize.x;
+        int heightY =  _mapConfig.MapSize.y;
+
         //Generate Heights
         HeightGenerator heightGenerator = new HeightGenerator(_noiseConfig);
-        _heightMap = heightGenerator.GenerateHeightMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
-
-        _terrainRenderer.VisualizeHeightMap(_heightMap);
+        _heightMap = heightGenerator.GenerateHeightMap(widthX, heightY);
 
         Debug.Log("Terrain succesfully generated.");
 
         //Make a Terrain Map
-        _terrainMap = new TerrainMap(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
+        _terrainMap = new TerrainMap(widthX, heightY);
 
         //Generate River
         RiverGenerator riverGenerator = new RiverGenerator();
@@ -50,9 +51,6 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log("Shore succesfully generated.");
 
-        //Visualize Terrain
-        _terrainRenderer.Visualize(_terrainMap);
-
         //Generate Stones
         StonesGenerator stonesGenerator = new StonesGenerator(_terrainMap);
         stonesGenerator.Generate();
@@ -65,7 +63,9 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log("Forests succesfully generated.");
 
-        //Visualize Resources
+        //Visualize All
+        _terrainRenderer.Visualize(_terrainMap);
+        _terrainRenderer.VisualizeHeightMap(_heightMap);
         _resourcesRenderer.Visualize(_terrainMap);
     }
 }

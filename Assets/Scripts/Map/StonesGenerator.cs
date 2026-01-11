@@ -7,10 +7,12 @@ public class StonesGenerator: ResourceGenerator
 
     public override void Generate()
     {
-        int stonesCount = Random.Range(5, 7);
-        int stoneSize = 10;
+        int stoneCount = 500;
 
-        for(int i = 0; i < stonesCount; i++)
+        int stonesDeposits = Random.Range(10, 15);
+        int stoneSize = stoneCount/stonesDeposits;
+
+        for(int i = 0; i < stonesDeposits; i++)
         {
             GenerateStones(stoneSize);
         }
