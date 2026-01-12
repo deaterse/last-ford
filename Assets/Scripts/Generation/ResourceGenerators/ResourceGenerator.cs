@@ -5,15 +5,120 @@ public abstract class ResourceGenerator
 {
     protected TerrainMap _terrainMap;
 
+    protected ResourceType _resourceType;
+    protected TerrainType _terrainType;
+
     protected ResourceSettings _resourceSettings;
+    protected int _resourcesCount;
 
     protected ResourceGenerator(TerrainMap terrainMap, ResourceSettings resourceSettings)
     {
         _terrainMap = terrainMap;
+
         _resourceSettings = resourceSettings;
+        _resourceType = _resourceSettings.resourceType;
+        _terrainType = _resourceSettings.terrainType;
     }
 
-    public abstract void Generate();
+    public void Generate()
+    {
+        GenerateClusters();
+        OnGenerationCompleted();
+    }
+
+    protected void GenerateClusters()
+    {
+        int clustersCount = Random.Range(_resourceSettings.MinClusterCount, _resourceSettings.MaxClusterCount);
+        int clusterSize = GetClusterSize(clustersCount);
+
+        _resourcesCount = 0;
+
+        for(int i = 0; i < clustersCount; i++)
+        {
+            _resourcesCount += GenerateResourceClast(clusterSize);
+        }
+    }
+
+    protected abstract void OnGenerationCompleted();
+
+    protected int GenerateResourceClast(int clusterSize)
+    {
+        Vector3Int current = RandomPosMap();
+
+        int placedCount = 0;
+        int iterations = 0;
+
+        if(current != Vector3Int.zero)
+        {
+            while (placedCount < clusterSize && iterations < clusterSize * 5)
+            {
+                iterations++;
+
+                if (IsEligibleTile(current) && !HasResource(current))
+                {
+                    if(_terrainType != TerrainType.None)
+                    {
+                        TileData currentTile = new TileData(_terrainType, new Resource(_resourceType, 100));
+
+                        _terrainMap.SetTile(current.x, current.y, currentTile);
+                    }
+                    else
+                    {
+                        _terrainMap.SetResource(current.x, current.y, 
+                        new Resource(
+                            _resourceType,
+                            100
+                        ));
+                    }
+
+                    placedCount++;
+                }
+                
+                List<Vector3Int> allNeighbours = GetNeighbours(current);
+                if (allNeighbours.Count == 0) break;
+                
+                foreach (Vector3Int neighbour in allNeighbours)
+                {
+                    if (placedCount >= clusterSize) break;
+
+                    if (IsEligibleTile(neighbour))
+                    {
+                        if(!HasResource(neighbour))
+                        {
+                            if(_terrainType != TerrainType.None)
+                            {
+                                TileData neighbourTile = new TileData(_terrainType, new Resource(_resourceType, 100));
+
+                                _terrainMap.SetTile(neighbour.x, neighbour.y, neighbourTile);
+                            }
+                            else
+                            {
+                                _terrainMap.SetResource
+                                (neighbour.x, neighbour.y, 
+                                new Resource(
+                                    _resourceType,
+                                    100
+                                ));
+                            }
+
+                            placedCount++;
+                        }
+                    }
+                }
+                
+                Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
+                current = randomN;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Didnt found any RandomPos!");
+        }
+
+        Debug.Log($"Successfully placed {_resourceType.ToString()}: {placedCount} / {clusterSize}");
+
+        return placedCount;
+    }
 
     protected List<Vector3Int> GetNeighbours(Vector3Int pos)
     {

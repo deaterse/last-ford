@@ -45,6 +45,13 @@ public class TerrainMap
         return tile.Type;
     }
 
+    public ResourceType GetResourceType(int x, int y)
+    {
+        TileData tile = TerrainData[x, y];
+
+        return tile.Resource.Type;
+    }
+
     public void SetResource(int x, int y, Resource resource)
     {
         TileData tile = TerrainData[x, y];

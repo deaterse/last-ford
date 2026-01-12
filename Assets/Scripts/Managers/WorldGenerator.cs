@@ -85,6 +85,10 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log("Forests succesfully generated.");
 
+        //Modify to apply resources impact to TerrainMap
+        TerrainModifier terrainModifier = new TerrainModifier(_terrainMap, _resourceSpawnConfig);
+        terrainModifier.Modify();
+
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
         _terrainRenderer.VisualizeHeightMap(_heightMap);

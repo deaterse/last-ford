@@ -4,8 +4,10 @@ using UnityEngine;
 public class ResourceSettings : ScriptableObject
 {
     [SerializeField] private ResourceType _resourceType;
+    [SerializeField] private TerrainType _terrainType;
 
     public ResourceType resourceType => _resourceType;
+    public TerrainType terrainType => _terrainType;
 
     [SerializeField] [Range(0, 1f)] private float _resourceDensity = 0.1f;
     [SerializeField] [Min(1)] private int _minClusterCount;

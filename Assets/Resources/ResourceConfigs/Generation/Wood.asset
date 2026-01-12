@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   _resourceType: 0
-  _resourceDensity: 0.5
+  _terrainType: 4
+  _resourceDensity: 0.49
   _minClusterCount: 3
   _maxClusterCount: 5
