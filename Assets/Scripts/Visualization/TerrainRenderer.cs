@@ -26,4 +26,9 @@ public class TerrainRenderer : MonoBehaviour
     {
         _terrainVisualizer.Visualize(_terrainMap, _terrainTilemap);
     }
+
+    public void CleanTerrainTilemap()
+    {
+        _terrainTilemap.ClearAllTiles();
+    }
 }

@@ -10,4 +10,9 @@ public class ResourcesRenderer : MonoBehaviour
     {
         _resourcesVisualizer.Visualize(_terrainMap, _resourceTilemap);
     }
+
+    public void CleanResourcesTilemap()
+    {
+        _resourceTilemap.ClearAllTiles(); 
+    }
 }

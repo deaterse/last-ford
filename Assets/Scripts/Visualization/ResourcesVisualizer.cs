@@ -7,8 +7,6 @@ public class ResourcesVisualizer : MonoBehaviour
 
     public void Visualize(TerrainMap _terrainMap, Tilemap _resourceTilemap)
     {
-        _resourceTilemap.ClearAllTiles(); 
-
         int width = _terrainMap.Width;
         int height = _terrainMap.Height;
 

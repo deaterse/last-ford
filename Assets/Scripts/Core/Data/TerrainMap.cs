@@ -55,25 +55,25 @@ public class TerrainMap
 
     public bool CanBuild(int x, int y)
     {
-        if(x > Width || y > Width || x < 0 || y < 0) return false;
+        if(x > Width || y > Height || x < 0 || y < 0) return false;
         return !TerrainData[x, y].HasResource && TerrainData[x, y].IsWalkable;
     }
 
     public bool IsGrass(int x, int y)
     {
-        if(x > Width || y > Width || x < 0 || y < 0) return false;
+        if(x > Width || y > Height || x < 0 || y < 0) return false;
         return TerrainData[x, y].Type == TerrainType.Grass;
     }
 
     public bool IsWater(int x, int y)
     {
-        if(x > Width || y > Width || x < 0 || y < 0) return false;
+        if(x > Width || y > Height || x < 0 || y < 0) return false;
         return TerrainData[x, y].Type == TerrainType.Water;
     }
 
     public bool HasResource(int x, int y)
     {
-        if(x > Width || y > Width || x < 0 || y < 0) return false;
+        if(x > Width || y > Height || x < 0 || y < 0) return false;
         return TerrainData[x, y].HasResource;
     }
 }

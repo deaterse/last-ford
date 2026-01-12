@@ -3,22 +3,24 @@ using System.Collections.Generic;
 
 public class StonesGenerator: ResourceGenerator
 {
-    public StonesGenerator(TerrainMap terrainMap) : base(terrainMap) {}
+    public StonesGenerator(TerrainMap terrainMap, ResourceSettings resourceSettings) : base(terrainMap, resourceSettings) { }
 
     public override void Generate()
     {
-        int stoneCount = 500;
+        int stonesCount = Random.Range(_resourceSettings.MinClusterCount, _resourceSettings.MaxClusterCount);
+        int stoneSize = GetClusterSize(stonesCount);
 
-        int stonesDeposits = Random.Range(10, 15);
-        int stoneSize = stoneCount/stonesDeposits;
+        int allStonesCount = 0;
 
-        for(int i = 0; i < stonesDeposits; i++)
+        for(int i = 0; i < stonesCount; i++)
         {
-            GenerateStones(stoneSize);
+            allStonesCount += GenerateStones(stoneSize);
         }
+
+        GameEvents.InvokeOnStonesGenerated(allStonesCount);
     }
 
-    private void GenerateStones(int stoneSize)
+    private int GenerateStones(int stoneSize)
     {
         Vector3Int current = RandomPosMap();
 
@@ -31,46 +33,57 @@ public class StonesGenerator: ResourceGenerator
                 100
         ));
 
-        while (placedCount < stoneSize && iterations < stoneSize*5)
+        if(current != Vector3Int.zero)
         {
-            iterations++;
-
-            if (IsEligibleTile(current) && !HasResource(current))
+            while (placedCount < stoneSize && iterations < stoneSize*5)
             {
-                _terrainMap.SetTile(current.x, current.y, stoneTile);
+                iterations++;
 
-                placedCount++;
-            }
-            
-            List<Vector3Int> allNeighbours = GetNeighbours(current);
-
-            if (allNeighbours.Count == 0) break;
-
-            for (int i = 0; i < allNeighbours.Count; i++)
-            {
-                int randomIndex = Random.Range(i, allNeighbours.Count);
-                Vector3Int temp = allNeighbours[i];
-                allNeighbours[i] = allNeighbours[randomIndex];
-                allNeighbours[randomIndex] = temp;
-            }
-            
-            foreach (Vector3Int neighbour in allNeighbours)
-            {
-                if (placedCount >= stoneSize) break;
-                
-                if (IsEligibleTile(neighbour))
+                if (IsEligibleTile(current) && !HasResource(current))
                 {
-                    if(!HasResource(neighbour))
-                    {
-                        _terrainMap.SetTile(neighbour.x, neighbour.y, stoneTile);
+                    _terrainMap.SetTile(current.x, current.y, stoneTile);
 
-                        placedCount++;
+                    placedCount++;
+                }
+                
+                List<Vector3Int> allNeighbours = GetNeighbours(current);
+
+                if (allNeighbours.Count == 0) break;
+
+                for (int i = 0; i < allNeighbours.Count; i++)
+                {
+                    int randomIndex = Random.Range(i, allNeighbours.Count);
+                    Vector3Int temp = allNeighbours[i];
+                    allNeighbours[i] = allNeighbours[randomIndex];
+                    allNeighbours[randomIndex] = temp;
+                }
+                
+                foreach (Vector3Int neighbour in allNeighbours)
+                {
+                    if (placedCount >= stoneSize) break;
+                    
+                    if (IsEligibleTile(neighbour))
+                    {
+                        if(!HasResource(neighbour))
+                        {
+                            _terrainMap.SetTile(neighbour.x, neighbour.y, stoneTile);
+
+                            placedCount++;
+                        }
                     }
                 }
+                
+                Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
+                current = randomN;
             }
-            
-            Vector3Int randomN = allNeighbours[Random.Range(0, allNeighbours.Count)];
-            current = randomN;
         }
+        else
+        {
+            Debug.LogWarning("Didnt found any RandomPos for StoneGenerator!");
+        }
+
+        Debug.Log($"Successfully placed Stone: {placedCount} / {stoneSize}");
+
+        return placedCount;
     }
 }

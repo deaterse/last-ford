@@ -5,9 +5,12 @@ public abstract class ResourceGenerator
 {
     protected TerrainMap _terrainMap;
 
-    protected ResourceGenerator(TerrainMap terrainMap)
+    protected ResourceSettings _resourceSettings;
+
+    protected ResourceGenerator(TerrainMap terrainMap, ResourceSettings resourceSettings)
     {
         _terrainMap = terrainMap;
+        _resourceSettings = resourceSettings;
     }
 
     public abstract void Generate();
@@ -24,9 +27,26 @@ public abstract class ResourceGenerator
         return allNeighbours;
     }
 
+    protected int GetClusterSize(int count)
+    {
+        return (int) ((_resourceSettings.ResourceDensity * (_terrainMap.Width * _terrainMap.Height)) / count);
+    }
+
     protected Vector3Int RandomPosMap()
     {
-        return new Vector3Int(Random.Range(0, _terrainMap.Width - 1), Random.Range(0, _terrainMap.Height - 1), 0);
+        int iterations = 100;
+        while(iterations > 0)
+        {
+            Vector3Int randomPos = new Vector3Int(Random.Range(0, _terrainMap.Width), Random.Range(0, _terrainMap.Height), 0);
+            if(IsEligibleTile(randomPos) && !HasResource(randomPos))
+            {
+                return randomPos;
+            }
+
+            iterations--;
+        }
+
+        return Vector3Int.zero;
     }
 
     protected bool IsEligibleTile(Vector3Int pos) 
