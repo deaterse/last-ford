@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5352377917015518460}
   - component: {fileID: 1035309744298211290}
   m_Layer: 0
-  m_Name: Forest_4
+  m_Name: ForestOak_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 7676493254855544542, guid: 5c7abc2bd546ca34998ad9890158d5b7, type: 3}
+  m_Sprite: {fileID: -4847812381815259138, guid: 1432abfb2e5d61b49870d396d2be5a16, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

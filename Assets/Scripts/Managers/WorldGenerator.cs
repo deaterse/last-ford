@@ -13,6 +13,7 @@ public class WorldGenerator : MonoBehaviour
     [SerializeField] private MapConfig _mapConfig;
     [SerializeField] private NoiseConfig _noiseConfig;
     [SerializeField] private ResourceSpawnConfig _resourceSpawnConfig;
+    [SerializeField] private ResourcesSubtypeConfig _resourceSubtypeConfig;
     
 
     [Header("Renderer Components")]
@@ -80,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
         Debug.Log("Stones succesfully generated.");
 
         //Generate Forests
-        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood));
+        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood), _resourceSubtypeConfig.GetCountFromResourceType(ResourceType.Wood));
         forestsGenerator.Generate();
 
         Debug.Log("Forests succesfully generated.");
@@ -92,7 +93,7 @@ public class WorldGenerator : MonoBehaviour
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
         _terrainRenderer.VisualizeHeightMap(_heightMap);
-        _resourcesRenderer.Visualize(_terrainMap);
+        _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
 
         GameEvents.InvokeOnTerrainMapGenerated(_terrainMap);
     }

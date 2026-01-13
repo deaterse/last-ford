@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Sand_1
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 6296828755337819064, guid: 3584f1e6ca4a8174385a7c274caaf5de, type: 3}
+  m_DefaultSprite: {fileID: -578128205, guid: 54f50a52ee4376544b6a00f6cefb87f7, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []

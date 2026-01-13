@@ -3,9 +3,8 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 public class ResourcesVisualizer : MonoBehaviour
 {
-    [SerializeField] private List<ResourceConfig> _resourceConfigs;
 
-    public void Visualize(TerrainMap _terrainMap, Tilemap _resourceTilemap)
+    public void Visualize(TerrainMap _terrainMap, Tilemap _resourceTilemap, ResourcesSubtypeConfig _resourcesSubtypeConfig)
     {
         int width = _terrainMap.Width;
         int height = _terrainMap.Height;
@@ -15,11 +14,15 @@ public class ResourcesVisualizer : MonoBehaviour
             for(int y = 0; y < height; y++)
             {
                 ResourceType currentResourceType = _terrainMap.TerrainData[x, y].Resource.Type;
-                foreach(ResourceConfig rc in _resourceConfigs)
+                int currentSubType = _terrainMap.TerrainData[x, y].Resource.SubType;
+
+                foreach(ResourceTypesConfig rc in _resourcesSubtypeConfig.TypesConfig)
                 {
-                    if(rc.resourceType == currentResourceType)
+                    if(rc.ResourceType == currentResourceType)
                     {
-                        _resourceTilemap.SetTile(new Vector3Int(x, y, 0), RandomTile(rc.resourceTiles));
+                        List<TileBase> resourceTiles = _resourcesSubtypeConfig.GetTypesFromResourceType(currentResourceType).GetTilesByIndex(currentSubType);
+
+                        _resourceTilemap.SetTile(new Vector3Int(x, y, 0), RandomTile(resourceTiles));
                     }
                 }
             }

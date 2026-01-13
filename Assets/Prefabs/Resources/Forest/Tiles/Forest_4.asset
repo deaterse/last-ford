@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Forest_4
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -159087311, guid: 5c7abc2bd546ca34998ad9890158d5b7, type: 3}
+  m_DefaultSprite: {fileID: 0}
   m_DefaultGameObject: {fileID: 8989649484218709557, guid: d6447b740f5e2a447bbf015374a2cff0, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

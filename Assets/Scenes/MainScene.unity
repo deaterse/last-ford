@@ -370,6 +370,7 @@ MonoBehaviour:
   _mapConfig: {fileID: 11400000, guid: 319c0cc2c6766a447be3ad9fdd60571b, type: 2}
   _noiseConfig: {fileID: 11400000, guid: debfd9993b9616e48a82afb2008f34a8, type: 2}
   _resourceSpawnConfig: {fileID: 11400000, guid: 9f60c7da1d027d741868411dfbf3a5c4, type: 2}
+  _resourceSubtypeConfig: {fileID: 11400000, guid: 051a74372976af9438a0278e2cd52afb, type: 2}
   _terrainRenderer: {fileID: 1673380620}
   _resourcesRenderer: {fileID: 1099372737}
 --- !u!1 &130258245
@@ -3368,9 +3369,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dcbf7d3ba9a3d74a8891aef8f7be8dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceConfigs:
-  - {fileID: 11400000, guid: d04ce8ab1979b7149a3677b635f312a1, type: 2}
-  - {fileID: 11400000, guid: c9f766d00310c4441b9ff6e9dbb9d426, type: 2}
 --- !u!1 &1444059152
 GameObject:
   m_ObjectHideFlags: 0

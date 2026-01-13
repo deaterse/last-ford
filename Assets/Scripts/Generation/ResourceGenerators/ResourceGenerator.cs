@@ -31,17 +31,35 @@ public abstract class ResourceGenerator
         int clustersCount = Random.Range(_resourceSettings.MinClusterCount, _resourceSettings.MaxClusterCount);
         int clusterSize = GetClusterSize(clustersCount);
 
+        GenerateClustersCycle(clustersCount, clusterSize);
+    }
+
+    protected virtual int GenerateClustersCycle(int clustersCount, int clusterSize)
+    {
         _resourcesCount = 0;
 
         for(int i = 0; i < clustersCount; i++)
         {
             _resourcesCount += GenerateResourceClast(clusterSize);
         }
+
+        return _resourcesCount;
     }
 
     protected abstract void OnGenerationCompleted();
 
-    protected int GenerateResourceClast(int clusterSize)
+    protected virtual void PlaceResource(Vector3Int pos, int subType)
+    {
+        _terrainMap.SetResource(
+            pos.x, pos.y, 
+            new Resource(
+                _resourceType,
+                100,
+                subType
+        ));
+    }
+
+    protected int GenerateResourceClast(int clusterSize, int subType = 0)
     {
         Vector3Int current = RandomPosMap();
 
@@ -56,20 +74,7 @@ public abstract class ResourceGenerator
 
                 if (IsEligibleTile(current) && !HasResource(current))
                 {
-                    if(_terrainType != TerrainType.None)
-                    {
-                        TileData currentTile = new TileData(_terrainType, new Resource(_resourceType, 100));
-
-                        _terrainMap.SetTile(current.x, current.y, currentTile);
-                    }
-                    else
-                    {
-                        _terrainMap.SetResource(current.x, current.y, 
-                        new Resource(
-                            _resourceType,
-                            100
-                        ));
-                    }
+                    PlaceResource(current, subType);
 
                     placedCount++;
                 }
@@ -85,21 +90,7 @@ public abstract class ResourceGenerator
                     {
                         if(!HasResource(neighbour))
                         {
-                            if(_terrainType != TerrainType.None)
-                            {
-                                TileData neighbourTile = new TileData(_terrainType, new Resource(_resourceType, 100));
-
-                                _terrainMap.SetTile(neighbour.x, neighbour.y, neighbourTile);
-                            }
-                            else
-                            {
-                                _terrainMap.SetResource
-                                (neighbour.x, neighbour.y, 
-                                new Resource(
-                                    _resourceType,
-                                    100
-                                ));
-                            }
+                            PlaceResource(neighbour, subType);
 
                             placedCount++;
                         }

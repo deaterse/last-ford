@@ -15,3 +15,6 @@ MonoBehaviour:
   _terrainType: 1
   _terrainTiles:
   - {fileID: 11400000, guid: 4141f722a27f0f6439bd6f6c04d80cdc, type: 2}
+  - {fileID: 11400000, guid: d415770010f5739468d627dc8207594d, type: 2}
+  - {fileID: 11400000, guid: ba44cef567dab7049894c694f8fdc122, type: 2}
+  - {fileID: 11400000, guid: e111a98766179024599bdd85daa0d046, type: 2}
