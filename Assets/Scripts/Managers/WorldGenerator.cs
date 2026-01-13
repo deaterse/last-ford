@@ -81,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
         Debug.Log("Stones succesfully generated.");
 
         //Generate Forests
-        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood), _resourceSubtypeConfig.GetCountFromResourceType(ResourceType.Wood));
+        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood), _resourceSubtypeConfig);
         forestsGenerator.Generate();
 
         Debug.Log("Forests succesfully generated.");

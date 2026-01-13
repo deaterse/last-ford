@@ -5,9 +5,9 @@ public class ForestsGenerator: ResourceGenerator
 {
     private int _typesCount;
 
-    public ForestsGenerator(TerrainMap terrainMap, ResourceSettings resourceSettings, int typesCount) : base(terrainMap, resourceSettings)
+    public ForestsGenerator(TerrainMap terrainMap, ResourceSettings resourceSettings, ResourcesSubtypeConfig resourceSubtypeConfig) : base(terrainMap, resourceSettings)
     {
-        _typesCount = typesCount;
+        _typesCount = resourceSubtypeConfig.GetCountFromResourceType(resourceSettings.resourceType);
     }
 
     protected override void OnGenerationCompleted()

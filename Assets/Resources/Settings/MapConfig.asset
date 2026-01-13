@@ -13,5 +13,3 @@ MonoBehaviour:
   m_Name: MapConfig
   m_EditorClassIdentifier: 
   _mapSize: {x: 100, y: 100}
-  _forestPercent: 80
-  _stoneClusterSize: 30

@@ -37,6 +37,8 @@ public class RiverGenerator
         return borderPosY[Random.Range(0, borderPosY.Count)];
     }
 
+
+    //CHANGE MAGIC 20, 53
     List<Vector3Int> GenerateRiverControlPoints(TerrainMap _terrainMap)
     {
         List<Vector3Int> points = new List<Vector3Int>();
