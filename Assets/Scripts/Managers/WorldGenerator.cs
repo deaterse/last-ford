@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class WorldGenerator : MonoBehaviour
 {
+    [SerializeField] private BuildSystem _buildSystem;
+    [SerializeField] private BuildingManager _buildingManager;
     [SerializeField] private DebugUI _debugUI;
 
     [Header("Configs")]
@@ -47,9 +49,6 @@ public class WorldGenerator : MonoBehaviour
         _terrainRenderer.CleanTerrainTilemap();
         _resourcesRenderer.CleanResourcesTilemap();
 
-        //Generate Grass X x Y
-        _terrainRenderer.GenerateTerrain(_mapConfig.MapSize);
-
         int widthX = _mapConfig.MapSize.x;
         int heightY =  _mapConfig.MapSize.y;
 
@@ -62,15 +61,19 @@ public class WorldGenerator : MonoBehaviour
         //Make a Terrain Map
         _terrainMap = new TerrainMap(widthX, heightY);
 
+        //Generate Grass X x Y
+        FillTerrain fillTerrain = new FillTerrain(_terrainMap);
+        fillTerrain.GenerateTerrain();
+
         //Generate River
-        RiverGenerator riverGenerator = new RiverGenerator();
-        riverGenerator.GenerateRivers(_terrainMap);
+        RiverGenerator riverGenerator = new RiverGenerator(_terrainMap);
+        riverGenerator.GenerateRivers();
 
         Debug.Log("River succesfully generated.");
 
         //Generate Shore
-        ShoreGenerator shoreGenerator = new ShoreGenerator();
-        shoreGenerator.GenerateShore(_terrainMap);
+        ShoreGenerator shoreGenerator = new ShoreGenerator(_terrainMap);
+        shoreGenerator.GenerateShore();
 
         Debug.Log("Shore succesfully generated.");
 
@@ -103,6 +106,8 @@ public class WorldGenerator : MonoBehaviour
         if(_debugUI != null)
         {
             _debugUI.Init();
+            _buildSystem.Init();
+            _buildingManager.Init(_mapConfig.MapSize.x, _mapConfig.MapSize.y);
         }
         else
         {

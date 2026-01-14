@@ -2,26 +2,26 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class FillTerrain : MonoBehaviour
+public class FillTerrain
 {
-    [SerializeField] private TilesConfig _tilesConfig;
+    private TerrainMap _terrainMap;
 
-    public void GenerateTerrain(Vector2Int mapSize, Tilemap terrainTilemap)
+    public FillTerrain(TerrainMap terrainMap)
     {
-        for(int x = 0; x < mapSize.x; x++)
-        {  
-            for(int y = 0; y < mapSize.y; y++)
-            {
-                TileBase currentTile = RandomTile(_tilesConfig._grassTiles);
-                Vector3Int tilePosition = new Vector3Int(x, y, 0);
-
-                terrainTilemap.SetTile(tilePosition, currentTile);
-            }
-        }
+        _terrainMap = terrainMap;
     }
 
-    private TileBase RandomTile(List<TileBase> tileList)
+    public void GenerateTerrain()
     {
-        return tileList[Random.Range(0, tileList.Count)];
+        int width = _terrainMap.Width;
+        int height = _terrainMap.Height;
+
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                _terrainMap.SetTerrainType(x, y, TerrainType.Grass);
+            }
+        }
     }
 }

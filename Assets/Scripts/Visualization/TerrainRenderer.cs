@@ -8,14 +8,8 @@ public class TerrainRenderer : MonoBehaviour
     [SerializeField] private Tilemap _terrainTilemap;
 
     [Header("Visualizers Links")]
-    [SerializeField] private FillTerrain _fillTerrain;
     [SerializeField] private HeightMapVisualizer _heightVisualizer;
     [SerializeField] private TerrainVisualizer _terrainVisualizer;
-
-    public void GenerateTerrain(Vector2Int mapSize)
-    {
-        _fillTerrain.GenerateTerrain(mapSize, _terrainTilemap);
-    }
 
     public void VisualizeHeightMap(HeightMap _heightMap)
     {

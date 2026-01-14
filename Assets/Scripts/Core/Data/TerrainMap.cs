@@ -60,10 +60,34 @@ public class TerrainMap
         TerrainData[x, y] = tile;
     }
 
-    public bool CanBuild(int x, int y)
+    public bool CanBuild(Vector2Int pos, Vector2Int size)
     {
-        if(x > Width || y > Height || x < 0 || y < 0) return false;
-        return !TerrainData[x, y].HasResource && TerrainData[x, y].IsWalkable;
+        if(pos.x + size.x > Width || pos.y + size.y > Height || pos.x < 0 || pos.y < 0) return false;
+
+        for(int x = 0; x <= size.x; x++)
+        {
+            for(int y = 0; y <= size.y; y++)
+            {
+                if(!IsWalkable(pos.x + x, pos.y + y))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public bool IsWalkable(int x, int y)
+    {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return false;
+
+        if(TerrainData[x, y].HasResource || !TerrainData[x, y].IsWalkable)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public bool IsGrass(int x, int y)

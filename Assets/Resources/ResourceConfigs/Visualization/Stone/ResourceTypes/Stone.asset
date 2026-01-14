@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Stone
   _resourceTiles:
-  - {fileID: 11400000, guid: 01e644f850450dc4cb92cdeaef1d0ab7, type: 2}
-  - {fileID: 11400000, guid: 74b2d31261a5ac04f8974c5e2f6c367c, type: 2}
-  - {fileID: 11400000, guid: e5ba534d2d1b78345a16dd4f3d055c2d, type: 2}
-  - {fileID: 11400000, guid: 91cf20763d6256b45bc34884ef5d4def, type: 2}
+  - {fileID: 11400000, guid: 7aaf5e3e1c6e14544ab7695223caa49b, type: 2}
+  - {fileID: 11400000, guid: aba0abb3e55894a44bf46ba8b9358376, type: 2}
+  - {fileID: 11400000, guid: 7c58b3a7d8e59bc4e94ab3ea712e7815, type: 2}
+  - {fileID: 11400000, guid: a4f2480a92841a945bc67f258ffa1461, type: 2}

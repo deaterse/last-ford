@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Oak
   _resourceTiles:
-  - {fileID: 11400000, guid: 112133f5b7dd71140a27000b7d74b85c, type: 2}
-  - {fileID: 11400000, guid: 6ecffe896d4dfea45bbd7f7516699f82, type: 2}
-  - {fileID: 11400000, guid: eb7905691592f404586bce959a8ab57b, type: 2}
-  - {fileID: 11400000, guid: 501fd0a14713d9549a94cb2335ac353d, type: 2}
+  - {fileID: 11400000, guid: 31ebc6288aabaa9489382c14e6ce68af, type: 2}
+  - {fileID: 11400000, guid: e24bee83ef108f8438e6bb0f080e2b89, type: 2}
+  - {fileID: 11400000, guid: 4b7047f6449c52d4998f81de24e7f5c6, type: 2}
+  - {fileID: 11400000, guid: bd1f968fb23ed2f498f21fb25607c6ca, type: 2}

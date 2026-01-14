@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Old
   _resourceTiles:
-  - {fileID: 11400000, guid: 423f1d18edee5494e979f06b29ca474c, type: 2}
-  - {fileID: 11400000, guid: a0891b7fe8ecd964e9b7c91601b418c2, type: 2}
-  - {fileID: 11400000, guid: 6abb9194b2077234ca8e5bb5344677d3, type: 2}
-  - {fileID: 11400000, guid: bc716a1ec35e0a64b8e80b015040216c, type: 2}
+  - {fileID: 11400000, guid: 19be84f010677f042ad8b10f17d99320, type: 2}
+  - {fileID: 11400000, guid: 0875cc8affe696745b735ad79bd92a8e, type: 2}
+  - {fileID: 11400000, guid: 68b11fc2c88a3e140b6dd7ee6facb49b, type: 2}
+  - {fileID: 11400000, guid: f4b4809415301ee4bad7bd16ae5c31a5, type: 2}

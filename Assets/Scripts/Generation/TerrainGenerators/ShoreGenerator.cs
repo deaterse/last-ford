@@ -1,18 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ShoreGenerator : MonoBehaviour
+public class ShoreGenerator
 {
+    private TerrainMap _terrainMap;
 
-    public void GenerateShore(TerrainMap _terrainMap)
+    public ShoreGenerator(TerrainMap terrainMap)
+    {
+        _terrainMap = terrainMap;
+    }
+
+    public void GenerateShore()
     {
         for(int x = 0; x < _terrainMap.Width; x++)
         {
             for(int y = 0; y < _terrainMap.Height; y++)
             {
-                List<Vector2Int> allNeighbours = GetNeighbours(_terrainMap, x, y);
+                List<Vector2Int> allNeighbours = GetNeighbours(x, y);
 
-                bool hasWater = false;
                 foreach(Vector2Int neighbour in allNeighbours)
                 {
                     if(neighbour.x >= 0 && neighbour.x < _terrainMap.Width && neighbour.y >= 0 && neighbour.y < _terrainMap.Height)
@@ -32,7 +37,34 @@ public class ShoreGenerator : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GetNeighbours(TerrainMap _terrainMap, int x, int y)
+    public void RandomizeShore()
+    {
+        for(int x = 0; x < _terrainMap.Width; x++)
+        {
+            for(int y = 0; y < _terrainMap.Height; y++)
+            {
+                List<Vector2Int> allNeighbours = GetNeighbours(x, y);
+
+                foreach(Vector2Int neighbour in allNeighbours)
+                {
+                    if(neighbour.x >= 0 && neighbour.x < _terrainMap.Width && neighbour.y >= 0 && neighbour.y < _terrainMap.Height)
+                    {
+                        if(_terrainMap.GetTerrainType(neighbour.x, neighbour.y) == TerrainType.Sand)
+                        {
+                            TileData grassSandTile = new TileData(
+                                TerrainType.Grass_Sand,
+                                Resource.None
+                            );
+
+                            _terrainMap.SetTile(x, y, grassSandTile);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private List<Vector2Int> GetNeighbours(int x, int y)
     {
         List<Vector2Int> allNeighbours = new List<Vector2Int>();
 

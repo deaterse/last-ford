@@ -5,36 +5,35 @@ public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance { get; private set; }
 
-    private Dictionary<Vector2Int, Building> _allBuildings = new Dictionary<Vector2Int, Building>();
+    private BuildingMap _buildingMap;
+    private Dictionary<BuildingData, List<GameObject>> _buildingInstances = new();
 
-    private void Start()
+    public void Init(int width, int height)
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        _buildingMap = new BuildingMap(width, height);
         Instance = this;
     }
 
-    public void AddBuilding(BuildingData _data, Vector2Int pos, Building newBuilding)
+    public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
     {
-        _allBuildings[pos] = newBuilding;
-
-        // if(_allBuildings.Count > 1)
-        // {
-        //     Vector3Int start = BuildSystem.Instance.RoadsTilemap.WorldToCell(newBuilding.transform.position);
-        //     Building endBuilding = GetNearestBuilding(start);
-
-        //     Vector3Int end = BuildSystem.Instance.RoadsTilemap.WorldToCell(endBuilding.transform.position);
-
-        //     if(_data.BuildRoad)
-        //     {
-        //         BuildSystem.Instance.BuildRoad(start, end);
-        //     }
-        // }
+        return _buildingMap.CanPlaceBuilding(pos, size);
     }
 
-    public bool IsEmpty(Vector2Int pos)
+    public void AddBuilding(BuildingData data, Vector2Int pos, GameObject buildingObj)
     {
-        return !_allBuildings.ContainsKey(pos);
+        _buildingMap.PlaceBuilding(pos, data.BuildingSize, data);
+        
+        if (!_buildingInstances.ContainsKey(data))
+            _buildingInstances[data] = new List<GameObject>();
+            
+        _buildingInstances[data].Add(buildingObj);
     }
-
     // public Building GetNearestBuilding(Vector3Int start)
     // {
     //     Building _nearestBuilding = null;

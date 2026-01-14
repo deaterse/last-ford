@@ -22,17 +22,7 @@ public class BuildSystem : MonoBehaviour
 
     public bool isBuilding => _isBuilding;
 
-    private void OnEnable()
-    {
-        GameEvents.OnTerrainMapGenerated += Init;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnTerrainMapGenerated -= Init;
-    }
-
-    private void Init(TerrainMap terrainMap)
+    public void Init()
     {
         if (Instance != null && Instance != this)
         {
@@ -40,14 +30,17 @@ public class BuildSystem : MonoBehaviour
             return;
         }
         
-        Instance = this;
+        GameEvents.OnTerrainMapGenerated += SetTerrainMap;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnTerrainMapGenerated -= SetTerrainMap;
+    }
+
+    private void SetTerrainMap(TerrainMap terrainMap)
+    {
         _terrainMap = terrainMap;
-    
-        if (_terrainMap == null)
-        {
-            Debug.LogError("BuildSystem Get Incorrect TerrainMap!");
-            enabled = false;
-        }
     }
 
     private void Update()
@@ -86,9 +79,14 @@ public class BuildSystem : MonoBehaviour
 
     private bool IsPlaceEmpty()
     {
-        Vector3Int _mousePos = MousePosOnTile();
+        Debug.Log(_terrainMap);
 
-        if(_terrainMap.CanBuild(_mousePos.x, _mousePos.y) && BuildingManager.Instance.IsEmpty((Vector2Int) _mousePos))
+        //один метод вынести можно
+        Vector3Int mousePos = MousePosOnTile();
+
+        Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
+
+        if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize))
         {
             ChangeBuildingColor(_canBuildColor);
             return true;
@@ -113,14 +111,17 @@ public class BuildSystem : MonoBehaviour
     private void PlacePrefab()
     {
         Vector3Int cellMousePos = MousePosOnTile();
+        Vector2Int startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
 
-        TileBase buildingTile = _currentData.TilePrefab;
+        if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) && _terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
-        _buildingsTilemap.SetTile(cellMousePos, buildingTile);
-        GameObject _currentTile = _buildingsTilemap.GetInstantiatedObject(cellMousePos);
-
-        BuildingManager.Instance.AddBuilding(_currentData, (Vector2Int) cellMousePos, _currentTile.gameObject.GetComponent<Building>());
-
+        GameObject buildingObj = Instantiate(_currentData.ObjPrefab);
+        buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
+        
+        BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
+        
+        //GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
+        
         StartBuilding(_currentData);
     }
 
@@ -195,12 +196,12 @@ public class BuildSystem : MonoBehaviour
         return cellMousePos;
     }
 
-    private void ChangeBuildingColor(Color _color)
+    private void ChangeBuildingColor(Color color)
     {
         if(_currentPrefab != null)
         {
             SpriteRenderer _spriteRenderer = _currentPrefab.GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = _color;
+            _spriteRenderer.color = color;
         }
     }
 

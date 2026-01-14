@@ -4,10 +4,17 @@ using UnityEngine.Tilemaps;
 
 public class RiverGenerator
 {
-    public void GenerateRivers(TerrainMap _terrainMap)
+    private TerrainMap _terrainMap;
+
+    public RiverGenerator(TerrainMap terrainMap)
     {
-        List<Vector3Int> mainPoints = GenerateRiverControlPoints(_terrainMap);
-        GenerateRiver(mainPoints, _terrainMap);
+        _terrainMap = terrainMap;
+    }
+
+    public void GenerateRivers()
+    {
+        List<Vector3Int> mainPoints = GenerateRiverControlPoints();
+        GenerateRiver(mainPoints);
     }
     private Vector3Int RandomBorderPosYLeft(Vector2Int size)
     {
@@ -37,16 +44,17 @@ public class RiverGenerator
         return borderPosY[Random.Range(0, borderPosY.Count)];
     }
 
-
-    //CHANGE MAGIC 20, 53
-    List<Vector3Int> GenerateRiverControlPoints(TerrainMap _terrainMap)
+    List<Vector3Int> GenerateRiverControlPoints(int _spread = 15)
     {
         List<Vector3Int> points = new List<Vector3Int>();
 
-        Vector3Int p0 = RandomBorderPosYLeft(new Vector2Int(_terrainMap.Width, _terrainMap.Height));
-        Vector3Int p1 = new Vector3Int(Random.Range(20, 53), Random.Range(0, _terrainMap.Height - 1));
-        Vector3Int p2 = new Vector3Int(Random.Range(p1.x, 53), Random.Range(0, _terrainMap.Height - 1));
-        Vector3Int p3 = RandomBorderPosYRight(new Vector2Int(_terrainMap.Width, _terrainMap.Height));
+        int width = _terrainMap.Width;
+        int height = _terrainMap.Height;
+
+        Vector3Int p0 = RandomBorderPosYLeft(new Vector2Int(width, height));
+        Vector3Int p1 = new Vector3Int(Random.Range(width / 4, (width / 4) + _spread), Random.Range(0, height - 1));
+        Vector3Int p2 = new Vector3Int(Random.Range(p1.x + _spread, (p1.x  + _spread) + _spread), Random.Range(0, height - 1));
+        Vector3Int p3 = RandomBorderPosYRight(new Vector2Int(width, height));
 
         points.Add(p0);
         points.Add(p1);
@@ -56,7 +64,7 @@ public class RiverGenerator
         return points;
     }
 
-    public void GenerateRiver(List<Vector3Int> mainPoints, TerrainMap _terrainMap)
+    public void GenerateRiver(List<Vector3Int> mainPoints)
     {
         if (mainPoints.Count < 4) return;
         
@@ -69,9 +77,9 @@ public class RiverGenerator
             
             List<Vector3Int> curvePoints = GetCurveSegment(p0, p1, p2, p3, 10);
 
-            DrawLineBetweenPoints(p0, p1, _terrainMap);
-            DrawLineBetweenPoints(p2, p3, _terrainMap);
-            DrawRiverThroughPoints(curvePoints, _terrainMap);
+            DrawLineBetweenPoints(p0, p1);
+            DrawLineBetweenPoints(p2, p3);
+            DrawRiverThroughPoints(curvePoints);
         }
     }
     
@@ -113,15 +121,15 @@ public class RiverGenerator
         return points;
     }
 
-    private void DrawRiverThroughPoints(List<Vector3Int> points, TerrainMap _terrainMap)
+    private void DrawRiverThroughPoints(List<Vector3Int> points)
     {
         for (int i = 0; i < points.Count - 1; i++)
         {
-            DrawLineBetweenPoints(points[i], points[i + 1], _terrainMap);
+            DrawLineBetweenPoints(points[i], points[i + 1]);
         }
     }
 
-    private void DrawLineBetweenPoints(Vector3Int start, Vector3Int end, TerrainMap _terrainMap)
+    private void DrawLineBetweenPoints(Vector3Int start, Vector3Int end)
     {
         Vector3Int delta = end - start;
         Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);

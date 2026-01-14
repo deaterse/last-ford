@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Pine
   _resourceTiles:
-  - {fileID: 11400000, guid: ec451d5a310218d459830dd9f94ba6e8, type: 2}
-  - {fileID: 11400000, guid: 22af1a3a034fdb8449365fdc73da7480, type: 2}
-  - {fileID: 11400000, guid: 35f6377a364ee2245a67f0e8f30e4fb6, type: 2}
-  - {fileID: 11400000, guid: 7e87ed2207d68764eb16a43fef618871, type: 2}
+  - {fileID: 11400000, guid: e32a1c56db9561e4382eb65b0addd653, type: 2}
+  - {fileID: 11400000, guid: 20a4928277f9c7e41a24f6f261187c77, type: 2}
+  - {fileID: 11400000, guid: f943dca0631beaa41b01c462b0e18f9d, type: 2}
+  - {fileID: 11400000, guid: 9087291d908159c46b913d432aba0697, type: 2}
