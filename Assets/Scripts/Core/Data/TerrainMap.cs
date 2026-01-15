@@ -64,9 +64,9 @@ public class TerrainMap
     {
         if(pos.x + size.x > Width || pos.y + size.y > Height || pos.x < 0 || pos.y < 0) return false;
 
-        for(int x = 0; x <= size.x; x++)
+        for(int x = 0; x < size.x; x++)
         {
-            for(int y = 0; y <= size.y; y++)
+            for(int y = 0; y < size.y; y++)
             {
                 if(!IsWalkable(pos.x + x, pos.y + y))
                 {

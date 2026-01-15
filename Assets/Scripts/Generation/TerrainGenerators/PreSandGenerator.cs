@@ -1,16 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ShoreGenerator
+public class PreSandGenerator
 {
     private TerrainMap _terrainMap;
 
-    public ShoreGenerator(TerrainMap terrainMap)
+    public PreSandGenerator(TerrainMap terrainMap)
     {
         _terrainMap = terrainMap;
     }
 
-    public void GenerateShore()
+    public void GeneratePreSand()
     {
         for(int x = 0; x < _terrainMap.Width; x++)
         {
@@ -22,14 +22,14 @@ public class ShoreGenerator
                 {
                     if(neighbour.x >= 0 && neighbour.x < _terrainMap.Width && neighbour.y >= 0 && neighbour.y < _terrainMap.Height)
                     {
-                        if(_terrainMap.IsWater(neighbour.x, neighbour.y))
+                        if(_terrainMap.GetTerrainType(neighbour.x, neighbour.y) == TerrainType.Sand && _terrainMap.GetTerrainType(x, y) != TerrainType.Sand)
                         {
-                            TileData sandTile = new TileData(
-                                TerrainType.Sand,
+                            TileData grassSandTile = new TileData(
+                                TerrainType.Grass_Sand,
                                 Resource.None
                             );
 
-                            _terrainMap.SetTile(x, y, sandTile);
+                            _terrainMap.SetTile(x, y, grassSandTile);
                         }
                     }
                 }
@@ -37,6 +37,7 @@ public class ShoreGenerator
         }
     }
 
+    // maybe do another class
     private List<Vector2Int> GetNeighbours(int x, int y)
     {
         List<Vector2Int> allNeighbours = new List<Vector2Int>();

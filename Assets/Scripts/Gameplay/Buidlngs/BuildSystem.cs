@@ -111,7 +111,16 @@ public class BuildSystem : MonoBehaviour
     private void PlacePrefab()
     {
         Vector3Int cellMousePos = MousePosOnTile();
-        Vector2Int startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
+        Vector2Int startPos;
+        
+        if(_currentData.BuildingSize.x > 1 && _currentData.BuildingSize.y > 1)
+        {
+            startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
+        }
+        else
+        {
+            startPos = (Vector2Int) cellMousePos;
+        }
 
         if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) && _terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
@@ -120,7 +129,7 @@ public class BuildSystem : MonoBehaviour
         
         BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
         
-        //GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
+        GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
         
         StartBuilding(_currentData);
     }
@@ -200,8 +209,7 @@ public class BuildSystem : MonoBehaviour
     {
         if(_currentPrefab != null)
         {
-            SpriteRenderer _spriteRenderer = _currentPrefab.GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = color;
+            _currentPrefab.GetComponent<Building>().ChangeColor(color);
         }
     }
 

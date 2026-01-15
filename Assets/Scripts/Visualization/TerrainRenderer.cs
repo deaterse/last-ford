@@ -9,11 +9,17 @@ public class TerrainRenderer : MonoBehaviour
 
     [Header("Visualizers Links")]
     [SerializeField] private HeightMapVisualizer _heightVisualizer;
+    [SerializeField] private FertilityMapVisualizer _fertilityVisualizer;
     [SerializeField] private TerrainVisualizer _terrainVisualizer;
 
     public void VisualizeHeightMap(HeightMap _heightMap)
     {
         _heightVisualizer.ColoringMap(_heightMap);
+    }
+    
+    public void VisualizeFertilityMap(FertilityMap _fertilityMap)
+    {
+        _fertilityVisualizer.ColoringMap(_fertilityMap);
     }
 
     public void Visualize(TerrainMap _terrainMap)

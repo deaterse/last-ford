@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeColor(Color color)
     {
-        
+        _spriteRenderer.color = color;
     }
 }

@@ -77,6 +77,10 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log("Shore succesfully generated.");
 
+        //Generate "pre-shore"
+        PreSandGenerator preSandGenerator = new PreSandGenerator(_terrainMap);
+        preSandGenerator.GeneratePreSand();
+
         //Generate Stones
         StonesGenerator stonesGenerator = new StonesGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Stone));
         stonesGenerator.Generate();
@@ -89,6 +93,10 @@ public class WorldGenerator : MonoBehaviour
 
         Debug.Log("Forests succesfully generated.");
 
+        //Generate FertilityMap
+        FertilityMapGenerator fertilityMapGenerator = new FertilityMapGenerator(_terrainMap, _noiseConfig);
+        FertilityMap _fertilityMap = fertilityMapGenerator.GenerateFertilityMap(widthX, heightY);
+
         //Modify to apply resources impact to TerrainMap
         TerrainModifier terrainModifier = new TerrainModifier(_terrainMap, _resourceSpawnConfig);
         terrainModifier.Modify();
@@ -96,6 +104,7 @@ public class WorldGenerator : MonoBehaviour
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
         _terrainRenderer.VisualizeHeightMap(_heightMap);
+        _terrainRenderer.VisualizeFertilityMap(_fertilityMap);
         _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
 
         GameEvents.InvokeOnTerrainMapGenerated(_terrainMap);
