@@ -8,16 +8,27 @@ public class BuildingManager : MonoBehaviour
     private BuildingMap _buildingMap;
     private Dictionary<BuildingData, List<GameObject>> _buildingInstances = new();
 
-    public void Init(int width, int height)
+    public void Init()
     {
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        
-        _buildingMap = new BuildingMap(width, height);
+
+        GameEvents.OnTerrainMapGenerated += GenerateBuildingMap;
+
         Instance = this;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnTerrainMapGenerated -= GenerateBuildingMap;
+    }
+
+    private void GenerateBuildingMap(TerrainMap _terrainMap)
+    {
+        _buildingMap = new BuildingMap(_terrainMap.Width, _terrainMap.Height);
     }
 
     public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
@@ -34,6 +45,10 @@ public class BuildingManager : MonoBehaviour
             
         _buildingInstances[data].Add(buildingObj);
     }
+
+
+
+    
     // public Building GetNearestBuilding(Vector3Int start)
     // {
     //     Building _nearestBuilding = null;

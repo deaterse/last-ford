@@ -38,20 +38,8 @@ public class FertilityMapVisualizer : MonoBehaviour
         {
             for(int y = 0; y < height; y++)
             {
-                if(fertilityMap.FertilityData[x, y] != 0)
-                {
-                    Color color = Color.green;
-                    float colorA = colMapper.GetColorFloat(fertilityMap.FertilityData[x, y]);
-                    color.a = colorA;
-
-                    fertilityTexture.SetPixel(x, y, color);
-                }
-                else
-                {
-                    Color color = Color.green;
-                    color.a = 0;
-                    fertilityTexture.SetPixel(x, y, color);
-                }
+                Color color = colMapper.GetColor(fertilityMap.FertilityData[x, y]);
+                fertilityTexture.SetPixel(x, y, color);
             }
         }
 

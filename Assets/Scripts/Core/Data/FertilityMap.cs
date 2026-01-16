@@ -10,4 +10,9 @@ public class FertilityMap
         Height = height;
         FertilityData = new float[width, height];
     }
+
+    public void SetFertility(int x, int y, float fertility)
+    {
+        FertilityData[x, y] = fertility;
+    }
 }

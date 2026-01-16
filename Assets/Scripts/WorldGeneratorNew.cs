@@ -1,10 +1,6 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.Events;
-using System.Collections.Generic;
-using System.Collections;
 
-public class WorldGenerator : MonoBehaviour
+public class WorldGeneratorNew : MonoBehaviour
 {
 
     [Header("Configs")]

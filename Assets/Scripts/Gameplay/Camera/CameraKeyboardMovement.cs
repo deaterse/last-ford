@@ -16,24 +16,27 @@ public class CameraKeyboardMovement : MonoBehaviour
         _camera = GetComponent<Camera>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        //Scrolling
-        float _mouseScroll = Input.GetAxis("Mouse ScrollWheel");
-        if(_mouseScroll != 0)
-        {
-            _camera.orthographicSize -= _mouseScroll * _scrollSpeed;
-            SizeInBorders();
-        }
+        GameEvents.OnInputCameraMovement += CameraMove;
+        GameEvents.OnInputCameraZoom += CameraZoom;
+    }
 
-        //Camera Movement By KeyBoard
-        float _horizontalAxis = Input.GetAxis("Horizontal");
-        float _verticalAxis = Input.GetAxis("Vertical");
+    private void OnDisable()
+    {
+        GameEvents.OnInputCameraMovement -= CameraMove;
+        GameEvents.OnInputCameraZoom -= CameraZoom;
+    }
 
-        if(_horizontalAxis != 0 || _verticalAxis != 0)
-        {
-            transform.Translate(new Vector3(_horizontalAxis, _verticalAxis, 0) * _moveSpeed * Time.deltaTime);
-        }
+    private void CameraMove(Vector2 movementVector)
+    {
+        transform.Translate(new Vector3(movementVector.x, movementVector.y, 0) * _moveSpeed * Time.deltaTime);
+    }
+
+    private void CameraZoom(float zoomStrength)
+    {
+        _camera.orthographicSize -= zoomStrength * _scrollSpeed;
+        SizeInBorders();
     }
 
     private void SizeInBorders()

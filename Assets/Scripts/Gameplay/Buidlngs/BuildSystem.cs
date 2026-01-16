@@ -31,11 +31,13 @@ public class BuildSystem : MonoBehaviour
         }
         
         GameEvents.OnTerrainMapGenerated += SetTerrainMap;
+        GameEvents.OnInputBuildingBuilded += PlacePrefab;
     }
 
     private void OnDisable()
     {
         GameEvents.OnTerrainMapGenerated -= SetTerrainMap;
+        GameEvents.OnInputBuildingBuilded -= PlacePrefab;
     }
 
     private void SetTerrainMap(TerrainMap terrainMap)
@@ -58,10 +60,6 @@ public class BuildSystem : MonoBehaviour
             {
                 ClearCurrent();
             }
-            else if(Input.GetMouseButtonDown(0) && _canBuild)
-            {
-                PlacePrefab();
-            }
         }
         else if(_currentPrefab == null && _isBuilding != false)
         {
@@ -79,11 +77,7 @@ public class BuildSystem : MonoBehaviour
 
     private bool IsPlaceEmpty()
     {
-        Debug.Log(_terrainMap);
-
-        //один метод вынести можно
         Vector3Int mousePos = MousePosOnTile();
-
         Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
 
         if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize))
@@ -110,29 +104,51 @@ public class BuildSystem : MonoBehaviour
 
     private void PlacePrefab()
     {
-        Vector3Int cellMousePos = MousePosOnTile();
-        Vector2Int startPos;
-        
-        if(_currentData.BuildingSize.x > 1 && _currentData.BuildingSize.y > 1)
+        if(_currentPrefab != null && _canBuild)
         {
-            startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
-        }
-        else
-        {
-            startPos = (Vector2Int) cellMousePos;
-        }
+            Vector3Int cellMousePos = MousePosOnTile();
+            Vector2Int startPos;
+            
+            if(_currentData.BuildingSize.x > 1 && _currentData.BuildingSize.y > 1)
+            {
+                startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
+            }
+            else
+            {
+                startPos = (Vector2Int) cellMousePos;
+            }
 
-        if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) && _terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
+            if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
-        GameObject buildingObj = Instantiate(_currentData.ObjPrefab);
-        buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
-        
-        BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
-        
-        GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
-        
-        StartBuilding(_currentData);
+            GameObject buildingObj = Instantiate(_currentData.ObjPrefab);
+            buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
+            
+            BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
+            
+            GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
+            
+            StartBuilding(_currentData);
+        }
     }
+
+    private Vector3Int MousePosOnTile()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(mousePos);
+
+        Vector3Int cellMousePos = _buildingsTilemap.WorldToCell(mousePosWorld);
+
+        return cellMousePos;
+    }
+
+    private void ChangeBuildingColor(Color color)
+    {
+        if(_currentPrefab != null)
+        {
+            _currentPrefab.GetComponent<Building>().ChangeColor(color);
+        }
+    }
+
 
     // public void BuildRoad(Vector3Int start, Vector3Int end)
     // {
@@ -194,23 +210,4 @@ public class BuildSystem : MonoBehaviour
     //         }
     //     }
     // }
-
-    private Vector3Int MousePosOnTile()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 mousePosWorld = Camera.main.ScreenToWorldPoint(mousePos);
-
-        Vector3Int cellMousePos = _buildingsTilemap.WorldToCell(mousePosWorld);
-
-        return cellMousePos;
-    }
-
-    private void ChangeBuildingColor(Color color)
-    {
-        if(_currentPrefab != null)
-        {
-            _currentPrefab.GetComponent<Building>().ChangeColor(color);
-        }
-    }
-
 }

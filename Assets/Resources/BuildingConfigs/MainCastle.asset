@@ -15,6 +15,6 @@ MonoBehaviour:
   _displayedName: House1
   _buldingID: 1
   _buildRoad: 1
-  _buildingSize: {x: 4, y: 4}
+  _buildingSize: {x: 3, y: 3}
   _tilePrefab: {fileID: 11400000, guid: ff082d8c0f3a83c42b4d049bc7a11391, type: 2}
   _objPrefab: {fileID: 2576521533274311486, guid: 6936a55b35747774cbd68c526654cd38, type: 3}
