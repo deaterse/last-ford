@@ -6,6 +6,7 @@ public class WorldGeneratorNew : MonoBehaviour
     [Header("Configs")]
     [SerializeField] private MapConfig _mapConfig;
     [SerializeField] private NoiseConfig _noiseConfig;
+    [SerializeField] private MeadowsConfig _meadowsConfig;
     [SerializeField] private ResourceSpawnConfig _resourceSpawnConfig;
     [SerializeField] private ResourcesSubtypeConfig _resourceSubtypeConfig;
     
@@ -16,6 +17,7 @@ public class WorldGeneratorNew : MonoBehaviour
 
     private HeightMap _heightMap;
     private TerrainMap _terrainMap;
+    private MeadowMap _meadowMap;
 
     public void GenerateButton()
     {
@@ -43,37 +45,18 @@ public class WorldGeneratorNew : MonoBehaviour
         FillTerrain fillTerrain = new FillTerrain(_terrainMap);
         fillTerrain.GenerateTerrain();
 
-        //Generate River
-        RiverGenerator riverGenerator = new RiverGenerator(_terrainMap);
-        riverGenerator.GenerateRivers();
-
-        Debug.Log("River succesfully generated.");
-
-        //Generate Shore
-        ShoreGenerator shoreGenerator = new ShoreGenerator(_terrainMap);
-        shoreGenerator.GenerateShore();
-
-        Debug.Log("Shore succesfully generated.");
-
-        //Generate "pre-shore"
-        PreSandGenerator preSandGenerator = new PreSandGenerator(_terrainMap);
-        preSandGenerator.GeneratePreSand();
-
-        //Generate Stones
-        StonesGenerator stonesGenerator = new StonesGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Stone));
-        stonesGenerator.Generate();
-
-        Debug.Log("Stones succesfully generated.");
-
         //Generate Forests
-        ForestsGenerator forestsGenerator = new ForestsGenerator(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood), _resourceSubtypeConfig);
+        ForestsGeneratorFill forestsGenerator = new ForestsGeneratorFill(_terrainMap, _resourceSpawnConfig.GetResourceSettings(ResourceType.Wood), _resourceSubtypeConfig);
         forestsGenerator.Generate();
 
         Debug.Log("Forests succesfully generated.");
 
-        //Generate FertilityMap
-        FertilityMapGenerator fertilityMapGenerator = new FertilityMapGenerator(_terrainMap, _noiseConfig);
-        FertilityMap _fertilityMap = fertilityMapGenerator.GenerateFertilityMap(widthX, heightY);
+        //Make a Meadow Map
+        _meadowMap = new MeadowMap(widthX, heightY);
+
+        //Generate Meadows
+        MeadowGenerator meadowGenerator = new MeadowGenerator(_meadowMap, _terrainMap, _meadowsConfig);
+        meadowGenerator.Generate();
 
         //Modify to apply resources impact to TerrainMap
         TerrainModifier terrainModifier = new TerrainModifier(_terrainMap, _resourceSpawnConfig);
@@ -82,7 +65,6 @@ public class WorldGeneratorNew : MonoBehaviour
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
         _terrainRenderer.VisualizeHeightMap(_heightMap);
-        _terrainRenderer.VisualizeFertilityMap(_fertilityMap);
         _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
 
         GameEvents.InvokeOnTerrainMapGenerated(_terrainMap);

@@ -15,7 +15,7 @@ public class ForestsGenerator: ResourceGenerator
         GameEvents.InvokeOnForestsGenerated(_resourcesCount);
     }
 
-    protected override int GenerateClustersCycle(int clustersCount, int clusterSize)
+    protected override void GenerateClustersCycle(int clustersCount, int clusterSize)
     {
         _resourcesCount = 0;
 
@@ -25,7 +25,5 @@ public class ForestsGenerator: ResourceGenerator
             
             _resourcesCount += GenerateResourceClast(clusterSize, randomType);
         }
-
-        return _resourcesCount;
     }
 }

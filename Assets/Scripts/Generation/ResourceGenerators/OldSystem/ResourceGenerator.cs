@@ -20,7 +20,7 @@ public abstract class ResourceGenerator
         _terrainType = _resourceSettings.terrainType;
     }
 
-    public void Generate()
+    public virtual void Generate()
     {
         GenerateClusters();
         OnGenerationCompleted();
@@ -34,7 +34,7 @@ public abstract class ResourceGenerator
         GenerateClustersCycle(clustersCount, clusterSize);
     }
 
-    protected virtual int GenerateClustersCycle(int clustersCount, int clusterSize)
+    protected virtual void GenerateClustersCycle(int clustersCount, int clusterSize)
     {
         _resourcesCount = 0;
 
@@ -42,8 +42,6 @@ public abstract class ResourceGenerator
         {
             _resourcesCount += GenerateResourceClast(clusterSize);
         }
-
-        return _resourcesCount;
     }
 
     protected abstract void OnGenerationCompleted();

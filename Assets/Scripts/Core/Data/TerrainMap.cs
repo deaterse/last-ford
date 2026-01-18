@@ -107,4 +107,14 @@ public class TerrainMap
         if(x > Width || y > Height || x < 0 || y < 0) return false;
         return TerrainData[x, y].HasResource;
     }
+
+    public bool InBorders(int x, int y)
+    {
+        if(x < Width && y < Width && y >= 0 && x >= 0)
+        {
+            return true;
+        }
+        
+        return false;
+    }
 }
