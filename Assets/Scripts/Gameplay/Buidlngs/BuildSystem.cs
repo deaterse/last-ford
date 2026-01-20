@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class BuildSystem : MonoBehaviour
 {
-    // remove singlton later (now no scripts using it)
-    public static BuildSystem Instance { get; private set; }
 
     [Header("Tilemap Components")]
     [SerializeField] private Tilemap _buildingsTilemap;
@@ -25,12 +23,6 @@ public class BuildSystem : MonoBehaviour
 
     public void Init()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
         GameEvents.OnTerrainMapGenerated += SetTerrainMap;
         GameEvents.OnInputBuildingBuilded += PlacePrefab;
     }
@@ -55,7 +47,7 @@ public class BuildSystem : MonoBehaviour
             Vector3 centredCellPos = _buildingsTilemap.GetCellCenterWorld(MousePosOnTile());
             _currentPrefab.transform.position = centredCellPos;
 
-            _canBuild = IsPlaceEmpty();
+            _canBuild = CanBuild();
 
             if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -76,12 +68,12 @@ public class BuildSystem : MonoBehaviour
         _currentData = null;
     }
 
-    private bool IsPlaceEmpty()
+    private bool CanBuild()
     {
-        Vector3Int mousePos = MousePosOnTile();
-        Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
-
-        if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize))
+        bool isEmpty = IsPlaceEmpty();
+        bool isResourcesEnough = IsResourcesEnough();
+        
+        if(isEmpty && isResourcesEnough)
         {
             ChangeBuildingColor(_canBuildColor);
             return true;
@@ -89,6 +81,22 @@ public class BuildSystem : MonoBehaviour
         else
         {
             ChangeBuildingColor(_cantBuildColor);
+        }
+
+        return false;
+    }
+
+    private bool IsPlaceEmpty()
+    {
+        Vector3Int mousePos = MousePosOnTile();
+        Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
+
+        if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize))
+        {
+            return true;
+        }
+        else
+        {
             return false;
         }
     }
@@ -103,10 +111,40 @@ public class BuildSystem : MonoBehaviour
         _currentData = _buildingData;
     }
 
+    private bool IsResourcesEnough()
+    {
+        for(int i = 0; i < _currentData.NeededResourcesTypesList.Count; i++)
+        {
+            ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
+            int currentPrice = _currentData.NeededResourcesIntsList[i];
+
+            if(!ServiceLocator.GetResourceManager().IsResourceEnough(currentResourceType, currentPrice))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     private void PlacePrefab()
     {
         if(_currentPrefab != null && _canBuild)
         {
+            bool isResourcesEnough = IsResourcesEnough();
+            if(!isResourcesEnough)
+            {
+                Debug.Log("Player dont have enough resources.");
+                return;
+            }
+            for(int i = 0; i < _currentData.NeededResourcesTypesList.Count; i++)
+            {
+                ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
+                int currentPrice = _currentData.NeededResourcesIntsList[i];
+
+                ServiceLocator.GetResourceManager().TrySpendResource(currentResourceType, currentPrice);
+            }
+
             Vector3Int cellMousePos = MousePosOnTile();
             Vector2Int startPos;
             

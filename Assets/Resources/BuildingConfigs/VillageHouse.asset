@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
   m_Name: VillageHouse
   m_EditorClassIdentifier: 
-  _buildingType: 2
-  _displayedName: Village House
+  _buildingType: 0
+  _displayedName: Residental House
   _buldingID: 0
   _buildRoad: 0
   _buildingSize: {x: 1, y: 1}
   _tilePrefab: {fileID: 11400000, guid: b1cdf623047d244419113ff82949677c, type: 2}
   _objPrefab: {fileID: 2576521533274311486, guid: d9b38216ede65db4dab7901586052bcc, type: 3}
+  _neededResourcesTypesList: 00000000
+  _neededResourcesIntsList: 0a000000

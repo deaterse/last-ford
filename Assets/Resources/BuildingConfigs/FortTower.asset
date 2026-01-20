@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
   m_Name: FortTower
   m_EditorClassIdentifier: 
-  _displayedName: House2
+  _buildingType: 0
+  _displayedName: Fort Tower
   _buldingID: 0
   _buildRoad: 1
   _buildingSize: {x: 1, y: 1}
   _tilePrefab: {fileID: 11400000, guid: f84bf46b2a9ecbc4b910b31691a99c83, type: 2}
   _objPrefab: {fileID: 2576521533274311486, guid: c95c87475f1f2ff44af5e642b78e85a1, type: 3}
+  _neededResourcesTypesList: 00000000
+  _neededResourcesIntsList: 05000000
