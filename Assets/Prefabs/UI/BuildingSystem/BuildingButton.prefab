@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7507144246517396446}
   - component: {fileID: 6762336568364315536}
   - component: {fileID: 5553276502338338417}
+  - component: {fileID: 2130087281575545173}
   m_Layer: 5
   m_Name: BuildingButton
   m_TagString: Untagged
@@ -76,6 +77,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2130087281575545173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028804356864146777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211f5b4e7a5890f4c817078d95c244ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _typeText: {fileID: 5284470862023427833}
+  _typeImage: {fileID: 0}
 --- !u!1 &8434147021976555653
 GameObject:
   m_ObjectHideFlags: 0
