@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class BuildSystem : MonoBehaviour
 {
+    // remove singlton later (now no scripts using it)
     public static BuildSystem Instance { get; private set; }
 
     [Header("Tilemap Components")]

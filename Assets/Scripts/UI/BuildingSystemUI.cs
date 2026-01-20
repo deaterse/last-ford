@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using TMPro;
 
@@ -16,9 +18,16 @@ public class BuildingSystemUI : MonoBehaviour
 
     private Dictionary<string, GameObject> _typesButtons = new();
     private Dictionary<string, GameObject> _typesContainers = new();
+    private Dictionary<BuildingData, GameObject> _buildingButtons = new();
 
-    public void Init()
+    private BuildSystem _buildSystem;
+
+    public void Init(BuildSystem buildSystem)
     {
+        _buildSystem = buildSystem;
+
+        ClearAllListeners();
+
         SpawnBuildingTypes();
         SpawnTypesContainers();
         SpawnBuildingsButtons();
@@ -54,6 +63,32 @@ public class BuildingSystemUI : MonoBehaviour
 
             current.SetActive(false);
         }
+
+        AddTypesButtonsListeners();
+    }
+
+    private void AddTypesButtonsListeners()
+    {
+        foreach(KeyValuePair<string, GameObject> kvp in _typesButtons)
+        {
+            if(kvp.Value.TryGetComponent<Button>(out Button currentTypeButton))
+            {
+                GameObject currentContainer = _typesContainers[kvp.Key];
+                currentTypeButton.onClick.AddListener(() => OpenBuildingsContainer(currentContainer));
+            }
+        }
+    }
+
+    private void AddBuildingsButtonsListeners()
+    {
+        foreach(KeyValuePair<BuildingData, GameObject> kvp in _buildingButtons)
+        {
+            if(kvp.Value.TryGetComponent<Button>(out Button currentBuildingButton))
+            {
+                BuildingData currentBuildingData = kvp.Key;
+                currentBuildingButton.onClick.AddListener(() => _buildSystem.StartBuilding(currentBuildingData));
+            }
+        }
     }
 
     private void SpawnBuildingsButtons()
@@ -65,6 +100,8 @@ public class BuildingSystemUI : MonoBehaviour
 
             GameObject currentButton = Instantiate(_buildingButtonPrefab, currentTransform);
 
+            _buildingButtons[bd] = currentButton;
+
             if (currentButton.TryGetComponent<BuildingButtonUI>(out BuildingButtonUI buildingButtonUI))
             {
                 TMP_Text currentNameText = buildingButtonUI.TypeText;
@@ -72,5 +109,33 @@ public class BuildingSystemUI : MonoBehaviour
                 currentNameText.text = bd.displayedName;
             }
         }
+
+        AddBuildingsButtonsListeners();
+    }
+
+    private void OpenBuildingsContainer(GameObject container)
+    {
+        foreach(GameObject tc in _typesContainers.Values)
+        {
+            tc.SetActive(false);
+        }
+
+        if(_typesContainers.ContainsValue(container))
+        {
+            container.SetActive(true);
+        }
+    }
+
+    private void ClearAllListeners()
+    {
+        foreach (Transform child in _typesContentBox)
+            Destroy(child.gameObject);
+        
+        foreach (Transform child in _buildingsContentBox)
+            Destroy(child.gameObject);
+
+        _buildingButtons.Clear();
+        _typesButtons.Clear();
+        _typesContainers.Clear();
     }
 }

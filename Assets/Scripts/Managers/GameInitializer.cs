@@ -20,7 +20,7 @@ public class GameInitializer : MonoBehaviour
             _debugUI.Init();
         #endif
         _resourceUI.Init();
-        _buildingUI.Init();
+        _buildingUI.Init(_buildSystem);
 
         _buildSystem.Init();
         _buildingManager.Init();

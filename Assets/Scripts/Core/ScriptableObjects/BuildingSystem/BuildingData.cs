@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/BuildingSystem/Building")]
 public class BuildingData : ScriptableObject
@@ -13,6 +14,9 @@ public class BuildingData : ScriptableObject
     [Header("Prefabs")]
     [SerializeField] private TileBase _tilePrefab;
     [SerializeField] private GameObject _objPrefab;
+    [Header("Needed Resources")]
+    [SerializeField] private List<ResourceType> _neededResourcesTypesList;
+    [SerializeField] private List<int> _neededResourcesIntsList;
 
     //UI
     public BuildingType buildingType => _buildingType;
@@ -23,4 +27,7 @@ public class BuildingData : ScriptableObject
 
     public bool BuildRoad => _buildRoad;
     public Vector2Int BuildingSize => _buildingSize;
+
+    public List<ResourceType> NeededResourcesTypesList => _neededResourcesTypesList;
+    public List<int> NeededResourcesIntsList => _neededResourcesIntsList;
 }
