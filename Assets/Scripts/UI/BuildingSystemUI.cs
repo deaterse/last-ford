@@ -1,16 +1,35 @@
 using UnityEngine;
+using System;
+using TMPro;
 
 public class BuildingSystemUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Transform _contentBox;
+
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _buildingTypePrefab;
+
+    public void Init()
     {
-        
+        SpawnBuildingTypes();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void SpawnBuildingTypes()
     {
-        
+        string[] allTypes = Enum.GetNames(typeof(BuildingType));
+
+        if(allTypes.Length <= 0) return;
+
+        for(int i = 0; i < allTypes.Length; i++)
+        {
+            GameObject currentObj = Instantiate(_buildingTypePrefab, _contentBox);
+
+            if (currentObj.TryGetComponent<BuildingTypeUI>(out BuildingTypeUI buildingTypeUI))
+            {
+                TMP_Text currentNameText = buildingTypeUI.TypeText;
+                // later add here image and etc.
+                currentNameText.text = allTypes[i];
+            }
+        }
     }
 }

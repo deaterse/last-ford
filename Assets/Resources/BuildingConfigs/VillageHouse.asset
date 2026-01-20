@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
   m_Name: VillageHouse
   m_EditorClassIdentifier: 
+  _buildingType: 2
   _displayedName: Village House
   _buldingID: 0
   _buildRoad: 0

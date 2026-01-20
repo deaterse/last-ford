@@ -1,0 +1,1 @@
+public enum BuildingType { Essentials, Productions, Food }

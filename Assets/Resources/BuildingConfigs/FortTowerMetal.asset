@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
   m_Name: FortTowerMetal
   m_EditorClassIdentifier: 
+  _buildingType: 1
   _displayedName: House3
   _buldingID: 0
   _buildRoad: 1
-  _objPrefab: {fileID: 2576521533274311486, guid: 19f21164debaaa445893eacf33a8346e, type: 3}
+  _buildingSize: {x: 1, y: 1}
   _tilePrefab: {fileID: 11400000, guid: f45c8a2fafaafc14b905040bcc8c9135, type: 2}
+  _objPrefab: {fileID: 2576521533274311486, guid: 19f21164debaaa445893eacf33a8346e, type: 3}

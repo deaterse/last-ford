@@ -9,6 +9,7 @@ public class GameInitializer : MonoBehaviour
 
     [SerializeField] private DebugUI _debugUI;
     [SerializeField] private ResourceUI _resourceUI;
+    [SerializeField] private BuildingSystemUI _buildingUI;
 
     [SerializeField] private BuildSystem _buildSystem;
     [SerializeField] private BuildingManager _buildingManager;
@@ -19,6 +20,7 @@ public class GameInitializer : MonoBehaviour
             _debugUI.Init();
         #endif
         _resourceUI.Init();
+        _buildingUI.Init();
 
         _buildSystem.Init();
         _buildingManager.Init();
