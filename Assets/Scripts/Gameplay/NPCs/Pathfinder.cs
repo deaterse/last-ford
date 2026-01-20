@@ -6,7 +6,7 @@ public class Pathfinder : MonoBehaviour
 {
     public static Pathfinder Instance { get; private set; }
 
-    [SerializeField] private TilesConfig _tilesConfig;
+    //[SerializeField] private TilesConfig _tilesConfig;
 
     [SerializeField] private Tilemap _terrainMap;
     [SerializeField] private Tilemap _waterMap;
@@ -94,15 +94,16 @@ public class Pathfinder : MonoBehaviour
         var waterCheck = _waterMap.GetTile(cell);
         var sandCheck = _terrainMap.GetTile(cell);
         var resourceCheck = _resourceMap.GetTile(cell);
-
-        if(!_tilesConfig._sandTiles.Contains(sandCheck) && waterCheck == null && resourceCheck == null && terrainCheck !=  null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        
+        return true;
+        // if(!_tilesConfig._sandTiles.Contains(sandCheck) && waterCheck == null && resourceCheck == null && terrainCheck !=  null)
+        // {
+        //     return true;
+        // }
+        // else
+        // {
+        //     return false;
+        // }
     }
     
     private List<Vector3Int> GetNeighbors(Vector3Int cell)

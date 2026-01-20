@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 
 public class MeadowGenerator
@@ -16,36 +17,60 @@ public class MeadowGenerator
 
     public void Generate()
     {
-        // logic using MeadowConfig
-        for(int i = 0; i < _meadowsConfig.MeadowsCount; i++)
+        int meadowsCount = Random.Range(_meadowsConfig.MinMeadowsCount, _meadowsConfig.MaxMeadowsCount);
+        for(int i = 0; i < meadowsCount; i++)
         {
             GenerateMeadow();
         }
+
+        Debug.Log($"Generated {meadowsCount} Meadows");
     }
 
     private void GenerateMeadow()
     {
-        int radius = Random.Range(_meadowsConfig.MinMeadowRadius, _meadowsConfig.MaxMeadowRadius);
-
-        Queue<Vector2Int> positionsQueue = new Queue<Vector2Int>();
-
-        Vector2Int currentPos = RandomPos();
-        positionsQueue.Enqueue(currentPos);
-
-        for(int i = 0; i < radius * 4; i++)
+        Vector2Int center = RandomPos();
+        if (center == Vector2Int.zero) return;
+        
+        int targetSize = Random.Range(
+            _meadowsConfig.MinMeadowSize, 
+            _meadowsConfig.MaxMeadowSize
+        );
+        
+        HashSet<Vector2Int> meadow = new HashSet<Vector2Int>();
+        List<Vector2Int> frontier = new List<Vector2Int>();
+        
+        if (_terrainMap.HasResource(center.x, center.y))
         {
-            List<Vector2Int> allNeighbours = GetNeighbours(currentPos);
-            foreach(Vector2Int n in allNeighbours)
+            meadow.Add(center);
+            frontier.Add(center);
+        }
+        
+        while (meadow.Count < targetSize && frontier.Count > 0)
+        {
+            frontier = frontier
+                .OrderBy(c => Vector2Int.Distance(center, c))
+                .ToList();
+            
+            Vector2Int current = frontier[0];
+            frontier.RemoveAt(0);
+            
+            foreach (Vector2Int neighbor in GetNeighbours(current))
             {
-                if(_terrainMap.InBorders(n.x, n.y))
-                {
-                    _terrainMap.SetResource(n.x, n.y, Resource.None);
-
-                    positionsQueue.Enqueue(n);
-                }
+                if (meadow.Count >= targetSize) break;
+                if (!_terrainMap.InBorders(neighbor.x, neighbor.y)) continue;
+                if (meadow.Contains(neighbor)) continue;
+                if (frontier.Contains(neighbor)) continue;
+                if (!_terrainMap.HasResource(neighbor.x, neighbor.y)) continue;
+                
+                meadow.Add(neighbor);
+                frontier.Add(neighbor);
             }
-
-            currentPos = positionsQueue.Dequeue();
+        }
+        
+        foreach (Vector2Int cell in meadow)
+        {
+            _terrainMap.SetResource(cell.x, cell.y, Resource.None);
+            _meadowMap.SetCell(cell.x, cell.y);
         }
     }
 

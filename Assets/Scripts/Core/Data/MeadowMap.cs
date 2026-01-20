@@ -19,4 +19,9 @@ public class MeadowMap
         
         return _meadowsData[x, y];
     }
+
+    public void SetCell(int x, int y)
+    {
+        _meadowsData[x, y] = true;
+    }
 }

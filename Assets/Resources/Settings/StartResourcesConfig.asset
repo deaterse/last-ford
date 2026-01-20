@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eff5516acaf0544f966ed994b05e853, type: 3}
-  m_Name: MeadowsConfig
+  m_Script: {fileID: 11500000, guid: 0953877844c363f44afc3d88a89624a5, type: 3}
+  m_Name: StartResourcesConfig
   m_EditorClassIdentifier: 
-  _minMeadowsCount: 5
-  _maxMeadowsCount: 10
-  _minMeadowSize: 100
-  _maxMeadowSize: 200
-  _minMeadowRadius: 5
-  _maxMeadowRadius: 10
+  _resourcesStartTypes: 0000000001000000
+  _resourcesStartValues: 0a0000000f000000

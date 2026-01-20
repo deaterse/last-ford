@@ -17,6 +17,9 @@ public static class GameEvents
     public static event Action OnInputBuildingBuilded;
     public static event Action OnShowFertilityMap;
 
+    //Resource Manager
+    public static event Action<ResourceType, int> OnResourceChanged;
+
     public static void InvokeOnTerrainMapGenerated(TerrainMap terrainMap)
     {
         OnTerrainMapGenerated?.Invoke(terrainMap);
@@ -61,6 +64,11 @@ public static class GameEvents
     public static void InvokeOnShowFertilityMap()
     {
         OnShowFertilityMap?.Invoke();
+    }
+
+    public static void InvokeOnResourceChanged(ResourceType type, int value)
+    {
+        OnResourceChanged?.Invoke(type, value);
     }
 
     public static void ClearAllEvents()
