@@ -20,14 +20,15 @@ public class GameInitializer : MonoBehaviour
             _debugUI.Init();
         #endif
         _resourceUI.Init();
-        _buildingUI.Init(_buildSystem);
 
         _buildSystem.Init();
         _buildingManager.Init();
 
-        _worldGenerator.GenerateWorld();
-
         InitResourceManager();
+
+        _buildingUI.Init(_buildSystem);
+
+        _worldGenerator.GenerateWorld();
     }
 
     private void InitResourceManager()

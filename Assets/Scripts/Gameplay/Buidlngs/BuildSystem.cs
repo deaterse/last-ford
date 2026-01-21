@@ -127,6 +127,22 @@ public class BuildSystem : MonoBehaviour
         return true;
     }
 
+    public bool IsResourcesEnoughPublic(BuildingData buildingData)
+    {
+        for(int i = 0; i < buildingData.NeededResourcesTypesList.Count; i++)
+        {
+            ResourceType currentResourceType = buildingData.NeededResourcesTypesList[i];
+            int currentPrice = buildingData.NeededResourcesIntsList[i];
+
+            if(!ServiceLocator.GetResourceManager().IsResourceEnough(currentResourceType, currentPrice))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     private void PlacePrefab()
     {
         if(_currentPrefab != null && _canBuild)

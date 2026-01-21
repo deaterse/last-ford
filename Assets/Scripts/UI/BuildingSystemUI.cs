@@ -30,6 +30,13 @@ public class BuildingSystemUI : MonoBehaviour
         SpawnBuildingTypes();
         SpawnTypesContainers();
         SpawnBuildingsButtons();
+
+        GameEvents.OnResourceChanged += CheckAllBuildings;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnResourceChanged -= CheckAllBuildings;
     }
 
     private void SpawnBuildingTypes()
@@ -101,7 +108,7 @@ public class BuildingSystemUI : MonoBehaviour
 
             _buildingButtons[bd] = currentButton;
 
-            if (currentButton.TryGetComponent<BuildingButtonUI>(out BuildingButtonUI buildingButtonUI))
+            if (currentButton.TryGetComponent(out BuildingButtonUI buildingButtonUI))
             {
                 TMP_Text currentNameText = buildingButtonUI.TypeText;
                 // later add here image and etc.
@@ -125,8 +132,27 @@ public class BuildingSystemUI : MonoBehaviour
         }
     }
 
+    private void CheckAllBuildings(ResourceType resourceType, int count)
+    {
+        foreach(BuildingData buildingData in _buildingButtons.Keys)
+        {
+            bool isEnough = _buildSystem.IsResourcesEnoughPublic(buildingData);
+            if(_buildingButtons[buildingData].TryGetComponent(out Button currentBuildingButton))
+            {
+                SetButtonInteractable(currentBuildingButton, isEnough);
+            }
+        }
+    }
+
+    private void SetButtonInteractable(Button button, bool value)
+    {
+        button.interactable = value;
+    }
+
     private void ClearAllListeners()
     {
+        GameEvents.OnResourceChanged -= CheckAllBuildings;
+
         foreach (Transform child in _typesContentBox)
             Destroy(child.gameObject);
         
