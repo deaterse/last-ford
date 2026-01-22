@@ -18,6 +18,8 @@ public class CameraKeyboardMovement : MonoBehaviour
 
     private void OnEnable()
     {
+        _camera = GetComponent<Camera>();
+        
         GameEvents.OnInputCameraMovement += CameraMove;
         GameEvents.OnInputCameraZoom += CameraZoom;
     }

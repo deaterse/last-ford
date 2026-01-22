@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1840746159063780253}
   - component: {fileID: 4435954980487933531}
-  - component: {fileID: 1725903839557116069}
-  - component: {fileID: 1867830304753603028}
   - component: {fileID: 2113894446151338251}
+  - component: {fileID: 7121405114066970467}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -90,37 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1725903839557116069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861140567380637209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ff1f435d7abd046b623d3d344175ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _terrainMap: {fileID: 0}
-  _moveSpeed: 6
-  _pointPrefab: {fileID: 8463029092266544468, guid: f4e1e08d18797fb49b586689935ba1d2, type: 3}
---- !u!114 &1867830304753603028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861140567380637209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f143edcd91ff30f4aa597b48891a0e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tilesConfig: {fileID: 11400000, guid: f36d6194aaf9b2e4787e2e20fcc0b58f, type: 2}
-  _terrainMap: {fileID: 0}
-  _waterMap: {fileID: 0}
-  _resourceMap: {fileID: 0}
 --- !u!61 &2113894446151338251
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,3 +135,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7121405114066970467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861140567380637209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7d4f0a4c1f04c645b7cf62c3ecd1d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -24,6 +24,7 @@ public static class GameEvents
     public static event Action<Job> OnJobCreated;
     public static event Action<Job> OnJobFinished;
     public static event Action<Job> OnJobFailed;
+    public static event Action<Worker> OnWorkerSpawned;
 
     public static void InvokeOnTerrainMapGenerated(TerrainMap terrainMap)
     {
@@ -90,6 +91,12 @@ public static class GameEvents
     {
         OnJobCreated?.Invoke(job);
     }
+
+    public static void InvokeOnWorkerSpawned(Worker worker)
+    {
+        OnWorkerSpawned?.Invoke(worker);
+    }
+
 
     public static void ClearAllEvents()
     {

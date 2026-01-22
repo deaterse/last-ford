@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SceneCleaner : MonoBehaviour
 {
-    private void Awake()
+    public void Init()
     {
         GameEvents.ClearAllEvents();
         Debug.Log("GameEvents is cleared");

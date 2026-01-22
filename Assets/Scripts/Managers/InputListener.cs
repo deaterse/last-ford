@@ -4,16 +4,23 @@ using UnityEngine.InputSystem;
 public class InputListener : MonoBehaviour
 {
     [SerializeField] private MainControlMap _mainControlMap;
+    
+    private bool _initialized = false;
 
-    private void Awake()
+    public void Init()
     {
         EnableControlMap();
+
+        _initialized = true;
     }
 
     private void Update()
     {
-        CameraMovement();
-        CameraZoom();
+        if(_initialized)
+        {
+            CameraMovement();
+            CameraZoom();
+        }
     }
 
     private void EnableControlMap()

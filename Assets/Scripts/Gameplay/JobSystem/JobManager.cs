@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,12 +11,16 @@ public class JobManager : MonoBehaviour
     private List<Job> _freeJobs = new();
     private List<Worker> _freeWorkers = new();
 
-    private void Init()
+    public void Init()
     {
         ClearAll();
 
         GameEvents.OnJobFinished += JobFinished;
         GameEvents.OnJobCreated += NewFreeJob;
+
+        GameEvents.OnWorkerSpawned += NewFreeWorker;
+
+        StartCoroutine(FindJobToWorkers());
     }
 
     private void OnDisable()
@@ -24,6 +29,8 @@ public class JobManager : MonoBehaviour
 
         GameEvents.OnJobFinished -= JobFinished;
         GameEvents.OnJobCreated -= NewFreeJob;
+
+        GameEvents.OnWorkerSpawned -= NewFreeWorker;
     }
 
     private void ClearAll()
@@ -32,6 +39,24 @@ public class JobManager : MonoBehaviour
         _assignedJobsRevert.Clear();
         _freeJobs.Clear();
         _freeWorkers.Clear();
+
+        StopAllCoroutines();
+    }
+
+    private IEnumerator FindJobToWorkers()
+    {
+        while(true)
+        {
+            for(int i = 0; i < _freeJobs.Count; i++)
+            {
+                if(i < _freeWorkers.Count)
+                {
+                    AssignJob(_freeWorkers[i], _freeJobs[i]);
+                }
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     public void NewFreeJob(Job job)
@@ -39,6 +64,14 @@ public class JobManager : MonoBehaviour
         if(!job.IsAssigned && !_freeJobs.Contains(job))
         {
             _freeJobs.Add(job);
+        }
+    }
+
+    public void NewFreeWorker(Worker worker)
+    {
+        if(!_assignedJobs.ContainsKey(worker) && !_freeWorkers.Contains(worker))
+        {
+            _freeWorkers.Add(worker);
         }
     }
 
@@ -50,6 +83,15 @@ public class JobManager : MonoBehaviour
 
             oldJob.AssignJob(false);
             NewFreeJob(oldJob);
+        }
+
+        if(_freeJobs.Contains(job))
+        {
+            _freeJobs.Remove(job);
+        }
+        if(_freeWorkers.Contains(worker))
+        {
+            _freeWorkers.Remove(worker);
         }
 
         _assignedJobs[worker] = job;

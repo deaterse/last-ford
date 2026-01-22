@@ -6,8 +6,11 @@ using TMPro;
 
 public class BuildingSystemUI : MonoBehaviour
 {
+    [Header("Transform (To Use Instantiate)")]
     [SerializeField] private Transform _typesContentBox;
     [SerializeField] private Transform _buildingsContentBox;
+
+    [Header("Config")]
     [SerializeField] private AllBuildingsConfig _allBuildingsConfig;
 
     [Header("Prefabs")]
