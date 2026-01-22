@@ -1,0 +1,1 @@
+public enum JobType { Wood_Cutting, Stone_Mining }

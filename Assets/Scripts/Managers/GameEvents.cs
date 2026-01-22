@@ -20,6 +20,11 @@ public static class GameEvents
     //Resource Manager
     public static event Action<ResourceType, int> OnResourceChanged;
 
+    //Job System
+    public static event Action<Job> OnJobCreated;
+    public static event Action<Job> OnJobFinished;
+    public static event Action<Job> OnJobFailed;
+
     public static void InvokeOnTerrainMapGenerated(TerrainMap terrainMap)
     {
         OnTerrainMapGenerated?.Invoke(terrainMap);
@@ -71,10 +76,34 @@ public static class GameEvents
         OnResourceChanged?.Invoke(type, value);
     }
 
+    public static void InvokeOnJobFinished(Job job)
+    {
+        OnJobFinished?.Invoke(job);
+    }
+
+    public static void InvokeOnJobFailed(Job job)
+    {
+        OnJobFailed?.Invoke(job);
+    }
+
+    public static void InvokeOnJobCreated(Job job)
+    {
+        OnJobCreated?.Invoke(job);
+    }
+
     public static void ClearAllEvents()
     {
         OnTerrainMapGenerated = null;
         OnForestsGenerated = null;
         OnStonesGenerated = null;
+        OnBuildingBuilded = null;
+        OnInputCameraMovement = null;
+        OnInputCameraZoom = null;
+        OnInputBuildingBuilded = null;
+        OnResourceChanged = null;
+        OnShowFertilityMap = null;
+        OnJobFailed = null;
+        OnJobFinished = null;
+        OnJobCreated = null;
     }
 }
