@@ -7,6 +7,8 @@ public class Worker : MonoBehaviour
     
     private Job _currentJob;
 
+    private Vector3Int _destinition;
+
     private void Update()
     {
         switch (_currentMode)
@@ -39,6 +41,18 @@ public class Worker : MonoBehaviour
 
     private void HandleWork()
     {
+        ///...
+    }
+
+    public void StartJob(Job job)
+    {
+        if(_currentJob != null)
+        {
+            GameEvents.InvokeOnJobFailed(_currentJob);
+        }
+
+        _currentJob = job;
+
         ///...
     }
 }

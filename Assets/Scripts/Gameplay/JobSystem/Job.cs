@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class Job
 {
-    private Vector2Int _targetPosition;
+    private Vector3Int _targetPosition;
     private bool _isAssigned;
     private JobType _jobType;
     private ResourceType _resourceType;
 
     public bool IsAssigned => _isAssigned;
     public JobType jobType => _jobType;
-    public Vector2Int TargetPos => _targetPosition;
+    public Vector3Int TargetPos => _targetPosition;
 
-    public Job(Vector2Int targetPos, JobType jobType, ResourceType resourceType, bool value = true)
+    public Job(Vector3Int targetPos, JobType jobType, ResourceType resourceType, bool value = true)
     {
         _targetPosition = targetPos;
         _jobType = jobType;

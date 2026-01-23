@@ -21,6 +21,8 @@ public class GameInitializer : MonoBehaviour
 
     private void Awake()
     {
+        GameEvents.OnTerrainMapGenerated += InitPathfinder;
+
         _sceneCleaner.Init();
         _inputListener.Init();
 
@@ -44,5 +46,11 @@ public class GameInitializer : MonoBehaviour
     {
         ResourceManager _resourceManager = new ResourceManager(_startResourcesConfig);
         ServiceLocator.ProvideResourceManager(_resourceManager);
+    }
+
+    private void InitPathfinder(TerrainMap terrainMap)
+    {
+        Pathfinder _pathFinder = new Pathfinder(terrainMap);
+        ServiceLocator.ProvidePathfinder(_pathFinder);
     }
 }
