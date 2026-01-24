@@ -67,6 +67,7 @@ public class WorldGeneratorNew : MonoBehaviour
         _terrainRenderer.VisualizeHeightMap(_heightMap);
         _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
 
-        GameEvents.InvokeOnTerrainMapGenerated(_terrainMap);
+        OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
+        ServiceLocator.GetEventBus().Invoke<OnTerrainMapGenerated>(signal);
     }
 }

@@ -1,7 +1,9 @@
 public static class ServiceLocator
 {
+    // require a refactoring
     private static ResourceManager _resourceManager;
     private static Pathfinder _pathfinder;
+    private static EventBus _eventBus;
     
     public static void ProvideResourceManager(ResourceManager manager)
     {
@@ -11,6 +13,11 @@ public static class ServiceLocator
     public static void ProvidePathfinder(Pathfinder pathfinder)
     {
         _pathfinder = pathfinder;
+    }
+
+    public static void ProvideEventBus(EventBus eventBus)
+    {
+        _eventBus = eventBus;
     }
     
     public static ResourceManager GetResourceManager()
@@ -25,5 +32,12 @@ public static class ServiceLocator
         if (_pathfinder == null)
             throw new System.Exception("Pathfinder not provided!");
         return _pathfinder;
+    }
+
+    public static EventBus GetEventBus()
+    {
+        if (_eventBus == null)
+            throw new System.Exception("Eventbus not provided!");
+        return _eventBus;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class EventBus
 {
-    private Dictionary<string, List<object>> _allCallbacks;
+    private Dictionary<string, List<object>> _allCallbacks = new();
 
     public void Subscribe<T>(Action<T> callback) where T : ISignal
     {

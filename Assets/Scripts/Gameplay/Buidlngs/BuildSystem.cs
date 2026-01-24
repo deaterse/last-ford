@@ -23,19 +23,19 @@ public class BuildSystem : MonoBehaviour
 
     public void Init()
     {
-        GameEvents.OnTerrainMapGenerated += SetTerrainMap;
+        ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(SetTerrainMap);
         GameEvents.OnInputBuildingBuilded += PlacePrefab;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnTerrainMapGenerated -= SetTerrainMap;
+        ServiceLocator.GetEventBus().Unsubscribe<OnTerrainMapGenerated>(SetTerrainMap);
         GameEvents.OnInputBuildingBuilded -= PlacePrefab;
     }
 
-    private void SetTerrainMap(TerrainMap terrainMap)
+    private void SetTerrainMap(OnTerrainMapGenerated signal)
     {
-        _terrainMap = terrainMap;
+        _terrainMap = signal._terrainMap;
     }
 
     private void Update()

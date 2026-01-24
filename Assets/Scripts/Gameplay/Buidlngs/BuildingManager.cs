@@ -16,19 +16,21 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        GameEvents.OnTerrainMapGenerated += GenerateBuildingMap;
+        ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
 
         Instance = this;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnTerrainMapGenerated -= GenerateBuildingMap;
+        ServiceLocator.GetEventBus().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
     }
 
-    private void GenerateBuildingMap(TerrainMap _terrainMap)
+    private void GenerateBuildingMap(OnTerrainMapGenerated signal)
     {
-        _buildingMap = new BuildingMap(_terrainMap.Width, _terrainMap.Height);
+        TerrainMap terrainMap = signal._terrainMap;
+
+        _buildingMap = new BuildingMap(terrainMap.Width, terrainMap.Height);
     }
 
     public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
