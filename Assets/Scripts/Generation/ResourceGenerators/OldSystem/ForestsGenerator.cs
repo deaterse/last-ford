@@ -12,7 +12,7 @@ public class ForestsGenerator: ResourceGenerator
 
     protected override void OnGenerationCompleted()
     {
-        GameEvents.InvokeOnForestsGenerated(_resourcesCount);
+        ServiceLocator.GetEventBus().Invoke<OnForestsGenerated>(new OnForestsGenerated(_resourcesCount));
     }
 
     protected override void GenerateClustersCycle(int clustersCount, int clusterSize)

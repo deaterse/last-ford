@@ -34,12 +34,14 @@ public class BuildingSystemUI : MonoBehaviour
         SpawnTypesContainers();
         SpawnBuildingsButtons();
 
-        GameEvents.OnResourceChanged += CheckAllBuildings;
+        ServiceLocator.GetEventBus().Subscribe<OnResourceChanged>(CheckAllBuildings);
+
+        CheckAllBuildings();
     }
 
     private void OnDisable()
     {
-        GameEvents.OnResourceChanged -= CheckAllBuildings;
+        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
     }
 
     private void SpawnBuildingTypes()
@@ -135,7 +137,7 @@ public class BuildingSystemUI : MonoBehaviour
         }
     }
 
-    private void CheckAllBuildings(ResourceType resourceType, int count)
+    private void CheckAllBuildings(OnResourceChanged signal = null)
     {
         foreach(BuildingData buildingData in _buildingButtons.Keys)
         {
@@ -154,7 +156,7 @@ public class BuildingSystemUI : MonoBehaviour
 
     private void ClearAllListeners()
     {
-        GameEvents.OnResourceChanged -= CheckAllBuildings;
+        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
 
         foreach (Transform child in _typesContentBox)
             Destroy(child.gameObject);

@@ -24,13 +24,13 @@ public class BuildSystem : MonoBehaviour
     public void Init()
     {
         ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(SetTerrainMap);
-        GameEvents.OnInputBuildingBuilded += PlacePrefab;
+        ServiceLocator.GetEventBus().Subscribe<OnInputBuildingBuilded>(PlacePrefab);
     }
 
     private void OnDisable()
     {
         ServiceLocator.GetEventBus().Unsubscribe<OnTerrainMapGenerated>(SetTerrainMap);
-        GameEvents.OnInputBuildingBuilded -= PlacePrefab;
+        ServiceLocator.GetEventBus().Unsubscribe<OnInputBuildingBuilded>(PlacePrefab);
     }
 
     private void SetTerrainMap(OnTerrainMapGenerated signal)
@@ -143,7 +143,7 @@ public class BuildSystem : MonoBehaviour
         return true;
     }
 
-    private void PlacePrefab()
+    private void PlacePrefab(OnInputBuildingBuilded signal)
     {
         if(_currentPrefab != null && _canBuild)
         {
@@ -180,7 +180,7 @@ public class BuildSystem : MonoBehaviour
             
             BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
             
-            GameEvents.InvokeOnBuildingBuilt(_currentData, startPos);
+            ServiceLocator.GetEventBus().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
             
             StartBuilding(_currentData);
         }

@@ -20,24 +20,24 @@ public class CameraKeyboardMovement : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         
-        GameEvents.OnInputCameraMovement += CameraMove;
-        GameEvents.OnInputCameraZoom += CameraZoom;
+        ServiceLocator.GetEventBus().Subscribe<OnInputCameraMovement>(CameraMove);
+        ServiceLocator.GetEventBus().Subscribe<OnInputCameraZoom>(CameraZoom);
     }
 
     private void OnDisable()
     {
-        GameEvents.OnInputCameraMovement -= CameraMove;
-        GameEvents.OnInputCameraZoom -= CameraZoom;
+        ServiceLocator.GetEventBus().Unsubscribe<OnInputCameraMovement>(CameraMove);
+        ServiceLocator.GetEventBus().Unsubscribe<OnInputCameraZoom>(CameraZoom);
     }
 
-    private void CameraMove(Vector2 movementVector)
+    private void CameraMove(OnInputCameraMovement signal)
     {
-        transform.Translate(new Vector3(movementVector.x, movementVector.y, 0) * _moveSpeed * Time.deltaTime);
+        transform.Translate(new Vector3(signal._vectorMove.x, signal._vectorMove.y, 0) * _moveSpeed * Time.deltaTime);
     }
 
-    private void CameraZoom(float zoomStrength)
+    private void CameraZoom(OnInputCameraZoom signal)
     {
-        _camera.orthographicSize -= zoomStrength * _scrollSpeed;
+        _camera.orthographicSize -= signal._value * _scrollSpeed;
         SizeInBorders();
     }
 

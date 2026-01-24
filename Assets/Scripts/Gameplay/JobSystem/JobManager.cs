@@ -15,10 +15,10 @@ public class JobManager : MonoBehaviour
     {
         ClearAll();
 
-        GameEvents.OnJobFinished += JobFinished;
-        GameEvents.OnJobCreated += NewFreeJob;
+        ServiceLocator.GetEventBus().Subscribe<OnJobFinished>(JobFinished);
+        ServiceLocator.GetEventBus().Subscribe<OnJobCreated>(NewFreeJobBySignal);
 
-        GameEvents.OnWorkerSpawned += NewFreeWorker;
+        ServiceLocator.GetEventBus().Subscribe<OnWorkerSpawned>(NewFreeWorker);
 
         StartCoroutine(FindJobToWorkers());
     }
@@ -27,10 +27,10 @@ public class JobManager : MonoBehaviour
     {
         ClearAll();
 
-        GameEvents.OnJobFinished -= JobFinished;
-        GameEvents.OnJobCreated -= NewFreeJob;
+        ServiceLocator.GetEventBus().Unsubscribe<OnJobFinished>(JobFinished);
+        ServiceLocator.GetEventBus().Unsubscribe<OnJobCreated>(NewFreeJobBySignal);
 
-        GameEvents.OnWorkerSpawned -= NewFreeWorker;
+        ServiceLocator.GetEventBus().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
     private void ClearAll()
@@ -59,6 +59,11 @@ public class JobManager : MonoBehaviour
         }
     }
 
+    public void NewFreeJobBySignal(OnJobCreated signal)
+    {
+        NewFreeJob(signal._job);
+    }
+
     public void NewFreeJob(Job job)
     {
         if(!job.IsAssigned && !_freeJobs.Contains(job))
@@ -67,8 +72,9 @@ public class JobManager : MonoBehaviour
         }
     }
 
-    public void NewFreeWorker(Worker worker)
+    public void NewFreeWorker(OnWorkerSpawned signal)
     {
+        Worker worker = signal._worker;
         if(!_assignedJobs.ContainsKey(worker) && !_freeWorkers.Contains(worker))
         {
             _freeWorkers.Add(worker);
@@ -98,9 +104,10 @@ public class JobManager : MonoBehaviour
         _assignedJobsRevert[job] = worker;
     }
 
-    private void JobFinished(Job job)
+    private void JobFinished(OnJobFinished signal)
     {
         // also add logic of getting resources after job (using jobtype)
+        Job job = signal._job;
 
         if(_assignedJobsRevert.ContainsKey(job))
         {
@@ -117,8 +124,10 @@ public class JobManager : MonoBehaviour
         }
     }
 
-    private void JobFailed(Job job)
+    private void JobFailed(OnJobFailed signal)
     {
+        Job job = signal._job;
+
         if(_assignedJobsRevert.ContainsKey(job))
         {
             Worker currentWorker = _assignedJobsRevert[job];

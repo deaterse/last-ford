@@ -8,23 +8,23 @@ public class DebugUI : MonoBehaviour
     
     public void Init()
     {
-        GameEvents.OnForestsGenerated += UpdateForestUI;
-        GameEvents.OnStonesGenerated += UpdateStoneUI;
+        ServiceLocator.GetEventBus().Subscribe<OnForestsGenerated>(UpdateForestUI);
+        ServiceLocator.GetEventBus().Subscribe<OnStonesGenerated>(UpdateStoneUI);
     }
 
     private void OnDisable()
     {
-        GameEvents.OnForestsGenerated -= UpdateForestUI;
-        GameEvents.OnStonesGenerated -= UpdateStoneUI;
+        ServiceLocator.GetEventBus().Unsubscribe<OnForestsGenerated>(UpdateForestUI);
+        ServiceLocator.GetEventBus().Unsubscribe<OnStonesGenerated>(UpdateStoneUI);
     }
 
-    private void UpdateForestUI(int count)
+    private void UpdateForestUI(OnForestsGenerated signal)
     {
-        _forestCountText.text = $"{count}";
+        _forestCountText.text = $"{signal._value}";
     }
 
-    private void UpdateStoneUI(int count)
+    private void UpdateStoneUI(OnStonesGenerated signal)
     {
-        _stoneCountText.text = $"{count}";
+        _stoneCountText.text = $"{signal._value}";
     }
 }

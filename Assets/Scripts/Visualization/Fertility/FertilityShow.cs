@@ -13,15 +13,15 @@ public class FertilityShow : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnShowFertilityMap += ShowFertilityMap;
+        ServiceLocator.GetEventBus().Subscribe<OnShowFertilityMap>(ShowFertilityMap);
     }
 
     private void OnDisable()
     {
-        GameEvents.OnShowFertilityMap -= ShowFertilityMap;
+       ServiceLocator.GetEventBus().Unsubscribe<OnShowFertilityMap>(ShowFertilityMap);
     }
 
-    private void ShowFertilityMap()
+    private void ShowFertilityMap(OnShowFertilityMap signal)
     {
         _fertilityOverlay.SetActive(!_isEnabled);
 

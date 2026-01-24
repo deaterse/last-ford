@@ -26,7 +26,7 @@ public class ResourceManager
 
             AddResource(rt, config.ResourcesStartValues[resourceIndex]);
 
-            GameEvents.InvokeOnResourceChanged(rt, _resources[rt]);
+            ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(rt, _resources[rt]));
         }
     }
 
@@ -41,7 +41,7 @@ public class ResourceManager
             _resources[type] = value;
         }
 
-        GameEvents.InvokeOnResourceChanged(type, _resources[type]);
+        ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
     }
 
     public bool TrySpendResource(ResourceType type, int value)
@@ -54,7 +54,7 @@ public class ResourceManager
         }
 
         _resources[type] -= value;
-        GameEvents.InvokeOnResourceChanged(type, _resources[type]);
+        ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
 
         return true;
     }

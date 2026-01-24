@@ -48,7 +48,7 @@ public class Worker : MonoBehaviour
     {
         if(_currentJob != null)
         {
-            GameEvents.InvokeOnJobFailed(_currentJob);
+            ServiceLocator.GetEventBus().Invoke<OnJobFailed>(new OnJobFailed(_currentJob));
         }
 
         _currentJob = job;

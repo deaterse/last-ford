@@ -46,12 +46,12 @@ public class InputListener : MonoBehaviour
 
     private void ShowFertilityMap(InputAction.CallbackContext obj)
     {
-        GameEvents.InvokeOnShowFertilityMap();
+        ServiceLocator.GetEventBus().Invoke<OnShowFertilityMap>(new OnShowFertilityMap());
     }
 
     private void PlaceBuilding(InputAction.CallbackContext obj)
     {
-        GameEvents.InvokeOnInputBuildingBuilded();
+        ServiceLocator.GetEventBus().Invoke<OnInputBuildingBuilded>(new OnInputBuildingBuilded());
     }
 
     private void CameraMovement()
@@ -60,7 +60,7 @@ public class InputListener : MonoBehaviour
 
         if(movementDirection.x != 0 || movementDirection.y != 0)
         {
-            GameEvents.InvokeOnInputCameraMovement(movementDirection);
+            ServiceLocator.GetEventBus().Invoke<OnInputCameraMovement>(new OnInputCameraMovement(movementDirection));
         }
     }
 
@@ -70,7 +70,7 @@ public class InputListener : MonoBehaviour
 
         if(zoomStrength != 0)
         {
-            GameEvents.InvokeOnInputCameraZoom(zoomStrength);
+            ServiceLocator.GetEventBus().Invoke<OnInputCameraZoom>(new OnInputCameraZoom(zoomStrength));
         }
     }
 }

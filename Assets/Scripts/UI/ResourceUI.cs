@@ -9,16 +9,19 @@ public class ResourceUI : MonoBehaviour
 
     public void Init()
     {
-        GameEvents.OnResourceChanged += UpdateUI;
+        ServiceLocator.GetEventBus().Subscribe<OnResourceChanged>(UpdateUI);
     }
 
     private void OnDisable()
     {
-        GameEvents.OnResourceChanged -= UpdateUI;
+        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(UpdateUI);
     }
 
-    private void UpdateUI(ResourceType type, int amount)
+    private void UpdateUI(OnResourceChanged signal)
     {
+        ResourceType type = signal._resourceType;
+        int amount = signal._value;
+
         if (!_resourcesTypes.Contains(type)) return;
 
         int index = _resourcesTypes.IndexOf(type);

@@ -12,7 +12,6 @@ public class GameInitializer : MonoBehaviour
 
 
     [Header("Managers")]
-    [SerializeField] private SceneCleaner _sceneCleaner;
     [SerializeField] private InputListener _inputListener;
     [SerializeField] private BuildSystem _buildSystem;
     [SerializeField] private BuildingManager _buildingManager;
@@ -24,8 +23,7 @@ public class GameInitializer : MonoBehaviour
         InitEventBus();
 
         ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
-
-        _sceneCleaner.Init();
+        
         _inputListener.Init();
 
         #if UNITY_EDITOR || DEVELOPMENT_BUILD
