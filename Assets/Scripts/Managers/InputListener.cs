@@ -46,12 +46,12 @@ public class InputListener : MonoBehaviour
 
     private void ShowFertilityMap(InputAction.CallbackContext obj)
     {
-        ServiceLocator.GetEventBus().Invoke<OnShowFertilityMap>(new OnShowFertilityMap());
+        ServiceLocator.GetService<EventBus>().Invoke<OnShowFertilityMap>(new OnShowFertilityMap());
     }
 
     private void PlaceBuilding(InputAction.CallbackContext obj)
     {
-        ServiceLocator.GetEventBus().Invoke<OnInputBuildingBuilded>(new OnInputBuildingBuilded());
+        ServiceLocator.GetService<EventBus>().Invoke<OnInputBuildingBuilded>(new OnInputBuildingBuilded());
     }
 
     private void CameraMovement()
@@ -60,7 +60,7 @@ public class InputListener : MonoBehaviour
 
         if(movementDirection.x != 0 || movementDirection.y != 0)
         {
-            ServiceLocator.GetEventBus().Invoke<OnInputCameraMovement>(new OnInputCameraMovement(movementDirection));
+            ServiceLocator.GetService<EventBus>().Invoke<OnInputCameraMovement>(new OnInputCameraMovement(movementDirection));
         }
     }
 
@@ -70,7 +70,7 @@ public class InputListener : MonoBehaviour
 
         if(zoomStrength != 0)
         {
-            ServiceLocator.GetEventBus().Invoke<OnInputCameraZoom>(new OnInputCameraZoom(zoomStrength));
+            ServiceLocator.GetService<EventBus>().Invoke<OnInputCameraZoom>(new OnInputCameraZoom(zoomStrength));
         }
     }
 }

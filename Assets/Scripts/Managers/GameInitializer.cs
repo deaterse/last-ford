@@ -16,13 +16,13 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BuildSystem _buildSystem;
     [SerializeField] private BuildingManager _buildingManager;
     [SerializeField] private JobManager _jobManager;
-    [SerializeField] private WorldGeneratorNew _worldGenerator;
+    [SerializeField] private WorldGenerator _worldGenerator;
 
     private void Awake()
     {
         InitEventBus();
-
-        ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
+    
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
         
         _inputListener.Init();
 
@@ -45,18 +45,19 @@ public class GameInitializer : MonoBehaviour
     private void InitResourceManager()
     {
         ResourceManager _resourceManager = new ResourceManager(_startResourcesConfig);
-        ServiceLocator.ProvideResourceManager(_resourceManager);
+        ServiceLocator.ProvideService<ResourceManager>(_resourceManager);
     }
 
     private void InitPathfinder(OnTerrainMapGenerated signal)
     {
         Pathfinder _pathFinder = new Pathfinder(signal._terrainMap);
-        ServiceLocator.ProvidePathfinder(_pathFinder);
+        ServiceLocator.ProvideService<Pathfinder>(_pathFinder);
     }
 
     private void InitEventBus()
     {
         EventBus _eventBus = new EventBus();
-        ServiceLocator.ProvideEventBus(_eventBus);
+        ServiceLocator.ProvideService<EventBus>(_eventBus);
     }
+
 }

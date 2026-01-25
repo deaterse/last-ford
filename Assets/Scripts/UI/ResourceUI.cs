@@ -9,12 +9,12 @@ public class ResourceUI : MonoBehaviour
 
     public void Init()
     {
-        ServiceLocator.GetEventBus().Subscribe<OnResourceChanged>(UpdateUI);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnResourceChanged>(UpdateUI);
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(UpdateUI);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnResourceChanged>(UpdateUI);
     }
 
     private void UpdateUI(OnResourceChanged signal)

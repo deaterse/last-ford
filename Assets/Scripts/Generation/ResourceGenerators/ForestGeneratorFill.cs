@@ -60,7 +60,7 @@ public class ForestsGeneratorFill: ResourceGenerator
 
     protected override void OnGenerationCompleted()
     {
-        ServiceLocator.GetEventBus().Invoke<OnForestsGenerated>(new OnForestsGenerated(_resourcesCount));
+        ServiceLocator.GetService<EventBus>().Invoke<OnForestsGenerated>(new OnForestsGenerated(_resourcesCount));
     }
 
     private bool IsSuitableForForest(int x, int y)

@@ -13,12 +13,12 @@ public class FertilityShow : MonoBehaviour
 
     private void OnEnable()
     {
-        ServiceLocator.GetEventBus().Subscribe<OnShowFertilityMap>(ShowFertilityMap);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnShowFertilityMap>(ShowFertilityMap);
     }
 
     private void OnDisable()
     {
-       ServiceLocator.GetEventBus().Unsubscribe<OnShowFertilityMap>(ShowFertilityMap);
+       ServiceLocator.GetService<EventBus>().Unsubscribe<OnShowFertilityMap>(ShowFertilityMap);
     }
 
     private void ShowFertilityMap(OnShowFertilityMap signal)

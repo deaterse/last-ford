@@ -2,9 +2,10 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class EventBus
+public class EventBus: IService
 {
     private Dictionary<string, List<object>> _allCallbacks = new();
+    public string gogogo = "ssss";
 
     public void Subscribe<T>(Action<T> callback) where T : ISignal
     {

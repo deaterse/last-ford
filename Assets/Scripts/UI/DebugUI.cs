@@ -8,14 +8,14 @@ public class DebugUI : MonoBehaviour
     
     public void Init()
     {
-        ServiceLocator.GetEventBus().Subscribe<OnForestsGenerated>(UpdateForestUI);
-        ServiceLocator.GetEventBus().Subscribe<OnStonesGenerated>(UpdateStoneUI);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnForestsGenerated>(UpdateForestUI);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnStonesGenerated>(UpdateStoneUI);
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnForestsGenerated>(UpdateForestUI);
-        ServiceLocator.GetEventBus().Unsubscribe<OnStonesGenerated>(UpdateStoneUI);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnForestsGenerated>(UpdateForestUI);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnStonesGenerated>(UpdateStoneUI);
     }
 
     private void UpdateForestUI(OnForestsGenerated signal)

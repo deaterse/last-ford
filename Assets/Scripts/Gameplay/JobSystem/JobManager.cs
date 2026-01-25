@@ -15,10 +15,10 @@ public class JobManager : MonoBehaviour
     {
         ClearAll();
 
-        ServiceLocator.GetEventBus().Subscribe<OnJobFinished>(JobFinished);
-        ServiceLocator.GetEventBus().Subscribe<OnJobCreated>(NewFreeJobBySignal);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(JobFinished);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnJobCreated>(NewFreeJobBySignal);
 
-        ServiceLocator.GetEventBus().Subscribe<OnWorkerSpawned>(NewFreeWorker);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnWorkerSpawned>(NewFreeWorker);
 
         StartCoroutine(FindJobToWorkers());
     }
@@ -27,10 +27,10 @@ public class JobManager : MonoBehaviour
     {
         ClearAll();
 
-        ServiceLocator.GetEventBus().Unsubscribe<OnJobFinished>(JobFinished);
-        ServiceLocator.GetEventBus().Unsubscribe<OnJobCreated>(NewFreeJobBySignal);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobFinished>(JobFinished);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobCreated>(NewFreeJobBySignal);
 
-        ServiceLocator.GetEventBus().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
     private void ClearAll()

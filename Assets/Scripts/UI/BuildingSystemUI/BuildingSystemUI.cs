@@ -34,14 +34,14 @@ public class BuildingSystemUI : MonoBehaviour
         SpawnTypesContainers();
         SpawnBuildingsButtons();
 
-        ServiceLocator.GetEventBus().Subscribe<OnResourceChanged>(CheckAllBuildings);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnResourceChanged>(CheckAllBuildings);
 
         CheckAllBuildings();
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
     }
 
     private void SpawnBuildingTypes()
@@ -156,7 +156,7 @@ public class BuildingSystemUI : MonoBehaviour
 
     private void ClearAllListeners()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnResourceChanged>(CheckAllBuildings);
 
         foreach (Transform child in _typesContentBox)
             Destroy(child.gameObject);

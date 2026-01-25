@@ -1,43 +1,32 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 public static class ServiceLocator
 {
-    // require a refactoring
-    private static ResourceManager _resourceManager;
-    private static Pathfinder _pathfinder;
-    private static EventBus _eventBus;
-    
-    public static void ProvideResourceManager(ResourceManager manager)
-    {
-        _resourceManager = manager;
-    }
+    private static Dictionary<string, object> _allServices = new();
 
-    public static void ProvidePathfinder(Pathfinder pathfinder)
+    public static void ProvideService<T>(T service) where T : IService
     {
-        _pathfinder = pathfinder;
-    }
+        string serviceName = typeof(T).Name;
 
-    public static void ProvideEventBus(EventBus eventBus)
-    {
-        _eventBus = eventBus;
+        if (_allServices.ContainsKey(serviceName))
+        {
+            Debug.Log($"Overwriting {serviceName}.");
+        }
+
+        _allServices[serviceName] = service;
     }
     
-    public static ResourceManager GetResourceManager()
+    public static T GetService<T>() where T : IService
     {
-        if (_resourceManager == null)
-            throw new System.Exception("ResourceManager not provided!");
-        return _resourceManager;
-    }
+        string serviceName = typeof(T).Name;
 
-    public static Pathfinder GetPathfinder()
-    {
-        if (_pathfinder == null)
-            throw new System.Exception("Pathfinder not provided!");
-        return _pathfinder;
-    }
+        if(_allServices.ContainsKey(serviceName))
+        {
+            return (T) _allServices[serviceName];
+        }
 
-    public static EventBus GetEventBus()
-    {
-        if (_eventBus == null)
-            throw new System.Exception("Eventbus not provided!");
-        return _eventBus;
+        Debug.LogWarning($"{serviceName} not founded!");
+        return default;
     }
 }

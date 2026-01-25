@@ -23,14 +23,14 @@ public class BuildSystem : MonoBehaviour
 
     public void Init()
     {
-        ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(SetTerrainMap);
-        ServiceLocator.GetEventBus().Subscribe<OnInputBuildingBuilded>(PlacePrefab);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(SetTerrainMap);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnInputBuildingBuilded>(PlacePrefab);
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnTerrainMapGenerated>(SetTerrainMap);
-        ServiceLocator.GetEventBus().Unsubscribe<OnInputBuildingBuilded>(PlacePrefab);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(SetTerrainMap);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnInputBuildingBuilded>(PlacePrefab);
     }
 
     private void SetTerrainMap(OnTerrainMapGenerated signal)
@@ -118,7 +118,7 @@ public class BuildSystem : MonoBehaviour
             ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
             int currentPrice = _currentData.NeededResourcesIntsList[i];
 
-            if(!ServiceLocator.GetResourceManager().IsResourceEnough(currentResourceType, currentPrice))
+            if(!ServiceLocator.GetService<ResourceManager>().IsResourceEnough(currentResourceType, currentPrice))
             {
                 return false;
             }
@@ -134,7 +134,7 @@ public class BuildSystem : MonoBehaviour
             ResourceType currentResourceType = buildingData.NeededResourcesTypesList[i];
             int currentPrice = buildingData.NeededResourcesIntsList[i];
 
-            if(!ServiceLocator.GetResourceManager().IsResourceEnough(currentResourceType, currentPrice))
+            if(!ServiceLocator.GetService<ResourceManager>().IsResourceEnough(currentResourceType, currentPrice))
             {
                 return false;
             }
@@ -158,7 +158,7 @@ public class BuildSystem : MonoBehaviour
                 ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
                 int currentPrice = _currentData.NeededResourcesIntsList[i];
 
-                ServiceLocator.GetResourceManager().TrySpendResource(currentResourceType, currentPrice);
+                ServiceLocator.GetService<ResourceManager>().TrySpendResource(currentResourceType, currentPrice);
             }
 
             Vector3Int cellMousePos = MousePosOnTile();
@@ -180,7 +180,7 @@ public class BuildSystem : MonoBehaviour
             
             BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
             
-            ServiceLocator.GetEventBus().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
+            ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
             
             StartBuilding(_currentData);
         }

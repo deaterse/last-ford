@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ResourceManager
+public class ResourceManager: IService
 {
     private Dictionary<ResourceType, int> _resources;
 
@@ -26,7 +26,7 @@ public class ResourceManager
 
             AddResource(rt, config.ResourcesStartValues[resourceIndex]);
 
-            ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(rt, _resources[rt]));
+            ServiceLocator.GetService<EventBus>().Invoke<OnResourceChanged>(new OnResourceChanged(rt, _resources[rt]));
         }
     }
 
@@ -41,7 +41,7 @@ public class ResourceManager
             _resources[type] = value;
         }
 
-        ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
     }
 
     public bool TrySpendResource(ResourceType type, int value)
@@ -54,7 +54,7 @@ public class ResourceManager
         }
 
         _resources[type] -= value;
-        ServiceLocator.GetEventBus().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
 
         return true;
     }

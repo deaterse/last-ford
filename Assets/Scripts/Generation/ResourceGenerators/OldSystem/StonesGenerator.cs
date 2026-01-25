@@ -7,6 +7,6 @@ public class StonesGenerator: ResourceGenerator
 
     protected override void OnGenerationCompleted()
     {
-        ServiceLocator.GetEventBus().Invoke<OnStonesGenerated>(new OnStonesGenerated(_resourcesCount));
+        ServiceLocator.GetService<EventBus>().Invoke<OnStonesGenerated>(new OnStonesGenerated(_resourcesCount));
     }
 }

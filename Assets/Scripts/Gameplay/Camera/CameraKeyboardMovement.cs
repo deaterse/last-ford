@@ -20,14 +20,14 @@ public class CameraKeyboardMovement : MonoBehaviour
     {
         _camera = GetComponent<Camera>();
         
-        ServiceLocator.GetEventBus().Subscribe<OnInputCameraMovement>(CameraMove);
-        ServiceLocator.GetEventBus().Subscribe<OnInputCameraZoom>(CameraZoom);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnInputCameraMovement>(CameraMove);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnInputCameraZoom>(CameraZoom);
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnInputCameraMovement>(CameraMove);
-        ServiceLocator.GetEventBus().Unsubscribe<OnInputCameraZoom>(CameraZoom);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnInputCameraMovement>(CameraMove);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnInputCameraZoom>(CameraZoom);
     }
 
     private void CameraMove(OnInputCameraMovement signal)

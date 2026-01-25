@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class Pathfinder
+public class Pathfinder: IService
 {
   private TerrainMap _terrainMap;
 

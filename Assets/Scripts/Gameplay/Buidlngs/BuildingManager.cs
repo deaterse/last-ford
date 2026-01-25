@@ -16,14 +16,14 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        ServiceLocator.GetEventBus().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
 
         Instance = this;
     }
 
     private void OnDisable()
     {
-        ServiceLocator.GetEventBus().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
     }
 
     private void GenerateBuildingMap(OnTerrainMapGenerated signal)
