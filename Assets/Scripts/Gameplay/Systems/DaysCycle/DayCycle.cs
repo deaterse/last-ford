@@ -4,27 +4,18 @@ using System.Collections;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class DayCycle : MonoBehaviour
+public class DayCycle : MonoBehaviour, IService
 {
-    public static DayCycle Instance { get; private set; }
+    [Header("Config")]
+    [SerializeField] private DayNightConfig _config;
 
-    private bool _dayNow = true;
-
-    private int _currentDay = 1;
-
-    [SerializeField] private int _dayLength;
-    [SerializeField] private int _nightLength;
-
+    [Header("Light")]
     [SerializeField] private Light2D _globalLight;
 
-    [SerializeField] private TMP_Text _dayText;
+    private bool _dayNow = true;
+    private int _currentDay = 1;
 
-    private void Awake()
-    {
-        Instance = this;    
-    }
-
-    private void Start()
+    public void Init()
     {
         StartCoroutine(StartCycle());
     }
@@ -33,12 +24,12 @@ public class DayCycle : MonoBehaviour
     {
         if(_dayNow)
         {
-            yield return new WaitForSeconds(_dayLength);
+            yield return new WaitForSeconds(_config.DayLength);
             ChangeToNight();
         }
         else
         {
-            yield return new WaitForSeconds(_nightLength);
+            yield return new WaitForSeconds(_config.NightLength);
             ChangeToDay();
         }
     }
@@ -72,8 +63,6 @@ public class DayCycle : MonoBehaviour
     {
         _dayNow = true;
         _currentDay++;
-        
-        UpdateUI();
 
         while(_globalLight.intensity < 1f)
         {
@@ -83,11 +72,6 @@ public class DayCycle : MonoBehaviour
         }
 
         StartCoroutine(StartCycle());
-    }
-
-    private void UpdateUI()
-    {
-        _dayText.text = $"DAY {_currentDay}";
     }
 
     public bool IsDay()

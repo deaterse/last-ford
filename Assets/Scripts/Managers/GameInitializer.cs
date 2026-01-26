@@ -17,6 +17,10 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private BuildingManager _buildingManager;
     [SerializeField] private JobManager _jobManager;
     [SerializeField] private WorldGenerator _worldGenerator;
+    [SerializeField] private WorldGeneratorOld _worldGeneratorOld;
+    [SerializeField] private DayCycle _dayCycle;
+
+    [SerializeField] private bool oldGeneration;
 
     private void Awake()
     {
@@ -38,8 +42,17 @@ public class GameInitializer : MonoBehaviour
         _jobManager.Init();
 
         _buildingUI.Init(_buildSystem);
+        if(oldGeneration)
+        {
+            _worldGeneratorOld.GenerateWorld();
+        }
+        else
+        {
+            _worldGenerator.GenerateWorld();
+        }
 
-        _worldGenerator.GenerateWorld();
+        ServiceLocator.ProvideService<DayCycle>(_dayCycle);
+        _dayCycle.Init();
     }
 
     private void InitResourceManager()

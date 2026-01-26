@@ -9,6 +9,7 @@ public class BuildingSystemUI : MonoBehaviour
     [Header("Transform (To Use Instantiate)")]
     [SerializeField] private Transform _typesContentBox;
     [SerializeField] private Transform _buildingsContentBox;
+    [SerializeField] private GameObject _buildingsGridBox;
 
     [Header("Config")]
     [SerializeField] private AllBuildingsConfig _allBuildingsConfig;
@@ -23,6 +24,7 @@ public class BuildingSystemUI : MonoBehaviour
     private Dictionary<BuildingData, GameObject> _buildingButtons = new();
 
     private BuildSystem _buildSystem;
+    private GameObject _openedGrid;
 
     public void Init(BuildSystem buildSystem)
     {
@@ -133,7 +135,20 @@ public class BuildingSystemUI : MonoBehaviour
 
         if(_typesContainers.ContainsValue(container))
         {
-            container.SetActive(true);
+            if(_openedGrid == container)
+            {
+                _buildingsGridBox.SetActive(false);
+                container.SetActive(false);
+
+                _openedGrid = null;
+            }
+            else
+            {
+                _buildingsGridBox.SetActive(true);
+                container.SetActive(true);
+
+                _openedGrid = container;
+            }
         }
     }
 
