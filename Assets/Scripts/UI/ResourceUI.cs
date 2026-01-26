@@ -1,15 +1,20 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 using TMPro;
 
 public class ResourceUI : MonoBehaviour
 {
-    [SerializeField] private List<TMP_Text> _resourcesTexts;
-    [SerializeField] private List<ResourceType> _resourcesTypes;
+    [SerializeField] private AllResourcesVisualizationConfig _resourcesVisConfig;
+    [SerializeField] private Transform _resourcePanelParent;
+    [SerializeField] private GameObject _resourcePanelPrefab;
+    [SerializeField] private Dictionary<string, ResourcePanelUI> _allResourcesPanels = new();
 
     public void Init()
     {
         ServiceLocator.GetService<EventBus>().Subscribe<OnResourceChanged>(UpdateUI);
+
+        SpawnResourcePanels();
     }
 
     private void OnDisable()
@@ -17,18 +22,47 @@ public class ResourceUI : MonoBehaviour
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnResourceChanged>(UpdateUI);
     }
 
+    private void SpawnResourcePanels()
+    {
+        string[] allTypesStr = Enum.GetNames(typeof(ResourceType));
+
+        foreach(string rtStr in allTypesStr)
+        {
+            GameObject resourcePanelObj = Instantiate(_resourcePanelPrefab, _resourcePanelParent);
+            if(resourcePanelObj.TryGetComponent<ResourcePanelUI>(out ResourcePanelUI resourcePanelUI))
+            {
+                ResourceVisualizationConfig currentRvs = null;
+                foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
+                {
+                    if(rvs.resourceType.ToString() == rtStr)
+                    {
+                        currentRvs = rvs;
+                    }
+                }
+                resourcePanelUI.ResourceCountText.text = $"{0}";
+                if(currentRvs != null)
+                {
+                    resourcePanelUI.ResourceNameText.text = $"{currentRvs.DisplayedName}";
+                    resourcePanelUI.ResourceImage.sprite = currentRvs.ResourceSprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"ResourceVisualizationConfig for {rtStr} not founded.");
+                }
+
+                _allResourcesPanels[rtStr] = resourcePanelUI;
+            }
+        }
+    }
+
     private void UpdateUI(OnResourceChanged signal)
     {
-        ResourceType type = signal._resourceType;
+        string resourceTypeStr = signal._resourceType.ToString();
         int amount = signal._value;
 
-        if (!_resourcesTypes.Contains(type)) return;
+        if (!_allResourcesPanels.ContainsKey(resourceTypeStr)) return;
 
-        int index = _resourcesTypes.IndexOf(type);
-        if(_resourcesTexts.Count >= index)
-        {
-            TMP_Text currentText = _resourcesTexts[index];
-            currentText.text = $"{type.ToString()}: {amount}";
-        }
+        ResourcePanelUI resourcePanelUI = _allResourcesPanels[resourceTypeStr];
+        resourcePanelUI.ResourceCountText.text = $"{signal._value}";
     }
 }
