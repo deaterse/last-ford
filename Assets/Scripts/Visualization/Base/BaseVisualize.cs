@@ -9,6 +9,6 @@ public class BaseVisualize : MonoBehaviour
         GameObject buildingObj = Instantiate(_castleData.GetLevel(1).ObjPrefab);
         buildingObj.transform.position = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
             
-        BuildingManager.Instance.AddBuilding(_castleData, pos, buildingObj);
+        ServiceLocator.GetService<BuildingManager>().AddBuilding(_castleData, pos, buildingObj);
     }
 }

@@ -91,7 +91,7 @@ public class BuildSystem : MonoBehaviour
         Vector3Int mousePos = MousePosOnTile();
         Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
 
-        if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize))
+        if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize))
         {
             return true;
         }
@@ -174,12 +174,14 @@ public class BuildSystem : MonoBehaviour
                 startPos = (Vector2Int) cellMousePos;
             }
 
-            if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
+            if (!ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
             GameObject buildingObj = Instantiate(_currentData.GetLevel(1).ObjPrefab);
             buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
+
+            buildingObj.GetComponent<Building>().Init(_currentData);
             
-            BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);
+            ServiceLocator.GetService<BuildingManager>().AddBuilding(_currentData, startPos, buildingObj);
             
             ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
             

@@ -1,30 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class BuildingManager : MonoBehaviour
+public class BuildingManager : MonoBehaviour, IService
 {
-    //remove singleton
-    public static BuildingManager Instance { get; private set; }
-
     private BuildingMap _buildingMap;
     private Dictionary<BuildingData, List<GameObject>> _buildingInstances = new();
 
     public void Init()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        ServiceLocator.ProvideService<BuildingManager>(this);
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
-
-        Instance = this;
+        ServiceLocator.GetService<EventBus>().Subscribe<TryUpdateBuilding>(TryToUpgrade);
     }
 
     private void OnDisable()
     {
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<TryUpdateBuilding>(TryToUpgrade);
     }
 
     private void GenerateBuildingMap(OnTerrainMapGenerated signal)
@@ -49,7 +42,37 @@ public class BuildingManager : MonoBehaviour
         _buildingInstances[data].Add(buildingObj);
     }
 
+    private void TryToUpgrade(TryUpdateBuilding signal)
+    {
+        BuildingData buildingData = signal._building.buildingData;
+        
+        if(signal._building.Level < buildingData.MaxLevel)
+        {
+            List<BuildingCost> upgradeCost = buildingData.UpgradeCost;
+            
+            foreach(BuildingCost bc in upgradeCost)
+            {
+                bool enoughRes = ServiceLocator.GetService<ResourceManager>().IsResourceEnough(bc.Type, bc.Amount);
+                
+                if(!enoughRes)
+                {
+                    Debug.Log("U dont have enough resouce to upgrade building.");
+                    return;
+                }
+            }
 
+            foreach(BuildingCost bc in upgradeCost)
+            {
+                ServiceLocator.GetService<ResourceManager>().TrySpendResource(bc.Type, bc.Amount);
+            }
+
+            signal._building.Upgrade();
+        }
+        else
+        {
+            Debug.Log("This building already has reached max level.");
+        }
+    }
 
     
     // public Building GetNearestBuilding(Vector3Int start)

@@ -9,6 +9,7 @@ public class BuildingLevelData : ScriptableObject
     [SerializeField] private int _level;
 
     [Header("Visual")]
+    [SerializeField] private Sprite _upgradeSprite;
     [SerializeField] private TileBase _tilePrefab;
     [SerializeField] private GameObject _objPrefab;
 
@@ -19,6 +20,7 @@ public class BuildingLevelData : ScriptableObject
     public BuildingData buildingData => _buildingData;
     public int Level => _level; 
 
+    public Sprite UpgradeSprite => _upgradeSprite;
     public TileBase TilePrefab => _tilePrefab;
     public GameObject ObjPrefab => _objPrefab;
 

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0953877844c363f44afc3d88a89624a5, type: 3}
   m_Name: StartResourcesConfig
   m_EditorClassIdentifier: 
-  _resourcesStartTypes: 0000000001000000
-  _resourcesStartValues: 0a0000000f000000
+  _resourcesStartTypes: 00000000010000000200000003000000
+  _resourcesStartValues: 64000000640000006400000064000000
