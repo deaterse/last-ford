@@ -105,7 +105,7 @@ public class BuildSystem : MonoBehaviour
     {
         ClearCurrent();
 
-        GameObject _buildingPrefab = _buildingData.ObjPrefab;
+        GameObject _buildingPrefab = _buildingData.GetLevel(1).ObjPrefab;
 
         _currentPrefab = Instantiate(_buildingPrefab, MousePosOnTile(), Quaternion.identity);
         _currentData = _buildingData;
@@ -113,10 +113,10 @@ public class BuildSystem : MonoBehaviour
 
     private bool IsResourcesEnough()
     {
-        for(int i = 0; i < _currentData.NeededResourcesTypesList.Count; i++)
+        foreach(var bc in _currentData.BuildCost)
         {
-            ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
-            int currentPrice = _currentData.NeededResourcesIntsList[i];
+            ResourceType currentResourceType = bc.Type;
+            int currentPrice = bc.Amount;
 
             if(!ServiceLocator.GetService<ResourceManager>().IsResourceEnough(currentResourceType, currentPrice))
             {
@@ -129,10 +129,10 @@ public class BuildSystem : MonoBehaviour
 
     public bool IsResourcesEnoughPublic(BuildingData buildingData)
     {
-        for(int i = 0; i < buildingData.NeededResourcesTypesList.Count; i++)
+        foreach(var bc in buildingData.BuildCost)
         {
-            ResourceType currentResourceType = buildingData.NeededResourcesTypesList[i];
-            int currentPrice = buildingData.NeededResourcesIntsList[i];
+            ResourceType currentResourceType = bc.Type;
+            int currentPrice = bc.Amount;
 
             if(!ServiceLocator.GetService<ResourceManager>().IsResourceEnough(currentResourceType, currentPrice))
             {
@@ -153,10 +153,11 @@ public class BuildSystem : MonoBehaviour
                 Debug.Log("Player dont have enough resources.");
                 return;
             }
-            for(int i = 0; i < _currentData.NeededResourcesTypesList.Count; i++)
+
+            foreach(var bc in _currentData.BuildCost)
             {
-                ResourceType currentResourceType = _currentData.NeededResourcesTypesList[i];
-                int currentPrice = _currentData.NeededResourcesIntsList[i];
+                ResourceType currentResourceType = bc.Type;
+                int currentPrice = bc.Amount;
 
                 ServiceLocator.GetService<ResourceManager>().TrySpendResource(currentResourceType, currentPrice);
             }
@@ -175,7 +176,7 @@ public class BuildSystem : MonoBehaviour
 
             if (!BuildingManager.Instance.CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
-            GameObject buildingObj = Instantiate(_currentData.ObjPrefab);
+            GameObject buildingObj = Instantiate(_currentData.GetLevel(1).ObjPrefab);
             buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
             
             BuildingManager.Instance.AddBuilding(_currentData, startPos, buildingObj);

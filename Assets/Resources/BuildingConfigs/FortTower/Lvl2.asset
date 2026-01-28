@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
-  m_Name: FortTowerMetal
+  m_Script: {fileID: 11500000, guid: 431d7494dca5d024c8777c4577f222b4, type: 3}
+  m_Name: Lvl2
   m_EditorClassIdentifier: 
-  _buildingType: 0
-  _displayedName: Fort Tower (Metal)
-  _buldingID: 0
-  _buildRoad: 1
-  _buildingSize: {x: 1, y: 1}
+  _buildingData: {fileID: 11400000, guid: 3987bb6e49ddd8345932fbc60c40275b, type: 2}
+  _level: 2
   _tilePrefab: {fileID: 11400000, guid: f45c8a2fafaafc14b905040bcc8c9135, type: 2}
   _objPrefab: {fileID: 2576521533274311486, guid: 19f21164debaaa445893eacf33a8346e, type: 3}
-  _neededResourcesTypesList: 0200000000000000
-  _neededResourcesIntsList: 050000000a000000
+  _workerSlots: 0
+  _productionRate: 0

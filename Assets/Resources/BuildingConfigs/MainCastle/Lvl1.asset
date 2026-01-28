@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 431d7494dca5d024c8777c4577f222b4, type: 3}
+  m_Name: Lvl1
+  m_EditorClassIdentifier: 
+  _buildingData: {fileID: 11400000, guid: 5e7e693acbfde044896182a4dc9d1493, type: 2}
+  _level: 1
+  _tilePrefab: {fileID: 11400000, guid: ff082d8c0f3a83c42b4d049bc7a11391, type: 2}
+  _objPrefab: {fileID: 2576521533274311486, guid: 6936a55b35747774cbd68c526654cd38, type: 3}
+  _workerSlots: 0
+  _productionRate: 0

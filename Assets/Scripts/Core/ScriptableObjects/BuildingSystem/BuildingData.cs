@@ -5,29 +5,39 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/BuildingSystem/Building")]
 public class BuildingData : ScriptableObject
 {
+    [Header("Type")]
     [SerializeField] private BuildingType _buildingType;
+
+    [Header("Stats")]
     [SerializeField] private string _displayedName;
-    [SerializeField] private int _buldingID;
-    [SerializeField] private bool _buildRoad;
     [SerializeField] private Vector2Int _buildingSize = new Vector2Int(1, 1);
 
-    [Header("Prefabs")]
-    [SerializeField] private TileBase _tilePrefab;
-    [SerializeField] private GameObject _objPrefab;
-    [Header("Needed Resources")]
-    [SerializeField] private List<ResourceType> _neededResourcesTypesList;
-    [SerializeField] private List<int> _neededResourcesIntsList;
+    [Header("Prices")]
+    [SerializeField] private List<BuildingCost> _buildCost;
+    [SerializeField] private List<BuildingCost> _upgradeCost;
 
-    //UI
+    [Header("Levels")]
+    [SerializeField] private List<BuildingLevelData> _levelsData;
+
+
     public BuildingType buildingType => _buildingType;
     public string displayedName => _displayedName;
 
-    public TileBase TilePrefab => _tilePrefab;
-    public GameObject ObjPrefab => _objPrefab;
-
-    public bool BuildRoad => _buildRoad;
     public Vector2Int BuildingSize => _buildingSize;
 
-    public List<ResourceType> NeededResourcesTypesList => _neededResourcesTypesList;
-    public List<int> NeededResourcesIntsList => _neededResourcesIntsList;
+    public List<BuildingCost> BuildCost => _buildCost;
+    public List<BuildingCost> UpgradeCost => _upgradeCost;
+
+    public int MaxLevel => _levelsData.Count;
+    public bool CanUpgrade(int currentLevel) => currentLevel < MaxLevel;
+    public List<BuildingLevelData> LevelsData => _levelsData;
+
+    public BuildingLevelData GetLevel(int lvl)
+    {
+        int _lvl = Mathf.Abs(lvl);
+
+        if(_lvl > MaxLevel) return null;
+
+        return _levelsData[_lvl - 1];
+    } 
 }
