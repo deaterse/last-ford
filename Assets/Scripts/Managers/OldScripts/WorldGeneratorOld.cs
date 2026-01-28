@@ -18,6 +18,7 @@ public class WorldGeneratorOld : MonoBehaviour
     [Header("Renderer Components")]
     [SerializeField] private TerrainRenderer _terrainRenderer;
     [SerializeField] private ResourcesRenderer _resourcesRenderer;
+    [SerializeField] private BaseVisualize _baseVisualize;
 
     private HeightMap _heightMap;
     private TerrainMap _terrainMap;
@@ -105,6 +106,15 @@ public class WorldGeneratorOld : MonoBehaviour
         TerrainModifier terrainModifier = new TerrainModifier(_terrainMap, _resourceSpawnConfig);
         terrainModifier.Modify();
 
+        OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
+        ServiceLocator.GetService<EventBus>().Invoke<OnTerrainMapGenerated>(signal);
+
+        //Generate start meadow
+        GenerateBase generateBase = new GenerateBase(_terrainMap);
+        Vector2Int castlePos = generateBase.Generate();
+
+        _baseVisualize.BuildBase(castlePos);
+
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
         if(_mapGenerateConfig.GenerateHeight)
@@ -116,8 +126,5 @@ public class WorldGeneratorOld : MonoBehaviour
             _terrainRenderer.VisualizeFertilityMap(_fertilityMap);
         }
         _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
-
-        OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
-        ServiceLocator.GetService<EventBus>().Invoke<OnTerrainMapGenerated>(signal);
     }
 }

@@ -117,4 +117,14 @@ public class TerrainMap
         
         return false;
     }
+
+    public bool AvaliableForCastle(int x, int y)
+    {
+        if(InBorders(x, y) && !IsWater(x, y))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

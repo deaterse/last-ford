@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class BuildingManager : MonoBehaviour
 {
+    //remove singleton
     public static BuildingManager Instance { get; private set; }
 
     private BuildingMap _buildingMap;

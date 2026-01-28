@@ -1,0 +1,14 @@
+using UnityEngine;
+
+public class BaseVisualize : MonoBehaviour
+{
+    [SerializeField] private BuildingData _castleData;
+
+    public void BuildBase(Vector2Int pos)
+    {
+        GameObject buildingObj = Instantiate(_castleData.ObjPrefab);
+        buildingObj.transform.position = new Vector3(pos.x + 0.5f, pos.y + 0.5f, 0);
+            
+        BuildingManager.Instance.AddBuilding(_castleData, pos, buildingObj);
+    }
+}
