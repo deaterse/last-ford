@@ -24,7 +24,7 @@ public class GenerateBase
         List<Vector2Int> allPlaced = new();
 
         int needToPlace = 2 * (_baseRadius^2) + 2 * _baseRadius + 1;
-        int placed = 0;
+        //int placed = 0;
         while(allPlaced.Count < needToPlace)
         {
             Vector2Int current = allPos.Dequeue();

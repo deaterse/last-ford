@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class InputListener : MonoBehaviour
 {
@@ -35,6 +37,7 @@ public class InputListener : MonoBehaviour
         {
             _mainControlMap.Gameplay.BuildingSystem.performed += PlaceBuilding;
             _mainControlMap.Gameplay.FertilityMap.performed += ShowFertilityMap;
+            _mainControlMap.Gameplay.OnMouseClick.performed += OnMouseClick;
         }
     }
 
@@ -42,6 +45,7 @@ public class InputListener : MonoBehaviour
     {
         _mainControlMap.Gameplay.BuildingSystem.performed -= PlaceBuilding;
         _mainControlMap.Gameplay.FertilityMap.performed -= ShowFertilityMap;
+        _mainControlMap.Gameplay.OnMouseClick.performed -= OnMouseClick;
     }
 
     private void ShowFertilityMap(InputAction.CallbackContext obj)
@@ -51,6 +55,8 @@ public class InputListener : MonoBehaviour
 
     private void PlaceBuilding(InputAction.CallbackContext obj)
     {
+        if(IsPointerOverUI()) return;
+        
         ServiceLocator.GetService<EventBus>().Invoke<OnInputBuildingBuilded>(new OnInputBuildingBuilded());
     }
 
@@ -72,5 +78,32 @@ public class InputListener : MonoBehaviour
         {
             ServiceLocator.GetService<EventBus>().Invoke<OnInputCameraZoom>(new OnInputCameraZoom(zoomStrength));
         }
+    }
+
+    private void OnMouseClick(InputAction.CallbackContext obj)
+    {
+        if(IsPointerOverUI()) return;
+        
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+        if(hit.collider != null)
+        {
+            if(hit.collider.TryGetComponent<BuildingUI>(out BuildingUI buildingUI))
+            {
+                buildingUI.OnBuildingClicked();
+            }
+        }
+    }
+
+    private bool IsPointerOverUI()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        
+        return results.Count > 0;
     }
 }

@@ -62,6 +62,15 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OnMouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a9128f1-b6a9-4587-ab6f-72d3534d1965"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -229,6 +238,17 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
                     ""action"": ""FertilityMap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdef9062-1a02-401e-a0c4-120af8726295"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OnMouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -241,6 +261,7 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
         m_Gameplay_BuildingSystem = m_Gameplay.FindAction("BuildingSystem", throwIfNotFound: true);
         m_Gameplay_CameraZoom = m_Gameplay.FindAction("CameraZoom", throwIfNotFound: true);
         m_Gameplay_FertilityMap = m_Gameplay.FindAction("FertilityMap", throwIfNotFound: true);
+        m_Gameplay_OnMouseClick = m_Gameplay.FindAction("OnMouseClick", throwIfNotFound: true);
     }
 
     ~@MainControlMap()
@@ -311,6 +332,7 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_BuildingSystem;
     private readonly InputAction m_Gameplay_CameraZoom;
     private readonly InputAction m_Gameplay_FertilityMap;
+    private readonly InputAction m_Gameplay_OnMouseClick;
     public struct GameplayActions
     {
         private @MainControlMap m_Wrapper;
@@ -319,6 +341,7 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
         public InputAction @BuildingSystem => m_Wrapper.m_Gameplay_BuildingSystem;
         public InputAction @CameraZoom => m_Wrapper.m_Gameplay_CameraZoom;
         public InputAction @FertilityMap => m_Wrapper.m_Gameplay_FertilityMap;
+        public InputAction @OnMouseClick => m_Wrapper.m_Gameplay_OnMouseClick;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -340,6 +363,9 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
             @FertilityMap.started += instance.OnFertilityMap;
             @FertilityMap.performed += instance.OnFertilityMap;
             @FertilityMap.canceled += instance.OnFertilityMap;
+            @OnMouseClick.started += instance.OnOnMouseClick;
+            @OnMouseClick.performed += instance.OnOnMouseClick;
+            @OnMouseClick.canceled += instance.OnOnMouseClick;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -356,6 +382,9 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
             @FertilityMap.started -= instance.OnFertilityMap;
             @FertilityMap.performed -= instance.OnFertilityMap;
             @FertilityMap.canceled -= instance.OnFertilityMap;
+            @OnMouseClick.started -= instance.OnOnMouseClick;
+            @OnMouseClick.performed -= instance.OnOnMouseClick;
+            @OnMouseClick.canceled -= instance.OnOnMouseClick;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -379,5 +408,6 @@ public partial class @MainControlMap: IInputActionCollection2, IDisposable
         void OnBuildingSystem(InputAction.CallbackContext context);
         void OnCameraZoom(InputAction.CallbackContext context);
         void OnFertilityMap(InputAction.CallbackContext context);
+        void OnOnMouseClick(InputAction.CallbackContext context);
     }
 }

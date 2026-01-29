@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BuildingMap
 {
-    public BuildingData[,] BuildingData { get; private set; }
+    public Building[,] BuildingData { get; private set; }
     public int Width { get; private set; }
     public int Height { get; private set; }
     
@@ -10,7 +10,7 @@ public class BuildingMap
     {
         Width = width;
         Height = height;
-        BuildingData = new BuildingData[width, height];
+        BuildingData = new Building[width, height];
     }
     
     public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
@@ -32,13 +32,27 @@ public class BuildingMap
         return true;
     }
     
-    public void PlaceBuilding(Vector2Int pos, Vector2Int size, BuildingData data)
+    public void PlaceBuilding(Vector2Int pos, Vector2Int size, Building building)
     {
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
-                BuildingData[pos.x + x, pos.y + y] = data;
+                BuildingData[pos.x + x, pos.y + y] = building;
+            }
+        }
+    }
+
+    public void RemoveBuilding(Building building)
+    {
+        Vector2Int pos = building.GridPosition;
+        Vector2Int size = building.buildingData.BuildingSize;
+        
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                BuildingData[pos.x + x, pos.y + y] = null;
             }
         }
     }

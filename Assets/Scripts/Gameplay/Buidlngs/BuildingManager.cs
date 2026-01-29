@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BuildingManager : MonoBehaviour, IService
 {
     private BuildingMap _buildingMap;
-    private Dictionary<BuildingData, List<GameObject>> _buildingInstances = new();
+    private List<GameObject> _buildingInstances = new();
 
     public void Init()
     {
@@ -12,12 +12,14 @@ public class BuildingManager : MonoBehaviour, IService
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Subscribe<TryUpdateBuilding>(TryToUpgrade);
+        ServiceLocator.GetService<EventBus>().Subscribe<TryRemoveBuilding>(TryToRemove);
     }
 
     private void OnDisable()
     {
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Unsubscribe<TryUpdateBuilding>(TryToUpgrade);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<TryRemoveBuilding>(TryToRemove);
     }
 
     private void GenerateBuildingMap(OnTerrainMapGenerated signal)
@@ -32,14 +34,30 @@ public class BuildingManager : MonoBehaviour, IService
         return _buildingMap.CanPlaceBuilding(pos, size);
     }
 
-    public void AddBuilding(BuildingData data, Vector2Int pos, GameObject buildingObj)
+    public void AddBuilding(GameObject buildingObj, Vector2Int pos)
     {
-        _buildingMap.PlaceBuilding(pos, data.BuildingSize, data);
+        BuildingData data;
+        Building building;
+        if(buildingObj.TryGetComponent<Building>(out Building _building))
+        {
+            data = _building.buildingData;
+            building = _building;
+        }
+        else
+        {
+            Debug.LogWarning("U are trying to add not a building!");
+            return;
+        }
+
+        _buildingMap.PlaceBuilding(pos, data.BuildingSize, building);
         
-        if (!_buildingInstances.ContainsKey(data))
-            _buildingInstances[data] = new List<GameObject>();
-            
-        _buildingInstances[data].Add(buildingObj);
+        if (_buildingInstances.Contains(buildingObj))
+        {
+            Debug.LogWarning("Building already added to BuildingManager!");
+            return;
+        }
+        
+        _buildingInstances.Add(buildingObj);
     }
 
     private void TryToUpgrade(TryUpdateBuilding signal)
@@ -71,6 +89,23 @@ public class BuildingManager : MonoBehaviour, IService
         else
         {
             Debug.Log("This building already has reached max level.");
+        }
+    }
+
+    private void TryToRemove(TryRemoveBuilding signal)
+    {
+        Building building = signal._building;
+        BuildingData buildingData = building.buildingData;
+
+        if(_buildingInstances.Contains(building.gameObject))
+        {
+            _buildingInstances.Remove(building.gameObject);
+            _buildingMap.RemoveBuilding(building);
+            building.Destroy();
+
+            Debug.Log("Building successfully destroyed.");
+
+            return;
         }
     }
 

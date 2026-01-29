@@ -179,9 +179,9 @@ public class BuildSystem : MonoBehaviour
             GameObject buildingObj = Instantiate(_currentData.GetLevel(1).ObjPrefab);
             buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
 
-            buildingObj.GetComponent<Building>().Init(_currentData);
+            buildingObj.GetComponent<Building>().Init(_currentData, startPos);
             
-            ServiceLocator.GetService<BuildingManager>().AddBuilding(_currentData, startPos, buildingObj);
+            ServiceLocator.GetService<BuildingManager>().AddBuilding(buildingObj, startPos);
             
             ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
             

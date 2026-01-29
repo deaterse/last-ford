@@ -113,7 +113,7 @@ public class WorldGeneratorOld : MonoBehaviour
         GenerateBase generateBase = new GenerateBase(_terrainMap);
         Vector2Int castlePos = generateBase.Generate();
 
-        _baseVisualize.BuildBase(castlePos);
+        //_baseVisualize.BuildBase(castlePos);
 
         //Visualize All
         _terrainRenderer.Visualize(_terrainMap);
