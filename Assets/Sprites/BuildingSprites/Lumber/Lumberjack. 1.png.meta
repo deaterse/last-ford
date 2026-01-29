@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: 5c9efe10d7a886245bb29ae0b0e80b4e
+guid: 5bc16896fddcb2b49bca801895403bb3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5168471847632070136
-    second: Buildings_1 2_0
+      213: -1946056904898984153
+    second: Lumberjack. 1_0
   - first:
-      213: -1660173927541432187
-    second: Buildings_1 2_1
-  - first:
-      213: 2112317216598723624
-    second: Buildings_1 2_2
+      213: 5701195318741419375
+    second: Lumberjack. 1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,29 +116,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buildings_1 2_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 80a98420d36e548b0800000000000000
-      internalID: -5168471847632070136
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Buildings_1 2_1
+      name: Lumberjack. 1_0
       rect:
         serializedVersion: 2
         x: 32
@@ -156,17 +131,17 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 580278fdb90e5f8e0800000000000000
-      internalID: -1660173927541432187
+      spriteID: 727ccce3e873ef4e0800000000000000
+      internalID: -1946056904898984153
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_1 2_2
+      name: Lumberjack. 1_1
       rect:
         serializedVersion: 2
-        x: 96
+        x: 80
         y: 0
         width: 48
         height: 32
@@ -178,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 82c0f442155705d10800000000000000
-      internalID: 2112317216598723624
+      spriteID: f65c3b8afe6be1f40800000000000000
+      internalID: 5701195318741419375
       vertices: []
       indices: 
       edges: []
@@ -188,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3878f147fbf4e204983ee5472bf4414b
+    spriteID: aed4779cc7183a048ab2d42b4255c1c0
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Buildings_1 2_0: -5168471847632070136
-      Buildings_1 2_1: -1660173927541432187
-      Buildings_1 2_2: 2112317216598723624
+      Lumberjack. 1_0: -1946056904898984153
+      Lumberjack. 1_1: 5701195318741419375
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

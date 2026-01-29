@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 3b585a6e40f971844ad6f526aba65f81
+guid: 6ea8513662b21e64d918ad14f2932808
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8657589158635211425
-    second: Buildings_1 1_0
+      213: -7906184644067274369
+    second: Buildings_1 3_0
   - first:
-      213: -2897375657148304431
-    second: Buildings_1 1_1
+      213: 4396379537950805488
+    second: Buildings_1 3_1
   - first:
-      213: -1839776569945922221
-    second: Buildings_1 1_2
+      213: 409703404822014376
+    second: Buildings_1 3_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +46,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -119,7 +119,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buildings_1 1_0
+      name: Buildings_1 3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -134,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1aa89bb487fe52870800000000000000
-      internalID: 8657589158635211425
+      spriteID: f71d8b974f6974290800000000000000
+      internalID: -7906184644067274369
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_1 1_1
+      name: Buildings_1 3_1
       rect:
         serializedVersion: 2
         x: 32
@@ -156,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1d3bfc6d0347ac7d0800000000000000
-      internalID: -2897375657148304431
+      spriteID: 0fd8a5195e3130d30800000000000000
+      internalID: 4396379537950805488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_1 1_2
+      name: Buildings_1 3_2
       rect:
         serializedVersion: 2
         x: 96
@@ -178,8 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 355694a05fcc776e0800000000000000
-      internalID: -1839776569945922221
+      spriteID: 8a92fa3731f8fa500800000000000000
+      internalID: 409703404822014376
       vertices: []
       indices: 
       edges: []
@@ -188,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 44c8e957ee3a20542adf0629ae9f906e
+    spriteID: 15c179e3e3dd9b643a6d2ca1b4909d9b
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Buildings_1 1_0: 8657589158635211425
-      Buildings_1 1_1: -2897375657148304431
-      Buildings_1 1_2: -1839776569945922221
+      Buildings_1 3_0: -7906184644067274369
+      Buildings_1 3_1: 4396379537950805488
+      Buildings_1 3_2: 409703404822014376
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

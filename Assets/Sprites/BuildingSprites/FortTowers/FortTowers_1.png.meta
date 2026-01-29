@@ -1,16 +1,13 @@
 fileFormatVersion: 2
-guid: b0c076b2b7098954392dcd76a4ad3bd8
+guid: 5266a8c2d3778394a87cedd7191a8db4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3836361819787983265
-    second: Buildings_1_0
+      213: -2929426320003296052
+    second: FortTowers_1 1_0
   - first:
-      213: 3975457100593369089
-    second: Buildings_1_1
-  - first:
-      213: 2854471944448033610
-    second: Buildings_1_2
+      213: 3100245001741360552
+    second: FortTowers_1 1_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Buildings_1_0
+      name: FortTowers_1 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 32
+        width: 15
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,42 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1a9755acfbe7d3530800000000000000
-      internalID: 3836361819787983265
+      spriteID: cc4168068469857d0800000000000000
+      internalID: -2929426320003296052
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Buildings_1_1
+      name: FortTowers_1 1_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 1
-        width: 32
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1001cac8b29ab2730800000000000000
-      internalID: 3975457100593369089
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Buildings_1_2
-      rect:
-        serializedVersion: 2
-        x: 96
+        x: 17
         y: 0
-        width: 48
-        height: 32
+        width: 15
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -178,8 +153,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a43c42e1c1f1d9720800000000000000
-      internalID: 2854471944448033610
+      spriteID: 8ad597d3768460b20800000000000000
+      internalID: 3100245001741360552
       vertices: []
       indices: 
       edges: []
@@ -188,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 19d9ecf50b8edab4aa2fc012b2a24808
+    spriteID: 6d6ca4cf9e91d8a419a4c4acd6fce381
     internalID: 0
     vertices: []
     indices: 
@@ -198,9 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Buildings_1_0: 3836361819787983265
-      Buildings_1_1: 3975457100593369089
-      Buildings_1_2: 2854471944448033610
+      FortTowers_1 1_0: -2929426320003296052
+      FortTowers_1 1_1: 3100245001741360552
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

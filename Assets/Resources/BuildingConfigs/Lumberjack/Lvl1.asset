@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 431d7494dca5d024c8777c4577f222b4, type: 3}
   m_Name: Lvl1
   m_EditorClassIdentifier: 
-  _buildingData: {fileID: 11400000, guid: 3987bb6e49ddd8345932fbc60c40275b, type: 2}
+  _buildingData: {fileID: 11400000, guid: fe16521e5cd8f634b8108c97c4418ad0, type: 2}
   _level: 1
-  _upgradeSprite: {fileID: 3100245001741360552, guid: 5266a8c2d3778394a87cedd7191a8db4, type: 3}
-  _tilePrefab: {fileID: 11400000, guid: f84bf46b2a9ecbc4b910b31691a99c83, type: 2}
-  _objPrefab: {fileID: 2576521533274311486, guid: c95c87475f1f2ff44af5e642b78e85a1, type: 3}
+  _upgradeSprite: {fileID: -4059051880555158148, guid: dc49e14240957144e96ace22c6322ee7, type: 3}
+  _tilePrefab: {fileID: 11400000, guid: cf9fc791d85733744a670ebd54cf4929, type: 2}
+  _objPrefab: {fileID: 2576521533274311486, guid: 7b428770a67930c45ad1d36212e9d74a, type: 3}
   _workerSlots: 0
   _productionRate: 0
