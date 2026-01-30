@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 943a976f07fa3f24e89b8629f700b824
+guid: f3ca9851b4fd3c345bab441b57899236
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -475581511768105846
-    second: StoneTerrain_0
+      213: -4059051880555158148
+    second: Lumberjack._0
+  - first:
+      213: -5525904733464617580
+    second: Lumberjack._1
+  - first:
+      213: -5979648436705473182
+    second: Lumberjack._2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StoneTerrain_0
+      name: Lumberjack._0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a8c915182256669f0800000000000000
-      internalID: -475581511768105846
+      spriteID: c75e0a602d95ba7c0800000000000000
+      internalID: -4059051880555158148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lumberjack._1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49d11332cea0053b0800000000000000
+      internalID: -5525904733464617580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lumberjack._2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26d4378ad65040da0800000000000000
+      internalID: -5979648436705473182
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2735919575acf3545a293336961eaddc
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      StoneTerrain_0: -475581511768105846
+      Lumberjack._0: -4059051880555158148
+      Lumberjack._1: -5525904733464617580
+      Lumberjack._2: -5979648436705473182
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

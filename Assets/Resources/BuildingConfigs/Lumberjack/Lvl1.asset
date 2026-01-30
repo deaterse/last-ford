@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildingData: {fileID: 11400000, guid: fe16521e5cd8f634b8108c97c4418ad0, type: 2}
   _level: 1
-  _upgradeSprite: {fileID: -4059051880555158148, guid: dc49e14240957144e96ace22c6322ee7, type: 3}
+  _upgradeSprite: {fileID: -1946056904898984153, guid: 5bc16896fddcb2b49bca801895403bb3, type: 3}
   _tilePrefab: {fileID: 11400000, guid: cf9fc791d85733744a670ebd54cf4929, type: 2}
   _objPrefab: {fileID: 2576521533274311486, guid: 7b428770a67930c45ad1d36212e9d74a, type: 3}
   _workerSlots: 0

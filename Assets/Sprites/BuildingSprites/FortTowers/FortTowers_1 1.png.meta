@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 943a976f07fa3f24e89b8629f700b824
+guid: c35af1fb222765945ba83657078a76c3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -475581511768105846
-    second: StoneTerrain_0
+      213: -2929426320003296052
+    second: FortTowers_1 1_0
+  - first:
+      213: 3100245001741360552
+    second: FortTowers_1 1_1
+  - first:
+      213: 5185010825906839904
+    second: FortTowers_1 1_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -113,23 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: StoneTerrain_0
+      name: FortTowers_1 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 15
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a8c915182256669f0800000000000000
-      internalID: -475581511768105846
+      spriteID: cc4168068469857d0800000000000000
+      internalID: -2929426320003296052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FortTowers_1 1_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 15
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ad597d3768460b20800000000000000
+      internalID: 3100245001741360552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FortTowers_1 1_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 15
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0616bb2ffdbd4f740800000000000000
+      internalID: 5185010825906839904
       vertices: []
       indices: 
       edges: []
@@ -138,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1461bfbed9c55644a84fb5ccd61df218
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      StoneTerrain_0: -475581511768105846
+      FortTowers_1 1_0: -2929426320003296052
+      FortTowers_1 1_1: 3100245001741360552
+      FortTowers_1 1_2: 5185010825906839904
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -15,6 +15,7 @@ MonoBehaviour:
   _buildingType: 0
   _displayedName: Lumberjack
   _buildingSize: {x: 2, y: 1}
+  _buildingTime: 2
   _buildCost:
   - Type: 0
     Amount: 5
@@ -23,3 +24,4 @@ MonoBehaviour:
     Amount: 5
   _levelsData:
   - {fileID: 11400000, guid: 20bde3d9677c53244b4405cc9d7e86dc, type: 2}
+  _buildingFrameSprite: {fileID: -4059051880555158148, guid: f3ca9851b4fd3c345bab441b57899236, type: 3}

@@ -11,28 +11,53 @@ public class BuildingUI : MonoBehaviour
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _removeButton;
 
+    [Header("Progress Slider")]
+    [SerializeField] private GameObject _progressCanvas;
+    [SerializeField] private Slider _progressSlider;
+
     private bool _activeCanvas;
 
-    private void Start()
+    public void Init()
     {
+        _progressCanvas.SetActive(false);
         _buildingCanvas.SetActive(false);
-        _activeCanvas = false; 
+
+        _activeCanvas = false;
+    }
+
+    public void OnBuildingBuilded()
+    {
+        _progressSlider.maxValue = _thisBuilding.buildingData.BuildingTime;
+        _progressCanvas.SetActive(true);
 
         BindButtons();
     }
 
     public void OnBuildingClicked()
     {
-        if(!_activeCanvas)
+        if(_thisBuilding.IsBuilded)
         {
-            _buildingCanvas.SetActive(true);
-            _activeCanvas = true;
+            if(!_activeCanvas)
+            {
+                _buildingCanvas.SetActive(true);
+                _activeCanvas = true;
+            }
+            else
+            {
+                _buildingCanvas.SetActive(false);
+                _activeCanvas = false;
+            }
         }
-        else
-        {
-            _buildingCanvas.SetActive(false);
-            _activeCanvas = false;
-        }
+    }
+
+    public void UpdateSlider(float value)
+    {
+        _progressSlider.value = value;
+    }
+    
+    public void HideSlider()
+    {
+        _progressCanvas.SetActive(false);
     }
 
     private void BindButtons()

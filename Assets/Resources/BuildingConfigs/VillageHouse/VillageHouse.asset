@@ -15,6 +15,7 @@ MonoBehaviour:
   _buildingType: 0
   _displayedName: Residental House
   _buildingSize: {x: 1, y: 1}
+  _buildingTime: 2
   _buildCost:
   - Type: 0
     Amount: 5
@@ -23,3 +24,4 @@ MonoBehaviour:
     Amount: 5
   _levelsData:
   - {fileID: 11400000, guid: e7b4d26e35c04f247aa69d0985586737, type: 2}
+  _buildingFrameSprite: {fileID: 8493186229483553566, guid: 927c83b4b6f6fa843a2dee7cd769ba9d, type: 3}

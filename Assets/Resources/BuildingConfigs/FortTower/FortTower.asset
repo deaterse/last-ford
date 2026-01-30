@@ -15,6 +15,7 @@ MonoBehaviour:
   _buildingType: 0
   _displayedName: Fort Tower
   _buildingSize: {x: 1, y: 1}
+  _buildingTime: 2
   _buildCost:
   - Type: 0
     Amount: 5
@@ -24,3 +25,4 @@ MonoBehaviour:
   _levelsData:
   - {fileID: 11400000, guid: 4eff3e8cf003beb45b2ac2d6fbf06a66, type: 2}
   - {fileID: 11400000, guid: 37a19ba871308474da59cfa58341de7e, type: 2}
+  _buildingFrameSprite: {fileID: 5185010825906839904, guid: c35af1fb222765945ba83657078a76c3, type: 3}
