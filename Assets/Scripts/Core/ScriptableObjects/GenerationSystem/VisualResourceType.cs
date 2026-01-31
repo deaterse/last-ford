@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "VisualResType", menuName = "Scriptable Objects/VisualRes Type")]
+[CreateAssetMenu(fileName = "VisualResType", menuName = "Scriptable Objects/GenerationSystem/VisualRes Type")]
 public class VisualResourceType : ScriptableObject
 {
     [SerializeField] private string _name;

@@ -3,24 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class JobManager : MonoBehaviour
+public class JobManager : MonoBehaviour, IService
 {
-    private Dictionary<Worker, Job> _assignedJobs = new();
-    private Dictionary<Job, Worker> _assignedJobsRevert = new();
+    [SerializeField] private JobsRewardsConfig _jobsRewConfig;
 
-    private List<Job> _freeJobs = new();
+    private Dictionary<Building, int> _freeBuildings = new(); // Building = Free Places
     private List<Worker> _freeWorkers = new();
 
     public void Init()
     {
         ClearAll();
 
+        ServiceLocator.ProvideService<JobManager>(this);
+
         ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(JobFinished);
-        ServiceLocator.GetService<EventBus>().Subscribe<OnJobCreated>(NewFreeJobBySignal);
 
+        ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingFinished>(NewFreeBuilding);
         ServiceLocator.GetService<EventBus>().Subscribe<OnWorkerSpawned>(NewFreeWorker);
-
-        StartCoroutine(FindJobToWorkers());
     }
 
     private void OnDisable()
@@ -28,115 +27,98 @@ public class JobManager : MonoBehaviour
         ClearAll();
 
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobFinished>(JobFinished);
-        ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobCreated>(NewFreeJobBySignal);
 
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingFinished>(NewFreeBuilding);
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
     private void ClearAll()
     {
-        _assignedJobs.Clear();
-        _assignedJobsRevert.Clear();
-        _freeJobs.Clear();
+        _freeBuildings.Clear();
         _freeWorkers.Clear();
 
         StopAllCoroutines();
     }
 
-    private IEnumerator FindJobToWorkers()
+    private void NewFreeBuilding(OnBuildingFinished signal)
     {
-        while(true)
+        Building freeBuilding = signal.building;
+        int workersCount = signal.WorkersCount;
+
+        _freeBuildings[freeBuilding] = workersCount;
+
+        TryFillBuilding(freeBuilding);
+    }
+
+    private void TryFillBuilding(Building building)
+    {
+        int needed = _freeBuildings[building];
+        
+        while (needed > 0 && _freeWorkers.Count > 0)
         {
-            for(int i = 0; i < _freeJobs.Count; i++)
+            Worker freeWorker = _freeWorkers[0];
+            AssignWorker(freeWorker, building);
+            needed--;
+        }
+        
+        if(needed > 0)
+        {
+            _freeBuildings[building] = needed;
+        }
+        else
+        {
+            _freeBuildings.Remove(building);
+        }
+    }
+
+    private void TryAssignWorker(Worker worker)
+    {
+        if(_freeBuildings.Count > 0)
+        {
+            var pair = _freeBuildings.ElementAt(0);
+            int needed = _freeBuildings[pair.Key];
+
+            AssignWorker(worker, pair.Key);
+            if(_freeBuildings[pair.Key] - 1 > 0)
             {
-                if(i < _freeWorkers.Count)
-                {
-                    AssignJob(_freeWorkers[i], _freeJobs[i]);
-                }
+                _freeBuildings[pair.Key] -= 1;
             }
-
-            yield return new WaitForSeconds(0.1f);
+            else
+            {
+                _freeBuildings.Remove(pair.Key);
+            }
         }
     }
 
-    public void NewFreeJobBySignal(OnJobCreated signal)
+    private void AssignWorker(Worker worker, Building building)
     {
-        NewFreeJob(signal._job);
+        _freeWorkers.Remove(worker);
+        building.AssignWorker(worker);
+        worker.AssignToBuilding(building);
     }
 
-    public void NewFreeJob(Job job)
+    private void NewFreeWorker(OnWorkerSpawned signal)
     {
-        if(!job.IsAssigned && !_freeJobs.Contains(job))
-        {
-            _freeJobs.Add(job);
-        }
-    }
+        Worker freeWorker = signal._worker;
 
-    public void NewFreeWorker(OnWorkerSpawned signal)
-    {
-        Worker worker = signal._worker;
-        if(!_assignedJobs.ContainsKey(worker) && !_freeWorkers.Contains(worker))
-        {
-            _freeWorkers.Add(worker);
-        }
-    }
+        _freeWorkers.Add(freeWorker);
 
-    public void AssignJob(Worker worker, Job job)
-    {
-        if(_assignedJobs.ContainsKey(worker))
-        {
-            Job oldJob = _assignedJobs[worker];
-
-            oldJob.AssignJob(false);
-            NewFreeJob(oldJob);
-        }
-
-        if(_freeJobs.Contains(job))
-        {
-            _freeJobs.Remove(job);
-        }
-        if(_freeWorkers.Contains(worker))
-        {
-            _freeWorkers.Remove(worker);
-        }
-
-        _assignedJobs[worker] = job;
-        _assignedJobsRevert[job] = worker;
+        TryAssignWorker(freeWorker);
     }
 
     private void JobFinished(OnJobFinished signal)
     {
-        // also add logic of getting resources after job (using jobtype)
-        Job job = signal._job;
-
-        if(_assignedJobsRevert.ContainsKey(job))
-        {
-            Worker currentWorker = _assignedJobsRevert[job];
-
-            _assignedJobs.Remove(currentWorker);
-            _assignedJobsRevert.Remove(job);
-
-            _freeWorkers.Add(currentWorker);
-        }
-        else if(_freeJobs.Contains(job))
-        {
-            _freeJobs.Remove(job);
-        }
+        RewardJob(signal._job);
+        
+        signal._worker.OnJobCompleted();
     }
 
-    private void JobFailed(OnJobFailed signal)
+    private void RewardJob(Job job)
     {
-        Job job = signal._job;
-
-        if(_assignedJobsRevert.ContainsKey(job))
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetRewards(job.jobType);
+        foreach(ResourceAmount ra in resourcesAmount)
         {
-            Worker currentWorker = _assignedJobsRevert[job];
-
-            _assignedJobs.Remove(currentWorker);
-            _assignedJobsRevert.Remove(job);
-
-            _freeWorkers.Add(currentWorker);
-            _freeJobs.Add(job);
+            ServiceLocator.GetService<ResourceManager>().AddResource(ra.Type, ra.Amount);
         }
     }
 }

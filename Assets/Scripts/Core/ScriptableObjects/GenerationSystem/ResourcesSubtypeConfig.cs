@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "ResourcesSubtypeConfig", menuName = "Scriptable Objects/ResourcesSubtype Config")]
+[CreateAssetMenu(fileName = "ResourcesSubtypeConfig", menuName = "Scriptable Objects/GenerationSystem/ResourcesSubtype Config")]
 public class ResourcesSubtypeConfig : ScriptableObject
 {
     [SerializeField] private List<ResourceTypesConfig> _resourceTypesConfig;

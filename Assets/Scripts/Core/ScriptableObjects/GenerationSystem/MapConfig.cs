@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "MapConfig", menuName = "Scriptable Objects/Map Config")]
+[CreateAssetMenu(fileName = "MapConfig", menuName = "Scriptable Objects/GenerationSystem/Map Config")]
 public class MapConfig : ScriptableObject
 {
     [SerializeField] private Vector2Int _mapSize;

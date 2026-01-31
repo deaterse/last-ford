@@ -1,58 +1,53 @@
 using UnityEngine;
+using System.Collections;
 
 public class Worker : MonoBehaviour
 {
-    [SerializeField] private NPCBehaviorMode _currentMode = NPCBehaviorMode.Idle;
-    [SerializeField] private float _moveSpeed; // later add config for this
-    
+    private Building _assignedBuilding;
     private Job _currentJob;
 
     private Vector3Int _destinition;
 
+    public void AssignBuilding(Building building)
+    {
+        _assignedBuilding = building;
+    }
+
     private void Update()
     {
-        switch (_currentMode)
+        if (_assignedBuilding == null) return;
+        
+        if (_currentJob == null)
         {
-            case NPCBehaviorMode.Idle:
-                HandleIdle();
-                break;
-                
-            case NPCBehaviorMode.Move:
-                HandleMove();
-                break;
-            case NPCBehaviorMode.Work:
-                HandleWork();
-                break;
-            default:
-                Debug.LogWarning("Unknown Behaviour Mode");
-                break;
+            _currentJob = _assignedBuilding.GetAvailableJob();
+            if (_currentJob != null)
+                StartJob();
         }
     }
 
-    private void HandleIdle()
+    public void AssignToBuilding(Building building)
     {
-        ///...
+        _assignedBuilding = building;
     }
 
-    private void HandleMove()
-    {
-        ///...
-    }    
-
-    private void HandleWork()
-    {
-        ///...
-    }
-
-    public void StartJob(Job job)
+    public void StartJob()
     {
         if(_currentJob != null)
         {
-            ServiceLocator.GetService<EventBus>().Invoke<OnJobFailed>(new OnJobFailed(_currentJob));
+            StartCoroutine(DoingJob());
         }
+    }
 
-        _currentJob = job;
+    //TEST PURPOSE
+    IEnumerator DoingJob()
+    {
+        yield return new WaitForSeconds(3f);
 
-        ///...
+        ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
+    }
+
+    public void OnJobCompleted()
+    {
+        _currentJob = null;
     }
 }

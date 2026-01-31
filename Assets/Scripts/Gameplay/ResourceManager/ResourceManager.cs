@@ -32,16 +32,19 @@ public class ResourceManager: IService
 
     public void AddResource(ResourceType type, int value)
     {
-        if(_resources.ContainsKey(type))
+        if(value > 0)
         {
-            _resources[type] += value;
-        }
-        else
-        {
-            _resources[type] = value;
-        }
+            if(_resources.ContainsKey(type))
+            {
+                _resources[type] += value;
+            }
+            else
+            {
+                _resources[type] = value;
+            }
 
-        ServiceLocator.GetService<EventBus>().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
+            ServiceLocator.GetService<EventBus>().Invoke<OnResourceChanged>(new OnResourceChanged(type, _resources[type]));
+        }
     }
 
     public bool TrySpendResource(ResourceType type, int value)

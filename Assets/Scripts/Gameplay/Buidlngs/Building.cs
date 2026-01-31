@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Building : Entity, IDamageable
 {
@@ -12,10 +13,18 @@ public class Building : Entity, IDamageable
 
     private bool _isBuilded;
 
+    private int _avaliableWorkersSlots;
+    private List<Worker> _assignedWorkers = new();
+
     public BuildingData buildingData => _buildingData;
     public Vector2Int GridPosition => _gridPos;
     public int Level => _level;
+
     public bool IsBuilded => _isBuilded;
+
+    public List<Worker> AssignedWorkers => _assignedWorkers;
+
+    public bool HasAvailableSlot => _assignedWorkers.Count < _avaliableWorkersSlots;
 
     private void Awake()
     {
@@ -24,15 +33,20 @@ public class Building : Entity, IDamageable
 
     public void Init(BuildingData buildingData, Vector2Int pos)
     {
-        _buildingData = buildingData;
-        _gridPos = pos;
-        _level = 1;
-        _isBuilded = false;
+        SetData(buildingData, pos);
 
         _spriteRenderer.sprite = buildingData.BuildingFrameSprite;
 
         _buildingUI.OnBuildingBuilded();
         StartBuild();
+    }
+
+    private void SetData(BuildingData buildingData, Vector2Int pos)
+    {
+        _buildingData = buildingData;
+        _gridPos = pos;
+        _level = 1;
+        _isBuilded = false;
     }
 
     public void StartBuild()
@@ -62,6 +76,28 @@ public class Building : Entity, IDamageable
     {
         _isBuilded = true;
         _spriteRenderer.sprite = buildingData.GetLevel(_level).UpgradeSprite;
+        _avaliableWorkersSlots = _buildingData.GetLevel(_level).WorkerSlots;
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnBuildingFinished>(new OnBuildingFinished(this, buildingData.GetLevel(_level).WorkerSlots));
+    }
+
+    public void AssignWorker(Worker worker)
+    {
+        if (HasAvailableSlot)
+        {
+            _assignedWorkers.Add(worker);
+            worker.AssignToBuilding(this);
+        }
+    }
+
+    public void UnassignWorker(Worker worker)
+    {
+        _assignedWorkers.Remove(worker);
+    }
+
+    public Job GetAvailableJob()
+    {
+        return new Job(this, _buildingData.jobType);
     }
     
     public void ChangeColor(Color color)

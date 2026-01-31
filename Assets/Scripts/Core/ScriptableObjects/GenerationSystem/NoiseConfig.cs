@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NoiseConfig", menuName = "Scriptable Objects/Noise Config")]
+[CreateAssetMenu(fileName = "NoiseConfig", menuName = "Scriptable Objects/GenerationSystem/Noise Config")]
 public class NoiseConfig : ScriptableObject
 {
     [SerializeField] private float _scale;

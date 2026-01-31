@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "AllResourceSpawnConfig", menuName = "Scriptable Objects/AllResourcesSpawn Config")]
+[CreateAssetMenu(fileName = "AllResourceSpawnConfig", menuName = "Scriptable Objects/GenerationSystem/AllResourcesSpawn Config")]
 public class ResourceSpawnConfig : ScriptableObject
 {
     [SerializeField] private List<ResourceSettings> _allResourcesSettings = new List<ResourceSettings>();

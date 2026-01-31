@@ -1,5 +1,5 @@
 [System.Serializable]
-public struct BuildingCost
+public struct ResourceAmount
 {
     public ResourceType Type;
     public int Amount;

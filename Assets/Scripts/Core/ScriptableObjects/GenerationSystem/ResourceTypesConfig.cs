@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using System.Linq;
 
-[CreateAssetMenu(fileName = "ResourceTypesConfig", menuName = "Scriptable Objects/ResourceTypes Config")]
+[CreateAssetMenu(fileName = "ResourceTypesConfig", menuName = "Scriptable Objects/GenerationSystem/ResourceTypes Config")]
 public class ResourceTypesConfig: ScriptableObject
 {
     [SerializeField] private ResourceType _resourceType;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "StartResourcesConfig", menuName = "Scriptable Objects/StartRecources Config")]
+[CreateAssetMenu(fileName = "StartResourcesConfig", menuName = "Scriptable Objects/Resource System/StartRecources Config")]
 public class StartResourcesConfig : ScriptableObject
 {
     [SerializeField] private List<ResourceType> _resourcesStartTypes = new();

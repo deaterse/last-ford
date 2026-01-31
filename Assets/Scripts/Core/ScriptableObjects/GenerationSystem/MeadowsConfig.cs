@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MeadowsConfig", menuName = "Scriptable Objects/Meadows Config")]
+[CreateAssetMenu(fileName = "MeadowsConfig", menuName = "Scriptable Objects/GenerationSystem/Meadows Config")]
 public class MeadowsConfig : ScriptableObject
 {
     [SerializeField] private int _minMeadowsCount;

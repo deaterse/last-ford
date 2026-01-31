@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ResourceVisualizationConfig", menuName = "Scriptable Objects/ResourceVisualization Config")]
+[CreateAssetMenu(fileName = "ResourceVisualizationConfig", menuName = "Scriptable Objects/Resource System/ResourceVisualization Config")]
 public class ResourceVisualizationConfig : ScriptableObject
 {
     [SerializeField] private string _displayedName;

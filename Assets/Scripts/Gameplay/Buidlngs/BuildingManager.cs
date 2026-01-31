@@ -66,9 +66,9 @@ public class BuildingManager : MonoBehaviour, IService
         
         if(signal._building.Level < buildingData.MaxLevel)
         {
-            List<BuildingCost> upgradeCost = buildingData.UpgradeCost;
+            List<ResourceAmount> upgradeCost = buildingData.UpgradeCost;
             
-            foreach(BuildingCost bc in upgradeCost)
+            foreach(ResourceAmount bc in upgradeCost)
             {
                 bool enoughRes = ServiceLocator.GetService<ResourceManager>().IsResourceEnough(bc.Type, bc.Amount);
                 
@@ -79,7 +79,7 @@ public class BuildingManager : MonoBehaviour, IService
                 }
             }
 
-            foreach(BuildingCost bc in upgradeCost)
+            foreach(ResourceAmount bc in upgradeCost)
             {
                 ServiceLocator.GetService<ResourceManager>().TrySpendResource(bc.Type, bc.Amount);
             }

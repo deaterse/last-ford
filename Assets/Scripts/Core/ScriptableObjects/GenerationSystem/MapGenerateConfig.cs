@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MapGenerateConfig", menuName = "Scriptable Objects/MapGenerate Config")]
+[CreateAssetMenu(fileName = "MapGenerateConfig", menuName = "Scriptable Objects/GenerationSystem/MapGenerate Config")]
 public class MapGenerateConfig : ScriptableObject
 {
     [SerializeField] private bool _generateHeight;

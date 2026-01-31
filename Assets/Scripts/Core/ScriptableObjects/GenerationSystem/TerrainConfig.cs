@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "TerrainConfig", menuName = "Scriptable Objects/Terrain Config")]
+[CreateAssetMenu(fileName = "TerrainConfig", menuName = "Scriptable Objects/GenerationSystem/Terrain Config")]
 public class TerrainConfig : ScriptableObject
 {
     [SerializeField] private TerrainType _terrainType;

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class BuildSystem : MonoBehaviour
+public class BuildSystem : MonoBehaviour, IService
 {
 
     [Header("Tilemap Components")]
@@ -23,6 +23,8 @@ public class BuildSystem : MonoBehaviour
 
     public void Init()
     {
+        ServiceLocator.ProvideService<BuildSystem>(this);
+
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(SetTerrainMap);
         ServiceLocator.GetService<EventBus>().Subscribe<OnInputBuildingBuilded>(PlacePrefab);
     }

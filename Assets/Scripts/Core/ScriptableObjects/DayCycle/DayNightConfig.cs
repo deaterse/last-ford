@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DayNightConfig", menuName = "Scriptable Objects/DayNight Config")]
+[CreateAssetMenu(fileName = "DayNightConfig", menuName = "Scriptable Objects/Cycle System/DayNight Config")]
 public class DayNightConfig : ScriptableObject
 {
     [SerializeField] private int _dayLength;
