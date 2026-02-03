@@ -94,7 +94,6 @@ public class JobManager : MonoBehaviour, IService
     {
         _freeWorkers.Remove(worker);
         building.AssignWorker(worker);
-        worker.AssignToBuilding(building);
     }
 
     private void NewFreeWorker(OnWorkerSpawned signal)

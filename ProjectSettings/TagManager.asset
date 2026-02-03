@@ -51,6 +51,9 @@ TagManager:
   - name: Buildings
     uniqueID: 2880450113
     locked: 0
+  - name: NPCs
+    uniqueID: 1369580569
+    locked: 0
   - name: UI
     uniqueID: 15196665
     locked: 0

@@ -1,0 +1,64 @@
+using UnityEngine;
+using UnityEngine.Tilemaps;
+using System.Collections;
+using System.Collections.Generic;
+public class MovingState : State
+{
+    private Vector3Int _target;
+    private bool _reached;
+    private float _moveSpeed = 5f;
+
+    public override void SetData(object data)
+    {
+        if (data is Vector3Int target)
+            _target = target;
+    }
+
+    public override void Enter()
+    {
+        _reached = false;
+        
+        MoveTo(_target);
+    }
+    
+    public override void OnUpdate()
+    {
+        if (_reached)
+             GetComponent<Worker>().ChangeState<IdleState>();
+    }
+
+    public void MoveTo(Vector3Int targetCell)
+    {
+        Vector3Int startCell = ServiceLocator.GetService<Pathfinder>().WorldToCell(transform.position);
+        List<Vector3Int> path = ServiceLocator.GetService<Pathfinder>().FindPath(startCell, targetCell);
+        
+        if (path != null)
+        {
+            StartCoroutine(FollowPath(path));
+        }
+        else
+        {
+           GetComponent<Worker>().ChangeState<IdleState>();
+        }
+    }
+    
+    private IEnumerator FollowPath(List<Vector3Int> path)
+    {
+        foreach (Vector3Int cell in path)
+        {
+            Vector3 worldPos = ServiceLocator.GetService<Pathfinder>().GetCellCenterWorld(cell);
+            while (Vector3.Distance(transform.position, worldPos) > 0.1f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, worldPos, _moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        _reached = true;
+    }
+
+    public override void Exit()
+    {
+        StopAllCoroutines();
+    }
+}

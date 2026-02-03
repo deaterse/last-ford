@@ -701,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c526dfa1c888e446a07bc339e573a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _terrainTilemap: {fileID: 108441100}
   _startResourcesConfig: {fileID: 11400000, guid: 40a42990444937740b65dd9358b7dd38, type: 2}
   _debugUI: {fileID: 359102399}
   _resourceUI: {fileID: 2027308163}

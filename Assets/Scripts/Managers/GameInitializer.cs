@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameInitializer : MonoBehaviour
 {
+    [SerializeField] private Tilemap _terrainTilemap;
+
     [Header("Configs")]
     [SerializeField] private StartResourcesConfig _startResourcesConfig;
 
@@ -63,7 +66,7 @@ public class GameInitializer : MonoBehaviour
 
     private void InitPathfinder(OnTerrainMapGenerated signal)
     {
-        Pathfinder _pathFinder = new Pathfinder(signal._terrainMap);
+        Pathfinder _pathFinder = new Pathfinder(signal._terrainMap, _terrainTilemap);
         ServiceLocator.ProvideService<Pathfinder>(_pathFinder);
     }
 

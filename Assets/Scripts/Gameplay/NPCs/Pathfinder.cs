@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class Pathfinder: IService
 {
   private TerrainMap _terrainMap;
+  private Tilemap _terrainTilemap;
 
-  public Pathfinder(TerrainMap terrainMap)
+  public Pathfinder(TerrainMap terrainMap, Tilemap terrainTilemap)
   {
     _terrainMap = terrainMap;
+    _terrainTilemap = terrainTilemap;
   }
 
   public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
@@ -126,5 +128,22 @@ public class Pathfinder: IService
       path.Insert(0, current);
     }
     return path;
+  }
+
+
+
+  //Create another service 
+  public Vector3Int WorldToCell(Vector3 pos)
+  {
+    Vector3Int gridPos = _terrainTilemap.WorldToCell(pos);
+
+    return gridPos;
+  }
+
+  public Vector3 GetCellCenterWorld(Vector3Int cell)
+  {
+    Vector3 worldPos = _terrainTilemap.GetCellCenterWorld(cell);
+
+    return worldPos;
   }
 }
