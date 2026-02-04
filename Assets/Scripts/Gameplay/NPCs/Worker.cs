@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 public class Worker : MonoBehaviour
 {
+    public enum WorkPhase { GoingResource, Working, GoingBuilding }
+    public WorkPhase CurrentPhase { get; private set; }
+
     [SerializeField] private List<StateString> _statesByString;
 
     private State _currentState;
@@ -62,17 +65,17 @@ public class Worker : MonoBehaviour
     {
         if(_currentJob != null)
         {
-            StartCoroutine(DoingJob());
+            MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
+            WorkingData endJobData = new WorkingData(5f, () => ChangeState<MovingState>(toBuildingData));
+            MovingData toJobData = new MovingData(_currentJob.JobPos,() => ChangeState<WorkingState>(endJobData));
+            
+            ChangeState<MovingState>(toJobData);
         }
     }
 
-    //TEST PURPOSE
-    IEnumerator DoingJob()
+    public void JobEnded()
     {
-        transform.position = _assignedBuilding.transform.position;
-
-        yield return new WaitForSeconds(3f);
-
+        ChangeState<IdleState>();
         ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
     }
 

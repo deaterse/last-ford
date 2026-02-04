@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1301579623477185853}
   - component: {fileID: 3501768796861001367}
   - component: {fileID: 465875921460074920}
+  - component: {fileID: 607692491273352667}
   m_Layer: 0
   m_Name: Worker
   m_TagString: Untagged
@@ -154,6 +155,8 @@ MonoBehaviour:
     name: IdleState
   - state: {fileID: 465875921460074920}
     name: MovingState
+  - state: {fileID: 607692491273352667}
+    name: WorkingState
 --- !u!114 &3501768796861001367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e36ffb61fc6b9544984c7b7303e626a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
+  _radius: 5
   _moveSpeed: 5
 --- !u!114 &465875921460074920
 MonoBehaviour:
@@ -178,5 +181,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824d2b0e71c44e948a6e96bc6ab0fb88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &607692491273352667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861140567380637209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e0e15a1c24dcf45a04a80c649fcbc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

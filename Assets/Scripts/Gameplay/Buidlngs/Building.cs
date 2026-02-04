@@ -97,7 +97,18 @@ public class Building : Entity, IDamageable
 
     public Job GetAvailableJob()
     {
-        return new Job(this, _buildingData.jobType);
+        Vector3Int resourcePosition = ResourcePosition();
+        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), resourcePosition);
+    }
+
+    private Vector3Int ResourcePosition()
+    {
+        if(buildingData.jobType == JobType.Wood_Cutting)
+        {
+            return new Vector3Int(10, 10, 0);
+        }
+
+        return new Vector3Int(5, 10, 0);
     }
     
     public void ChangeColor(Color color)

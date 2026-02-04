@@ -5,26 +5,27 @@ using System.Collections.Generic;
 public class MovingState : State
 {
     private Vector3Int _target;
-    private bool _reached;
     private float _moveSpeed = 5f;
+
+    private System.Action _onReachedCallback;
 
     public override void SetData(object data)
     {
-        if (data is Vector3Int target)
-            _target = target;
+        if (data is MovingData movingData)
+        {
+            _target = movingData.Target;
+            _onReachedCallback = movingData.OnReached;
+        }
     }
 
     public override void Enter()
     {
-        _reached = false;
-        
         MoveTo(_target);
     }
     
     public override void OnUpdate()
     {
-        if (_reached)
-             GetComponent<Worker>().ChangeState<IdleState>();
+
     }
 
     public void MoveTo(Vector3Int targetCell)
@@ -38,7 +39,8 @@ public class MovingState : State
         }
         else
         {
-           GetComponent<Worker>().ChangeState<IdleState>();
+            Debug.Log("i cant go there");
+            GetComponent<Worker>().ChangeState<IdleState>();
         }
     }
     
@@ -54,7 +56,8 @@ public class MovingState : State
             }
         }
 
-        _reached = true;
+
+        _onReachedCallback?.Invoke();
     }
 
     public override void Exit()

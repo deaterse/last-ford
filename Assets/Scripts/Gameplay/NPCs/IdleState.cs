@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class IdleState: State
 {
-    [SerializeField] private int radius;
+    [SerializeField] private int _radius;
     [SerializeField] private float _moveSpeed;
 
     public override void Enter()
@@ -27,7 +27,7 @@ public class IdleState: State
     {
         yield return new WaitForSeconds(3);
 
-        Vector3 randomPos = transform.position + GetRandomPointOnCircle(radius);
+        Vector3 randomPos = transform.position + GetRandomPointOnCircle(_radius);
         randomPos = new Vector3(randomPos.x, randomPos.y, 0);
 
         Vector3Int gridPos = ServiceLocator.GetService<Pathfinder>().WorldToCell(randomPos);
