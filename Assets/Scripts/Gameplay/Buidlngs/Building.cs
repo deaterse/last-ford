@@ -97,20 +97,21 @@ public class Building : Entity, IDamageable
 
     public Job GetAvailableJob()
     {
-        Vector3Int resourcePosition = ResourcePosition();
-        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), resourcePosition);
+        ResourceNeighbour positionData = ResourcePosition();
+        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData.neighbourPos, positionData.resourcePos);
     }
 
-    private Vector3Int ResourcePosition()
+    private ResourceNeighbour ResourcePosition()
     {
         if(buildingData.jobType == JobType.Wood_Cutting)
         {
             ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
-            Vector3Int resPos = rl.GetNearestResource(_gridPos, ResourceType.Wood, 5);
-            return new Vector3Int(resPos.x, resPos.y, 0);
+            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, ResourceType.Wood, 5);
+
+            return resPos;
         }
 
-        return new Vector3Int(5, 10, 0);
+        return new ResourceNeighbour(new Vector3Int(0,0,0), new Vector3Int(0,0,0));
     }
     
     public void ChangeColor(Color color)

@@ -10,7 +10,7 @@ public class ResourceLocator: IService
         _terrainMap = terrainMap;
     }
 
-    public Vector3Int GetNearestResource(Vector2Int gridPos, ResourceType rt, int radius)
+    public ResourceNeighbour GetCellNearResource(Vector2Int gridPos, ResourceType rt, int radius)
     {
         int width = _terrainMap.Width;
         int height = _terrainMap.Height;
@@ -25,7 +25,9 @@ public class ResourceLocator: IService
                     if(avaliableNeighbours != null)
                     {
                         Vector2Int randomNeighbour = avaliableNeighbours[Random.Range(0, avaliableNeighbours.Count)];
-                        return new Vector3Int(randomNeighbour.x, randomNeighbour.y, 0);
+                        ResourceNeighbour resourceNeighbour = new ResourceNeighbour(new Vector3Int(randomNeighbour.x, randomNeighbour.y, 0), new Vector3Int(x, y, 0));
+
+                        return resourceNeighbour;
                     }
                 }
             }
@@ -33,7 +35,7 @@ public class ResourceLocator: IService
 
         //Change later
         Debug.Log($"Cant find Resource: {rt} \n Radius: {radius} \n Pos: {gridPos}");
-        return new Vector3Int(0, 0, 0);
+        return new ResourceNeighbour(new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 0));
     }
 
     private List<Vector2Int> AvaliableNeighbours(int x, int y)

@@ -76,6 +76,8 @@ public class Worker : MonoBehaviour
     public void JobEnded()
     {
         ChangeState<IdleState>();
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
         ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
     }
 

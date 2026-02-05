@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MapGenerateConfig
   m_EditorClassIdentifier: 
   _generateHeight: 1
-  _generateRiver: 1
+  _generateRiver: 0
   _generateShore: 0
   _generatePreSand: 0
-  _generateStones: 1
+  _generateStones: 0
   _generateForests: 1
   _generateFertility: 1
