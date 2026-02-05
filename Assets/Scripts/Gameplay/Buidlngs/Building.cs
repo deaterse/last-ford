@@ -105,7 +105,9 @@ public class Building : Entity, IDamageable
     {
         if(buildingData.jobType == JobType.Wood_Cutting)
         {
-            return new Vector3Int(10, 10, 0);
+            ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
+            Vector3Int resPos = rl.GetNearestResource(_gridPos, ResourceType.Wood, 5);
+            return new Vector3Int(resPos.x, resPos.y, 0);
         }
 
         return new Vector3Int(5, 10, 0);

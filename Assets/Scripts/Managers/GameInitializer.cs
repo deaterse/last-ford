@@ -30,12 +30,11 @@ public class GameInitializer : MonoBehaviour
         InitEventBus();
     
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitResourceLocator);
         
         _inputListener.Init();
 
-        #if UNITY_EDITOR || DEVELOPMENT_BUILD
-            _debugUI.Init();
-        #endif
+        InitDebugUI();
         _resourceUI.Init();
 
         _buildSystem.Init();
@@ -45,6 +44,32 @@ public class GameInitializer : MonoBehaviour
         _jobManager.Init();
 
         _buildingUI.Init(_buildSystem);
+        GenerateWorld();
+
+        InitDayCycle();
+    }
+
+    private void InitResourceManager()
+    {
+        ResourceManager _resourceManager = new ResourceManager(_startResourcesConfig);
+        ServiceLocator.ProvideService<ResourceManager>(_resourceManager);
+    }
+
+    private void InitDebugUI()
+    {
+        #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            _debugUI.Init();
+        #endif
+    }
+
+    private void InitResourceLocator(OnTerrainMapGenerated signal)
+    {
+        ResourceLocator resourceLocator = new ResourceLocator(signal._terrainMap);
+        ServiceLocator.ProvideService<ResourceLocator>(resourceLocator);
+    }
+
+    private void GenerateWorld()
+    {
         if(oldGeneration)
         {
             _worldGeneratorOld.GenerateWorld();
@@ -53,15 +78,12 @@ public class GameInitializer : MonoBehaviour
         {
             _worldGenerator.GenerateWorld();
         }
-
-        ServiceLocator.ProvideService<DayCycle>(_dayCycle);
-        _dayCycle.Init();
     }
 
-    private void InitResourceManager()
+    private void InitDayCycle()
     {
-        ResourceManager _resourceManager = new ResourceManager(_startResourcesConfig);
-        ServiceLocator.ProvideService<ResourceManager>(_resourceManager);
+        ServiceLocator.ProvideService<DayCycle>(_dayCycle);
+        _dayCycle.Init();
     }
 
     private void InitPathfinder(OnTerrainMapGenerated signal)

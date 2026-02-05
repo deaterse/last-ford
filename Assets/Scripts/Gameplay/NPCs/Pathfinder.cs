@@ -54,7 +54,7 @@ public class Pathfinder: IService
       openSet.Remove(current);
       closedSet.Add(current);
 
-      foreach (Vector3Int neighbor in GetNeighbors(current))
+      foreach (Vector3Int neighbor in GetNeighbours(current))
       {
         if (closedSet.Contains(neighbor) || !IsWalkable(neighbor))
           continue;
@@ -82,7 +82,7 @@ public class Pathfinder: IService
     return false;
   }
   
-  private List<Vector3Int> GetNeighbors(Vector3Int cell)
+  private List<Vector3Int> GetNeighbours(Vector3Int cell)
   {
     return new List<Vector3Int>
     {
