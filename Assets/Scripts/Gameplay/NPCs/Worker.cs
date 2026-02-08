@@ -42,6 +42,16 @@ public class Worker : MonoBehaviour
             }
         }
     }
+    
+    public Vector3Int GetResourcePos()
+    {
+        if(_currentJob != null)
+        {
+            return _currentJob.ResourcePos;
+        }
+
+        return new Vector3Int(-999, -999, -999);
+    }
 
     private void Update()
     {
@@ -66,11 +76,17 @@ public class Worker : MonoBehaviour
         if(_currentJob != null)
         {
             MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
-            WorkingData endJobData = new WorkingData(5f, () => ChangeState<MovingState>(toBuildingData));
+            WorkingData endJobData = new WorkingData(5f, () => AfterJob(toBuildingData));
             MovingData toJobData = new MovingData(_currentJob.JobPos,() => ChangeState<WorkingState>(endJobData));
             
             ChangeState<MovingState>(toJobData);
         }
+    }
+
+    private void AfterJob(MovingData toBuildingData)
+    {
+        ServiceLocator.GetService<TerrainMapManager>().RemoveResource(_currentJob.ResourcePos);
+        ChangeState<MovingState>(toBuildingData);
     }
 
     public void JobEnded()

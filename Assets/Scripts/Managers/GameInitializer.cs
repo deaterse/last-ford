@@ -22,6 +22,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private WorldGenerator _worldGenerator;
     [SerializeField] private WorldGeneratorOld _worldGeneratorOld;
     [SerializeField] private DayCycle _dayCycle;
+    [SerializeField] private TerrainMapManager _terrainMapManager;
 
     [SerializeField] private bool oldGeneration;
 
@@ -31,6 +32,7 @@ public class GameInitializer : MonoBehaviour
     
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitResourceLocator);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitMapManager);
         
         _inputListener.Init();
 
@@ -66,6 +68,12 @@ public class GameInitializer : MonoBehaviour
     {
         ResourceLocator resourceLocator = new ResourceLocator(signal._terrainMap);
         ServiceLocator.ProvideService<ResourceLocator>(resourceLocator);
+    }
+
+    private void InitMapManager(OnTerrainMapGenerated signal)
+    {
+        _terrainMapManager.Init(signal._terrainMap);
+        ServiceLocator.ProvideService<TerrainMapManager>(_terrainMapManager);
     }
 
     private void GenerateWorld()

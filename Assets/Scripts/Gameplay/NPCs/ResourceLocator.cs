@@ -41,7 +41,6 @@ public class ResourceLocator: IService
 
     private List<Vector2Int> AvaliableNeighbours(Vector2Int buildingPos, int x, int y)
     {
-        //change later, can have problems (change using pathfinder)
         List<Vector2Int> neighbours = new();
 
         neighbours.Add(new Vector2Int(x - 1, y));

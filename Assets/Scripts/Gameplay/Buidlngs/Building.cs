@@ -98,6 +98,13 @@ public class Building : Entity, IDamageable
     public Job GetAvailableJob()
     {
         ResourceNeighbour positionData = ResourcePosition();
+        foreach(Worker worker in AssignedWorkers)
+        {
+            if(worker.GetResourcePos() != positionData.resourcePos)
+            {
+                
+            }
+        }
         return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData.neighbourPos, positionData.resourcePos);
     }
 

@@ -533,7 +533,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 816082831}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7532377
+  m_Size: 0.7979633
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -713,6 +713,7 @@ MonoBehaviour:
   _worldGenerator: {fileID: 118533754}
   _worldGeneratorOld: {fileID: 1004978793}
   _dayCycle: {fileID: 1886054396}
+  _terrainMapManager: {fileID: 2103379414}
   oldGeneration: 1
 --- !u!1 &239750850
 GameObject:
@@ -3037,13 +3038,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 215121391}
   - {fileID: 1886054397}
   - {fileID: 368933620}
   - {fileID: 114443064}
   - {fileID: 779687827}
   - {fileID: 1558438131}
-  - {fileID: 215121391}
   - {fileID: 921125133}
+  - {fileID: 2103379413}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1413267778
@@ -4264,6 +4266,52 @@ Transform:
   - {fileID: 359102398}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2103379412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103379413}
+  - component: {fileID: 2103379414}
+  m_Layer: 0
+  m_Name: TerrainMapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103379413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103379412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1409680292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2103379414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103379412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 794c9a6df36ca22418f1d8af618cd70a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resourceMap: {fileID: 903334845}
+  _terrainTilemap: {fileID: 108441100}
 --- !u!1 &2114262130
 GameObject:
   m_ObjectHideFlags: 0

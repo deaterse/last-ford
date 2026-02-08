@@ -35,8 +35,6 @@ public class WorkingState: State
     private IEnumerator StartWork()
     {
         yield return new WaitForSeconds(_workingTime);
-        
-        Debug.Log("job finished");
     
         _onReachedCallback?.Invoke();
     }
