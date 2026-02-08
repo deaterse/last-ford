@@ -27,11 +27,15 @@ public class TerrainMap
 
     public void SetTile(int x, int y, TileData tile)
     {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return;
+
         TerrainData[x, y] = tile;
     }
 
     public void SetTerrainType(int x, int y, TerrainType type)
     {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return;
+
         TileData tile = TerrainData[x, y];
 
         tile.Type = type;
@@ -40,6 +44,8 @@ public class TerrainMap
 
     public TerrainType GetTerrainType(int x, int y)
     {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return TerrainType.None;
+
         TileData tile = TerrainData[x, y];
 
         return tile.Type;
@@ -47,6 +53,8 @@ public class TerrainMap
 
     public ResourceType GetResourceType(int x, int y)
     {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return ResourceType.None;
+
         TileData tile = TerrainData[x, y];
 
         return tile.Resource.Type;

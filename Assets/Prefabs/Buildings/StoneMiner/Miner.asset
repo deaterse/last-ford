@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: beeecbd89e468da499627bbdd9d98f68, type: 3}
-  m_Name: MapGenerateConfig
+  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
+  m_Name: Miner
   m_EditorClassIdentifier: 
-  _generateHeight: 1
-  _generateRiver: 0
-  _generateShore: 0
-  _generatePreSand: 0
-  _generateStones: 1
-  _generateForests: 1
-  _generateFertility: 1
+  m_DefaultSprite: {fileID: 0}
+  m_DefaultGameObject: {fileID: 2576521533274311486, guid: eaf9e4f53d3a47048af1192cfa368e8a, type: 3}
+  m_DefaultColliderType: 1
+  m_TilingRules: []

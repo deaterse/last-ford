@@ -130,7 +130,18 @@ public class Pathfinder: IService
     return path;
   }
 
+  public bool HasWay(Vector3Int start, Vector3Int end)
+  {
+    List<Vector3Int> path = new();
+    path = FindPath(start, end);
 
+    if(path == null)
+    {
+      return false;
+    }
+
+    return true;
+  }
 
   //Create another service 
   public Vector3Int WorldToCell(Vector3 pos)

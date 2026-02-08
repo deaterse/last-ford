@@ -21,10 +21,11 @@ public class ResourceLocator: IService
             {
                 if(_terrainMap.GetResourceType(x, y) == rt)
                 {
-                    List<Vector2Int> avaliableNeighbours = AvaliableNeighbours(x, y);
+                    List<Vector2Int> avaliableNeighbours = AvaliableNeighbours(gridPos, x, y);
                     if(avaliableNeighbours != null)
                     {
                         Vector2Int randomNeighbour = avaliableNeighbours[Random.Range(0, avaliableNeighbours.Count)];
+                        Debug.Log(randomNeighbour);
                         ResourceNeighbour resourceNeighbour = new ResourceNeighbour(new Vector3Int(randomNeighbour.x, randomNeighbour.y, 0), new Vector3Int(x, y, 0));
 
                         return resourceNeighbour;
@@ -38,7 +39,7 @@ public class ResourceLocator: IService
         return new ResourceNeighbour(new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 0));
     }
 
-    private List<Vector2Int> AvaliableNeighbours(int x, int y)
+    private List<Vector2Int> AvaliableNeighbours(Vector2Int buildingPos, int x, int y)
     {
         //change later, can have problems (change using pathfinder)
         List<Vector2Int> neighbours = new();
@@ -51,7 +52,7 @@ public class ResourceLocator: IService
         List<Vector2Int> avaliableCells = new();
         foreach(Vector2Int n in neighbours)
         {
-            if(_terrainMap.IsWalkable(n.x, n.y))
+            if(ServiceLocator.GetService<Pathfinder>().HasWay(new Vector3Int(buildingPos.x, buildingPos.y, 0), new Vector3Int(n.x, n.y, 0)))
             {
                 avaliableCells.Add(new Vector2Int(n.x, n.y));
             }

@@ -110,6 +110,13 @@ public class Building : Entity, IDamageable
 
             return resPos;
         }
+        else if(buildingData.jobType == JobType.Stone_Mining)
+        {
+            ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
+            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, ResourceType.Stone, 3);
+
+            return resPos;
+        }
 
         return new ResourceNeighbour(new Vector3Int(0,0,0), new Vector3Int(0,0,0));
     }
