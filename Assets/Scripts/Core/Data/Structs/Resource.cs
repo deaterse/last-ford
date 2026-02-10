@@ -14,4 +14,17 @@ public struct Resource
         Amount = amount;
         SubType = subType;
     }
+
+    public void DecreaseResource(int amount)
+    {
+        if(Amount > 0)
+        {
+            Amount -= amount;
+
+            Debug.Log($"Current resource amount: {Amount}");
+            return;
+        }
+
+        Debug.Log($"Current resource amount ZERO");
+    }
 }

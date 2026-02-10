@@ -14,6 +14,7 @@ public class TerrainMapManager: MonoBehaviour, IService
     public void Init(TerrainMap terrainMap)
     {
         _terrainMap = terrainMap;
+        ServiceLocator.GetService<EventBus>().Subscribe<OnResourceMined>(DecreaseResource);
     }
 
     public void RemoveResource(Vector3Int resourcePos)
@@ -22,5 +23,15 @@ public class TerrainMapManager: MonoBehaviour, IService
 
         _resourceMap.SetTile(resourcePos, null);
         _terrainMap.SetResource(resourcePos.x, resourcePos.y, Resource.None);
+    }
+    
+    public void DecreaseResource(OnResourceMined signal)
+    {
+        Vector3Int resourcePos = signal._resourcePosition;
+        int amount = signal._value;
+
+        if(resourcePos.x > _terrainMap.Width || resourcePos.y > _terrainMap.Height) return;
+
+        terrainMap.TerrainData[resourcePos.x, resourcePos.y].DecreaseResource(amount);
     }
 }

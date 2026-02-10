@@ -32,8 +32,6 @@ public class MovingState : State
     {
         Vector3Int startCell = ServiceLocator.GetService<Pathfinder>().WorldToCell(transform.position);
         List<Vector3Int> path = ServiceLocator.GetService<Pathfinder>().FindPath(startCell, targetCell);
-
-        Debug.Log(targetCell);
         
         if (path != null)
         {

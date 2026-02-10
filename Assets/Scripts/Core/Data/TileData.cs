@@ -12,4 +12,9 @@ public struct TileData {
 
     public bool HasResource => Resource.Type != ResourceType.None;
     public bool IsWalkable => Type != TerrainType.Water;
+
+    public void DecreaseResource(int amount)
+    {
+        Resource.DecreaseResource(amount);
+    }
 }

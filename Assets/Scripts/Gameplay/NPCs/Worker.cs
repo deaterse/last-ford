@@ -85,7 +85,8 @@ public class Worker : MonoBehaviour
 
     private void AfterJob(MovingData toBuildingData)
     {
-        ServiceLocator.GetService<TerrainMapManager>().RemoveResource(_currentJob.ResourcePos);
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
+        
         ChangeState<MovingState>(toBuildingData);
     }
 
@@ -93,7 +94,6 @@ public class Worker : MonoBehaviour
     {
         ChangeState<IdleState>();
 
-        ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
         ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
     }
 

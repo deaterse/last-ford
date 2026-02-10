@@ -25,6 +25,13 @@ public class TerrainMap
         }
     }
 
+    public TileData GetTileData(int x, int y)
+    {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return new TileData(TerrainType.None, Resource.None);
+
+        return TerrainData[x, y];
+    }
+
     public void SetTile(int x, int y, TileData tile)
     {
         if(x >= Width || y >= Height || x < 0 || y < 0)  return;
