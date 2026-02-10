@@ -52,7 +52,7 @@ public abstract class ResourceGenerator
             pos.x, pos.y, 
             new Resource(
                 _resourceType,
-                100,
+                10,
                 subType
         ));
     }

@@ -32,6 +32,11 @@ public class TerrainMapManager: MonoBehaviour, IService
 
         if(resourcePos.x > _terrainMap.Width || resourcePos.y > _terrainMap.Height) return;
 
-        terrainMap.TerrainData[resourcePos.x, resourcePos.y].DecreaseResource(amount);
+        bool isDecreased = terrainMap.TerrainData[resourcePos.x, resourcePos.y].TryDecreaseResource(amount);
+
+        if(!isDecreased)
+        {
+            RemoveResource(resourcePos);
+        }
     }
 }
