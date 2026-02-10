@@ -15,6 +15,7 @@ public class Worker : MonoBehaviour
 
     private Building _assignedBuilding;
     private Job _currentJob;
+    private Job _lastJob;
 
     private Vector3Int _destinition;
 
@@ -50,6 +51,7 @@ public class Worker : MonoBehaviour
             return _currentJob.ResourcePos;
         }
 
+        //refactor
         return new Vector3Int(-999, -999, -999);
     }
 
@@ -60,7 +62,7 @@ public class Worker : MonoBehaviour
         if (_assignedBuilding == null) return;
         if (_currentJob == null)
         {
-            _currentJob = _assignedBuilding.GetAvailableJob();
+            _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
             if (_currentJob != null)
                 StartJob();
         }
@@ -85,6 +87,7 @@ public class Worker : MonoBehaviour
 
     private void AfterJob(MovingData toBuildingData)
     {
+        //refactor, amount need to move amount to another place (5)
         ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
         
         ChangeState<MovingState>(toBuildingData);
@@ -99,6 +102,7 @@ public class Worker : MonoBehaviour
 
     public void OnJobCompleted()
     {
+        _lastJob = _currentJob;
         _currentJob = null;
     }
 }

@@ -5,8 +5,7 @@ public class Job
     private Building _building;
 
     private Vector3Int _buildingPosition;
-    private Vector3Int _jobPosition;
-    private Vector3Int _resourcePosition;
+    private ResourceNeighbour _resourceNeighbour;
 
     private JobType _jobType;
 
@@ -14,15 +13,16 @@ public class Job
     public Building Building => _building;
 
     public Vector3Int BuildingPos => _buildingPosition;
-    public Vector3Int JobPos => _jobPosition;
-    public Vector3Int ResourcePos => _resourcePosition;
+    public ResourceNeighbour resourceNeighbour => _resourceNeighbour;
 
-    public Job(Building building, JobType jobType, Vector3Int buildingPosition, Vector3Int jobPosition, Vector3Int resourcePosition)
+    public Vector3Int ResourcePos => _resourceNeighbour.resourcePos;
+    public Vector3Int JobPos => _resourceNeighbour.neighbourPos;
+
+    public Job(Building building, JobType jobType, Vector3Int buildingPosition, ResourceNeighbour resourceNeighbour)
     {
         _building = building;
         _jobType = jobType;
         _buildingPosition = buildingPosition;
-        _jobPosition = jobPosition;
-        _resourcePosition = resourcePosition;
+        _resourceNeighbour = resourceNeighbour;
     }
 }

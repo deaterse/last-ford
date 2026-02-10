@@ -21,10 +21,9 @@ public struct Resource
         {
             Amount -= amount;
 
-            Debug.Log($"Current resource amount: {Amount}");
             return;
         }
 
-        Debug.Log($"Current resource amount ZERO");
+        return;
     }
 }

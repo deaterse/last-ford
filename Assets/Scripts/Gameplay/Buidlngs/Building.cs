@@ -15,6 +15,7 @@ public class Building : Entity, IDamageable
 
     private int _avaliableWorkersSlots;
     private List<Worker> _assignedWorkers = new();
+    private List<Vector3Int> _assignedResources = new();
 
     public BuildingData buildingData => _buildingData;
     public Vector2Int GridPosition => _gridPos;
@@ -23,6 +24,7 @@ public class Building : Entity, IDamageable
     public bool IsBuilded => _isBuilded;
 
     public List<Worker> AssignedWorkers => _assignedWorkers;
+    public List<Vector3Int> AssignedResources => _assignedResources;
 
     public bool HasAvailableSlot => _assignedWorkers.Count < _avaliableWorkersSlots;
 
@@ -95,21 +97,27 @@ public class Building : Entity, IDamageable
         _assignedWorkers.Remove(worker);
     }
 
-    public Job GetAvailableJob()
+    public Job GetAvailableJob(Job lastJob = null)
     {
-        ResourceNeighbour positionData = ResourcePosition();
-        foreach(Worker worker in AssignedWorkers)
+        if(lastJob != null)
         {
-            if(worker.GetResourcePos() != positionData.resourcePos)
+            Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
+            if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
             {
-                
+                ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
+
+                return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), currentResNeighbour);
             }
         }
-        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData.neighbourPos, positionData.resourcePos);
+
+        ResourceNeighbour positionData = ResourcePosition();
+
+        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData);
     }
 
     private ResourceNeighbour ResourcePosition()
     {
+        //refactor
         if(buildingData.jobType == JobType.Wood_Cutting)
         {
             ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
@@ -125,6 +133,7 @@ public class Building : Entity, IDamageable
             return resPos;
         }
 
+        //refactor
         return new ResourceNeighbour(new Vector3Int(0,0,0), new Vector3Int(0,0,0));
     }
     

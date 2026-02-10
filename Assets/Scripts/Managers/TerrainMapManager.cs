@@ -17,6 +17,11 @@ public class TerrainMapManager: MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Subscribe<OnResourceMined>(DecreaseResource);
     }
 
+    public bool IsResource(Vector3Int pos)
+    {
+        return terrainMap.HasResource(pos.x, pos.y);
+    }
+
     public void RemoveResource(Vector3Int resourcePos)
     {
         if(resourcePos.x > _terrainMap.Width || resourcePos.y > _terrainMap.Height) return;

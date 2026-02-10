@@ -39,7 +39,6 @@ public class MovingState : State
         }
         else
         {
-            Debug.Log("i cant go there");
             GetComponent<Worker>().ChangeState<IdleState>();
         }
     }
