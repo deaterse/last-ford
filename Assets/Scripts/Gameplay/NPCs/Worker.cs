@@ -54,6 +54,11 @@ public class Worker : MonoBehaviour
         //refactor
         return new Vector3Int(-999, -999, -999);
     }
+    
+    public bool ResourceIsGone()
+    {
+        return !ServiceLocator.GetService<TerrainMapManager>().IsResource(_currentJob.ResourcePos);
+    }
 
     private void Update()
     {
@@ -98,6 +103,13 @@ public class Worker : MonoBehaviour
         ChangeState<IdleState>();
 
         ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
+    }
+
+    public void JobFailed()
+    {
+        ChangeState<IdleState>();
+
+        OnJobCompleted();
     }
 
     public void OnJobCompleted()
