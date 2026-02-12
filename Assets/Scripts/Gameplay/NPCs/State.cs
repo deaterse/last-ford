@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public abstract class State: MonoBehaviour
 {
     public virtual void SetData(object data) { }
+    public virtual void ClearData() { }
 
     public abstract void Enter();
     public abstract void OnUpdate();

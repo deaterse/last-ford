@@ -69,6 +69,8 @@ public class TerrainMap
 
     public void SetResource(int x, int y, Resource resource)
     {
+        if(x >= Width || y >= Height || x < 0 || y < 0)  return;
+
         TileData tile = TerrainData[x, y];
         
         tile.Resource = resource;

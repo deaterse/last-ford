@@ -32,7 +32,11 @@ public class IdleState: State
 
         Vector3Int gridPos = ServiceLocator.GetService<Pathfinder>().WorldToCell(randomPos);
 
-        GetComponent<Worker>().ChangeState<MovingState>(gridPos);
+        MovingData moveData = new MovingData(gridPos, () => {
+            GetComponent<Worker>().ChangeState<IdleState>();
+        });
+    
+        GetComponent<Worker>().ChangeState<MovingState>(moveData);
     }
 
     private Vector3 GetRandomPointOnCircle(float radius)

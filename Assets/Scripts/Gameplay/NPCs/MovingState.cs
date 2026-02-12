@@ -18,6 +18,11 @@ public class MovingState : State
         }
     }
 
+    public override void ClearData()
+    {
+        _onReachedCallback = null;
+    }
+
     public override void Enter()
     {
         MoveTo(_target);
@@ -54,7 +59,6 @@ public class MovingState : State
                 yield return null;
             }
         }
-
 
         _onReachedCallback?.Invoke();
     }

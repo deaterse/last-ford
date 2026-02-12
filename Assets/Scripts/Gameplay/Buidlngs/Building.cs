@@ -12,6 +12,7 @@ public class Building : Entity, IDamageable
     private int _level = 1;
 
     private bool _isBuilded;
+    private bool _noResourcesOutside;
 
     private int _avaliableWorkersSlots;
     private List<Worker> _assignedWorkers = new();
@@ -22,6 +23,7 @@ public class Building : Entity, IDamageable
     public int Level => _level;
 
     public bool IsBuilded => _isBuilded;
+    public bool NoResourcesOutside => _noResourcesOutside;
 
     public List<Worker> AssignedWorkers => _assignedWorkers;
     public List<Vector3Int> AssignedResources => _assignedResources;
@@ -99,20 +101,34 @@ public class Building : Entity, IDamageable
 
     public Job GetAvailableJob(Job lastJob = null)
     {
-        if(lastJob != null)
+        if(!_noResourcesOutside)
         {
-            Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
-            if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
+            if(lastJob != null)
             {
-                ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
+                Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
+                if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
+                {
+                    ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
 
-                return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), currentResNeighbour);
+                    return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), currentResNeighbour);
+                }
             }
+
+            ResourceNeighbour positionData = ResourcePosition();
+
+            if(!IsNoneResource(positionData))
+            {
+                return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData);
+            }
+
+            _noResourcesOutside = true;
         }
+        return null;
+    }
 
-        ResourceNeighbour positionData = ResourcePosition();
-
-        return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData);
+    private bool IsNoneResource(ResourceNeighbour rn)
+    {
+        return rn.resourceType == ResourceType.None;
     }
 
     private ResourceNeighbour ResourcePosition()
@@ -134,7 +150,7 @@ public class Building : Entity, IDamageable
         }
 
         //refactor
-        return new ResourceNeighbour(new Vector3Int(0,0,0), new Vector3Int(0,0,0));
+        return ResourceNeighbour.None;
     }
     
     public void ChangeColor(Color color)

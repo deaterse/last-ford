@@ -28,6 +28,7 @@ public class Worker : MonoBehaviour
 
     public void ChangeState<T>(object data = null) where T : State
     {
+        Debug.Log($"changed to {typeof(T).Name}");
         foreach(StateString sstr in _statesByString)
         {
             if(sstr.name == typeof(T).Name)
@@ -37,6 +38,8 @@ public class Worker : MonoBehaviour
 
                 if (data != null)
                     _currentState.SetData(data);
+                else
+                    _currentState.ClearData();
                     
                 _currentState.Enter();
                 return;
@@ -44,28 +47,30 @@ public class Worker : MonoBehaviour
         }
     }
     
-    public Vector3Int GetResourcePos()
+    public bool ResourceIsGone()
     {
         if(_currentJob != null)
         {
-            return _currentJob.ResourcePos;
+            return !ServiceLocator.GetService<TerrainMapManager>().IsResource(_currentJob.ResourcePos);
         }
-
-        //refactor
-        return new Vector3Int(-999, -999, -999);
-    }
-    
-    public bool ResourceIsGone()
-    {
-        return !ServiceLocator.GetService<TerrainMapManager>().IsResource(_currentJob.ResourcePos);
+        else
+        {
+            return true;
+        }
     }
 
     private void Update()
     {
         _currentState?.OnUpdate();
 
+        TryGetJob();
+    }
+
+    private void TryGetJob()
+    {
         if (_assignedBuilding == null) return;
-        if (_currentJob == null)
+
+        if (_currentJob == null && !_assignedBuilding.NoResourcesOutside)
         {
             _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
             if (_currentJob != null)
@@ -92,7 +97,7 @@ public class Worker : MonoBehaviour
 
     private void AfterJob(MovingData toBuildingData)
     {
-        //refactor, amount need to move amount to another place (5)
+        //refactor, amount need to move to another place (5)
         ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
         
         ChangeState<MovingState>(toBuildingData);
@@ -102,7 +107,10 @@ public class Worker : MonoBehaviour
     {
         ChangeState<IdleState>();
 
-        ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
+        if(_currentJob != null)
+            ServiceLocator.GetService<EventBus>().Invoke<OnJobFinished>(new OnJobFinished(_currentJob, this));
+
+        OnJobCompleted();
     }
 
     public void JobFailed()

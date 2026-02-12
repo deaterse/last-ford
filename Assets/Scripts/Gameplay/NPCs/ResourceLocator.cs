@@ -48,7 +48,7 @@ public class ResourceLocator: IService
             if(avaliableNeighbours != null)
             {
                 Vector2Int randomNeighbour = avaliableNeighbours[Random.Range(0, avaliableNeighbours.Count)];
-                ResourceNeighbour resourceNeighbour = new ResourceNeighbour(new Vector3Int(randomNeighbour.x, randomNeighbour.y, 0), new Vector3Int(res.x, res.y, 0));
+                ResourceNeighbour resourceNeighbour = new ResourceNeighbour(new Vector3Int(randomNeighbour.x, randomNeighbour.y, 0), new Vector3Int(res.x, res.y, 0), rt);
 
                 return resourceNeighbour;
             }
@@ -56,7 +56,7 @@ public class ResourceLocator: IService
 
         //Change later
         Debug.Log($"Cant find Resource: {rt} \n Radius: {radius} \n Pos: {gridPos}");
-        return new ResourceNeighbour(new Vector3Int(0, 0, 0), new Vector3Int(0, 0, 0));
+        return ResourceNeighbour.None;
     }
 
     private List<Vector2Int> AvaliableNeighbours(Vector2Int buildingPos, int x, int y)

@@ -23,6 +23,11 @@ public class WorkingState: State
         }
     }
 
+    public override void ClearData()
+    {
+        _onReachedCallback = null;
+    }
+
     public override void Enter()
     {
         StartCoroutine(StartWork());
@@ -30,7 +35,6 @@ public class WorkingState: State
 
     public override void OnUpdate()
     {
-        // check here if resource is not mined by other worker, if mined, need to find another job.
         if(_worker.ResourceIsGone())
         {
             _worker.JobFailed();

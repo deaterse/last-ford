@@ -108,8 +108,6 @@ public class JobManager : MonoBehaviour, IService
     private void JobFinished(OnJobFinished signal)
     {
         RewardJob(signal._job);
-        
-        signal._worker.OnJobCompleted();
     }
 
     private void RewardJob(Job job)
