@@ -134,22 +134,14 @@ public class Building : Entity, IDamageable
     private ResourceNeighbour ResourcePosition()
     {
         //refactor
-        if(buildingData.jobType == JobType.Wood_Cutting)
+        if(buildingData.jobType == JobType.Mining)
         {
             ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
-            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, ResourceType.Wood, 5);
-
-            return resPos;
-        }
-        else if(buildingData.jobType == JobType.Stone_Mining)
-        {
-            ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
-            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, ResourceType.Stone, 3);
+            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, buildingData.resourceType, buildingData.MiningRadius);
 
             return resPos;
         }
 
-        //refactor
         return ResourceNeighbour.None;
     }
     

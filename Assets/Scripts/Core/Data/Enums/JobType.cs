@@ -1,1 +1,1 @@
-public enum JobType { Wood_Cutting, Stone_Mining }
+public enum JobType { Mining, Production }

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _displayedName: Wood
   _resourceType: 0
-  _resourceSprite: {fileID: -5596023115087285583, guid: 54f50a52ee4376544b6a00f6cefb87f7, type: 3}
+  _resourceSprite: {fileID: 7047468145569697255, guid: 54f50a52ee4376544b6a00f6cefb87f7, type: 3}

@@ -12,7 +12,9 @@ public class BuildingData : ScriptableObject
     [SerializeField] private string _displayedName;
     [SerializeField] private Vector2Int _buildingSize = new Vector2Int(1, 1);
     [SerializeField] private float _buildingTime = 2f;
+    [SerializeField] private int _miningRadius = 5;
     [SerializeField] private JobType _jobType;
+    [SerializeField] private ResourceType _resourceType;
 
     [Header("Prices")]
     [SerializeField] private List<ResourceAmount> _buildCost;
@@ -27,7 +29,9 @@ public class BuildingData : ScriptableObject
     public BuildingType buildingType => _buildingType;
     public string displayedName => _displayedName;
     public float BuildingTime => _buildingTime;
+    public int MiningRadius => _miningRadius;
     public JobType jobType => _jobType;
+    public ResourceType resourceType => _resourceType;
 
     public Vector2Int BuildingSize => _buildingSize;
 

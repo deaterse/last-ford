@@ -19,10 +19,18 @@ public class Worker : MonoBehaviour
 
     private Vector3Int _destinition;
 
+    private WorkerUI _workerUI;
+
     public State CurrentState => _currentState;
 
     private void Start()
     {
+        if(TryGetComponent<WorkerUI>(out WorkerUI workerUI))
+        {
+            _workerUI = workerUI;
+            _workerUI.Init(this);
+        }
+
         ChangeState<IdleState>();
     }
 
@@ -98,7 +106,7 @@ public class Worker : MonoBehaviour
     private void AfterJob(MovingData toBuildingData)
     {
         //refactor, amount need to move to another place (5)
-        ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(_currentJob.ResourcePos, 5));
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(this, _currentJob.ResourcePos, 5, _assignedBuilding.buildingData.resourceType));
         
         ChangeState<MovingState>(toBuildingData);
     }
