@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buildingType: 0
   _displayedName: Stone Miner
-  _buildingSize: {x: 2, y: 1}
+  _buildingSize: {x: 3, y: 1}
   _buildingTime: 2
-  _jobType: 1
+  _miningRadius: 5
+  _jobType: 0
+  _resourceType: 1
   _buildCost:
   - Type: 0
     Amount: 5
@@ -25,4 +27,4 @@ MonoBehaviour:
     Amount: 5
   _levelsData:
   - {fileID: 11400000, guid: a6e7aa88a2c96ef44a8acdbfbe11c955, type: 2}
-  _buildingFrameSprite: {fileID: -4059051880555158148, guid: f3ca9851b4fd3c345bab441b57899236, type: 3}
+  _buildingFrameSprite: {fileID: 1639989802516710417, guid: fe3e445b618282448bdedd59eb2957b7, type: 3}

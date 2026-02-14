@@ -10,6 +10,9 @@ public class Worker : MonoBehaviour
     public WorkPhase CurrentPhase { get; private set; }
 
     [SerializeField] private List<StateString> _statesByString;
+    
+    [SerializeField] private SpriteRenderer _workerRenderer;
+    [SerializeField] private SpriteRenderer _attributeRenderer;
 
     private State _currentState;
 
@@ -17,11 +20,22 @@ public class Worker : MonoBehaviour
     private Job _currentJob;
     private Job _lastJob;
 
+    private NPCsSpritesConfig _npcsConfig;
+    private WorkAttributesConfig _attributesConfig;
+
     private Vector3Int _destinition;
 
     private WorkerUI _workerUI;
 
     public State CurrentState => _currentState;
+
+    public void Init(NPCsSpritesConfig npcsConfig, WorkAttributesConfig attributesConfig)
+    {
+        _npcsConfig = npcsConfig;
+        _attributesConfig = attributesConfig;
+
+        ChooseRandomSprite();
+    }
 
     private void Start()
     {
@@ -32,6 +46,18 @@ public class Worker : MonoBehaviour
         }
 
         ChangeState<IdleState>();
+    }
+
+    private void ChooseRandomSprite()
+    {
+        if(_npcsConfig != null && _npcsConfig.VillagersTypes.Count > 0 && _workerRenderer != null)
+        {
+            Sprite choosenSprite = _npcsConfig.VillagersTypes[UnityEngine.Random.Range(0, _npcsConfig.VillagersTypes.Count)];
+
+            Debug.Log(choosenSprite);
+
+            _workerRenderer.sprite = choosenSprite;
+        }
     }
 
     public void ChangeState<T>(object data = null) where T : State
