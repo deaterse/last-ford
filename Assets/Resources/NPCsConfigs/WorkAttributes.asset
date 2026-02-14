@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WorkAttributes
   m_EditorClassIdentifier: 
   _attributesList:
-  - Sprite: {fileID: 8887721339751536788, guid: f2dfeaf56e24662438b500fd8528da18, type: 3}
+  - sprite: {fileID: 8887721339751536788, guid: f2dfeaf56e24662438b500fd8528da18, type: 3}
     jobType: 0
     resourceType: 1

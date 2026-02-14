@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public struct JobAttribute
 {
-    public Sprite Sprite;
+    public Sprite sprite;
     public JobType jobType;
     public ResourceType resourceType;
 }

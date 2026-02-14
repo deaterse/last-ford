@@ -60,6 +60,20 @@ public class Worker : MonoBehaviour
         }
     }
 
+    private void ChangeAttribute(JobType jobType, ResourceType resourceType)
+    {
+        if(_attributeRenderer != null)
+        {
+            foreach(JobAttribute attribute in _attributesConfig.AttributesList)
+            {
+                if(attribute.jobType == jobType && attribute.resourceType == resourceType)
+                {
+                    _attributeRenderer.sprite = attribute.sprite;
+                }
+            }
+        }
+    }
+
     public void ChangeState<T>(object data = null) where T : State
     {
         Debug.Log($"changed to {typeof(T).Name}");
@@ -115,6 +129,8 @@ public class Worker : MonoBehaviour
     public void AssignToBuilding(Building building)
     {
         _assignedBuilding = building;
+
+        ChangeAttribute(_assignedBuilding.buildingData.jobType, _assignedBuilding.buildingData.resourceType);
     }
 
     public void StartJob()
