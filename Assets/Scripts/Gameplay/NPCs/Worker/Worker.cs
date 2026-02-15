@@ -6,9 +6,6 @@ using System.Collections.Generic;
 
 public class Worker : MonoBehaviour
 {
-    public enum WorkPhase { GoingResource, Working, GoingBuilding }
-    public WorkPhase CurrentPhase { get; private set; }
-
     [SerializeField] private List<StateString> _statesByString;
     
     [SerializeField] private SpriteRenderer _workerRenderer;
@@ -118,7 +115,7 @@ public class Worker : MonoBehaviour
     {
         if (_assignedBuilding == null) return;
 
-        if (_currentJob == null && !_assignedBuilding.NoResourcesOutside)
+        if (_currentJob == null && !_assignedBuilding.HaveJob)
         {
             _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
             if (_currentJob != null)

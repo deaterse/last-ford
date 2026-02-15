@@ -344,8 +344,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1129429510967982109}
   - component: {fileID: 7127970216908786792}
-  - component: {fileID: -6688750509498499344}
   - component: {fileID: 4849204433310828063}
+  - component: {fileID: 1244305598401159380}
   m_Layer: 0
   m_Name: Lumberjack
   m_TagString: Untagged
@@ -393,20 +393,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-6688750509498499344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576521533274311486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 916919bb4dddac34c913c9c6319b8f8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 2870714414518107048}
-  _buildingUI: {fileID: 4849204433310828063}
 --- !u!114 &4849204433310828063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,12 +405,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859fed53a29687b4080af50e17d7d272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisBuilding: {fileID: -6688750509498499344}
+  _thisBuilding: {fileID: 1244305598401159380}
   _buildingCanvas: {fileID: 1667861548406721573}
   _upgradeButton: {fileID: 765287589315428218}
   _removeButton: {fileID: 3025872952814881896}
   _progressCanvas: {fileID: 7585966235670488953}
   _progressSlider: {fileID: 6602741006339251855}
+--- !u!114 &1244305598401159380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576521533274311486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded7595e1fe6ebb458d7d2f34e7c5ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 2870714414518107048}
+  _buildingUI: {fileID: 4849204433310828063}
 --- !u!1 &5712807991207923907
 GameObject:
   m_ObjectHideFlags: 0

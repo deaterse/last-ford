@@ -2,35 +2,33 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Building : Entity, IDamageable
+public abstract class Building : Entity, IDamageable
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private BuildingUI _buildingUI;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected BuildingUI _buildingUI;
 
-    private BuildingData _buildingData;
-    private Vector2Int _gridPos;
-    private int _level = 1;
+    protected BuildingData _buildingData;
+    protected Vector2Int _gridPos;
+    protected int _level = 1;
 
-    private bool _isBuilded;
-    private bool _noResourcesOutside;
+    protected bool _isBuilded;
+    protected bool _haveJob;
 
-    private int _avaliableWorkersSlots;
-    private List<Worker> _assignedWorkers = new();
-    private List<Vector3Int> _assignedResources = new();
+    protected int _avaliableWorkersSlots;
+    protected List<Worker> _assignedWorkers = new();
 
     public BuildingData buildingData => _buildingData;
     public Vector2Int GridPosition => _gridPos;
     public int Level => _level;
 
     public bool IsBuilded => _isBuilded;
-    public bool NoResourcesOutside => _noResourcesOutside;
+    public bool HaveJob => _haveJob;
 
     public List<Worker> AssignedWorkers => _assignedWorkers;
-    public List<Vector3Int> AssignedResources => _assignedResources;
 
     public bool HasAvailableSlot => _assignedWorkers.Count < _avaliableWorkersSlots;
 
-    private void Awake()
+    protected void Awake()
     {
         _buildingUI.Init();
     }
@@ -45,7 +43,7 @@ public class Building : Entity, IDamageable
         StartBuild();
     }
 
-    private void SetData(BuildingData buildingData, Vector2Int pos)
+    protected void SetData(BuildingData buildingData, Vector2Int pos)
     {
         _buildingData = buildingData;
         _gridPos = pos;
@@ -53,12 +51,12 @@ public class Building : Entity, IDamageable
         _isBuilded = false;
     }
 
-    public void StartBuild()
+    protected void StartBuild()
     {
         StartCoroutine(Build());
     }
 
-    private IEnumerator Build()
+    protected IEnumerator Build()
     {
         float buildingTime = _buildingData.BuildingTime;
         
@@ -76,7 +74,7 @@ public class Building : Entity, IDamageable
         _buildingUI.HideSlider();
     }
 
-    private void BuildFinish()
+    protected void BuildFinish()
     {
         _isBuilded = true;
         _spriteRenderer.sprite = buildingData.GetLevel(_level).UpgradeSprite;
@@ -99,52 +97,6 @@ public class Building : Entity, IDamageable
         _assignedWorkers.Remove(worker);
     }
 
-    public Job GetAvailableJob(Job lastJob = null)
-    {
-        if(!_noResourcesOutside)
-        {
-            if(lastJob != null)
-            {
-                Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
-                if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
-                {
-                    ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
-
-                    return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), currentResNeighbour);
-                }
-            }
-
-            ResourceNeighbour positionData = ResourcePosition();
-
-            if(!IsNoneResource(positionData))
-            {
-                return new Job(this, _buildingData.jobType, new Vector3Int(_gridPos.x, _gridPos.y, 0), positionData);
-            }
-
-            _noResourcesOutside = true;
-        }
-        return null;
-    }
-
-    private bool IsNoneResource(ResourceNeighbour rn)
-    {
-        return rn.resourceType == ResourceType.None;
-    }
-
-    private ResourceNeighbour ResourcePosition()
-    {
-        //refactor
-        if(buildingData.jobType == JobType.Mining)
-        {
-            ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
-            ResourceNeighbour resPos = rl.GetCellNearResource(_gridPos, buildingData.resourceType, buildingData.MiningRadius);
-
-            return resPos;
-        }
-
-        return ResourceNeighbour.None;
-    }
-    
     public void ChangeColor(Color color)
     {
         _spriteRenderer.color = color;
@@ -170,4 +122,6 @@ public class Building : Entity, IDamageable
     {
         Destroy(gameObject);
     }
+
+    public abstract Job GetAvailableJob(Job lastJob = null);
 }
