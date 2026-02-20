@@ -6,11 +6,11 @@ public class JobsRewardsConfig : ScriptableObject
 {
     [SerializeField] private List<JobReward> _jobRewards;
 
-    public List<ResourceAmount> GetRewards(JobType type)
+    public List<ResourceAmount> GetRewards(JobType jobType, ResourceType resourceType)
     {
         foreach(JobReward jr in _jobRewards)
         {
-            if(jr.jobType == type)
+            if(jr.jobType == jobType && jr.resourceType == resourceType)
             {
                 return jr.ResourceAmounts;
             }

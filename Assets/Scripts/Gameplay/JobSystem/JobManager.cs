@@ -112,7 +112,7 @@ public class JobManager : MonoBehaviour, IService
 
     private void RewardJob(Job job)
     {
-        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetRewards(job.jobType);
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetRewards(job.jobType, job.resourceType);
         foreach(ResourceAmount ra in resourcesAmount)
         {
             ServiceLocator.GetService<ResourceManager>().AddResource(ra.Type, ra.Amount);

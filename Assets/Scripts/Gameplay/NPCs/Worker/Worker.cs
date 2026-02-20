@@ -73,7 +73,6 @@ public class Worker : MonoBehaviour
 
     public void ChangeState<T>(object data = null) where T : State
     {
-        Debug.Log($"changed to {typeof(T).Name}");
         foreach(StateString sstr in _statesByString)
         {
             if(sstr.name == typeof(T).Name)

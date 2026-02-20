@@ -292,7 +292,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1129429510967982109}
   - component: {fileID: 7127970216908786792}
-  - component: {fileID: -6688750509498499344}
   - component: {fileID: 8339712516288447597}
   - component: {fileID: 3481019006626478460}
   m_Layer: 0
@@ -343,20 +342,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-6688750509498499344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576521533274311486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 916919bb4dddac34c913c9c6319b8f8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 3260270026225245584}
-  _buildingUI: {fileID: 8339712516288447597}
 --- !u!114 &8339712516288447597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859fed53a29687b4080af50e17d7d272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisBuilding: {fileID: -6688750509498499344}
+  _thisBuilding: {fileID: 0}
   _buildingCanvas: {fileID: 5412544159347423164}
   _upgradeButton: {fileID: 8583397253236343423}
   _removeButton: {fileID: 5260566460201018436}

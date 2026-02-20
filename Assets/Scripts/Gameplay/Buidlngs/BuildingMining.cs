@@ -4,10 +4,6 @@ using System.Collections.Generic;
 
 public class BuildingMining : Building
 {
-    private List<Vector3Int> _assignedResources = new();
-
-    public List<Vector3Int> AssignedResources => _assignedResources;
-
     public override Job GetAvailableJob(Job lastJob = null)
     {
         if(!HaveJob)
@@ -19,7 +15,7 @@ public class BuildingMining : Building
                 {
                     ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
 
-                    return new Job(this, buildingData.jobType, new Vector3Int(GridPosition.x, GridPosition.y, 0), currentResNeighbour);
+                    return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), currentResNeighbour);
                 }
             }
 
@@ -27,7 +23,7 @@ public class BuildingMining : Building
 
             if(!IsNoneResource(positionData))
             {
-                return new Job(this, buildingData.jobType, new Vector3Int(GridPosition.x, GridPosition.y, 0), positionData);
+                return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), positionData);
             }
 
             _haveJob = true;

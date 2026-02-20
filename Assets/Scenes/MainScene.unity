@@ -533,7 +533,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 816082831}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.808487
+  m_Size: 0.81111795
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3667,14 +3667,13 @@ GameObject:
   - component: {fileID: 1725427858}
   - component: {fileID: 1725427857}
   - component: {fileID: 1725427856}
-  - component: {fileID: 1725427855}
   m_Layer: 5
   m_Name: SpawnWorker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1725427854
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3695,21 +3694,6 @@ RectTransform:
   m_AnchoredPosition: {x: 645, y: 44.621105}
   m_SizeDelta: {x: 160, y: 119.2423}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1725427855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725427853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7bd7a33bd799ab46bd115d810891529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _workerPrefab: {fileID: 1861140567380637209, guid: 563503ec05dffae449becb6b8952365d, type: 3}
-  _npcsConfig: {fileID: 11400000, guid: 5c1db8c9b78bdd345a6db20ecbdf981e, type: 2}
-  _attributesConfig: {fileID: 11400000, guid: e3b98e7fae0f85d41972b54eee7abfcb, type: 2}
 --- !u!114 &1725427856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3754,7 +3738,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1725427855}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SpawnWorker, Assembly-CSharp
         m_MethodName: SpawnWorkerButton
         m_Mode: 1

@@ -19,6 +19,14 @@ public class BuildingUI : MonoBehaviour
 
     public void Init()
     {
+        if(TryGetComponent<Building>(out Building building))
+        {
+            _thisBuilding = building;
+        }
+        else
+        {
+            Debug.LogError("Cant find Building component!");
+        }
         _progressCanvas.SetActive(false);
         _buildingCanvas.SetActive(false);
 

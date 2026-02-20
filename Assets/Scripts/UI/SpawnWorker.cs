@@ -18,7 +18,7 @@ public class SpawnWorker : MonoBehaviour
             Debug.Log("initing");
             worker.Init(_npcsConfig, _attributesConfig);
         }
-        newWorker.transform.position = new Vector3(9.5f,9.5f, 0);
+        newWorker.transform.position = transform.position;
         
         ServiceLocator.GetService<EventBus>().Invoke<OnWorkerSpawned>(new OnWorkerSpawned(newWorker.GetComponent<Worker>()));
     }
