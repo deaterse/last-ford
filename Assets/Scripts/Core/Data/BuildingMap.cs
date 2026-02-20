@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public class BuildingMap
@@ -13,47 +14,66 @@ public class BuildingMap
         BuildingData = new Building[width, height];
     }
     
-    public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
+    public bool CanPlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray)
     {
-        for (int x = 0; x < size.x; x++)
+        int rowIndex = 0;
+        foreach(Vector3Int row in sizeArray)
         {
-            for (int y = 0; y < size.y; y++)
+            for (int x = 0; x < 3; x++)
             {
-                int checkX = pos.x + x;
-                int checkY = pos.y + y;
-                
-                if (checkX >= Width || checkY >= Height || checkX < 0 || checkY < 0)
-                    return false;
-                    
-                if (BuildingData[checkX, checkY] != null)
-                    return false;
+                if(row[x] != 0)
+                {
+                    int checkX = pos.x + x;
+                    int checkY = pos.y - rowIndex;
+
+                    if (checkX >= Width || checkY >= Height || checkX < 0 || checkY < 0)
+                        return false;
+                        
+                    if (BuildingData[checkX, checkY] != null)
+                        return false;
+                }
             }
+
+            rowIndex++;
         }
+
         return true;
     }
     
-    public void PlaceBuilding(Vector2Int pos, Vector2Int size, Building building)
+    public void PlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray, Building building)
     {
-        for (int x = 0; x < size.x; x++)
+        int rowIndex = 0;
+        foreach(Vector3Int row in sizeArray)
         {
-            for (int y = 0; y < size.y; y++)
+            for (int x = 0; x < 3; x++)
             {
-                BuildingData[pos.x + x, pos.y + y] = building;
+                if(row[x] != 0)
+                {
+                    BuildingData[pos.x + x, pos.y - rowIndex] = building;
+                }
             }
+
+            rowIndex++;
         }
     }
 
     public void RemoveBuilding(Building building)
     {
         Vector2Int pos = building.GridPosition;
-        Vector2Int size = building.buildingData.BuildingSize;
-        
-        for (int x = 0; x < size.x; x++)
+        Vector3Int[] sizeArray = building.buildingData.BuildingSize;
+
+        int rowIndex = 0;
+        foreach(Vector3Int row in sizeArray)
         {
-            for (int y = 0; y < size.y; y++)
+            for (int x = 0; x < 3; x++)
             {
-                BuildingData[pos.x + x, pos.y + y] = null;
+                if(row[x] != 0)
+                {
+                    BuildingData[pos.x + x, pos.y - rowIndex] = null;
+                }
             }
+
+            rowIndex++;
         }
     }
 }

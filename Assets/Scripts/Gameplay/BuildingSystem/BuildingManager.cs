@@ -29,9 +29,9 @@ public class BuildingManager : MonoBehaviour, IService
         _buildingMap = new BuildingMap(terrainMap.Width, terrainMap.Height);
     }
 
-    public bool CanPlaceBuilding(Vector2Int pos, Vector2Int size)
+    public bool CanPlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray)
     {
-        return _buildingMap.CanPlaceBuilding(pos, size);
+        return _buildingMap.CanPlaceBuilding(pos, sizeArray);
     }
 
     public void AddBuilding(GameObject buildingObj, Vector2Int pos)

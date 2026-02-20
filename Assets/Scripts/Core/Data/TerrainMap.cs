@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 
 public class TerrainMap
@@ -77,19 +78,28 @@ public class TerrainMap
         TerrainData[x, y] = tile;
     }
 
-    public bool CanBuild(Vector2Int pos, Vector2Int size)
+    public bool CanBuild(Vector2Int startPos, Vector3Int[] sizeArray)
     {
-        if(pos.x + size.x > Width || pos.y + size.y > Height || pos.x < 0 || pos.y < 0) return false;
+        if(startPos.x > Width || startPos.y > Height || startPos.x < -1 || startPos.y < -1) return false;
 
-        for(int x = 0; x < size.x; x++)
+        int rowIndex = 0;
+        foreach(Vector3Int row in sizeArray)
         {
-            for(int y = 0; y < size.y; y++)
+            for (int x = 0; x < 3; x++)
             {
-                if(!IsWalkable(pos.x + x, pos.y + y))
+                if(row[x] != 0)
                 {
-                    return false;
+                    int checkX = startPos.x + x;
+                    int checkY = startPos.y - rowIndex;
+
+                    if(!IsWalkable(checkX, checkY))
+                    {
+                        return false;
+                    }
                 }
             }
+
+            rowIndex++;
         }
 
         return true;

@@ -15,7 +15,14 @@ MonoBehaviour:
   _buildingType: 0
   _displayedName: Residental House
   _buildingSize: {x: 1, y: 1}
+  _buildSize:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 0, z: 0}
   _buildingTime: 2
+  _miningRadius: 5
+  _jobType: 0
+  _resourceType: 0
   _buildCost:
   - Type: 0
     Amount: 5

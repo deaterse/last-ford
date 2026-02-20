@@ -15,7 +15,14 @@ MonoBehaviour:
   _buildingType: 0
   _displayedName: Castle
   _buildingSize: {x: 3, y: 3}
+  _buildSize:
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
   _buildingTime: 2
+  _miningRadius: 5
+  _jobType: 0
+  _resourceType: 0
   _buildCost:
   - Type: 1
     Amount: 10

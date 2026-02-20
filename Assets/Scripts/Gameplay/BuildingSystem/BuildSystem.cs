@@ -91,7 +91,7 @@ public class BuildSystem : MonoBehaviour, IService
     private bool IsPlaceEmpty()
     {
         Vector3Int mousePos = MousePosOnTile();
-        Vector2Int startPos = new Vector2Int(mousePos.x - (_currentData.BuildingSize.x / 2), mousePos.y - (_currentData.BuildingSize.y / 2));
+        Vector2Int startPos = new Vector2Int(mousePos.x - 1, mousePos.y + 1);
 
         if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize))
         {
@@ -167,14 +167,7 @@ public class BuildSystem : MonoBehaviour, IService
             Vector3Int cellMousePos = MousePosOnTile();
             Vector2Int startPos;
             
-            if(_currentData.BuildingSize.x > 1 && _currentData.BuildingSize.y > 1)
-            {
-                startPos = new Vector2Int(cellMousePos.x - (_currentData.BuildingSize.x / 2), cellMousePos.y - (_currentData.BuildingSize.y / 2));
-            }
-            else
-            {
-                startPos = (Vector2Int) cellMousePos;
-            }
+            startPos = new Vector2Int(cellMousePos.x - 1, cellMousePos.y + 1);
 
             if (!ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
