@@ -133,15 +133,27 @@ public class Worker : MonoBehaviour
     {
         if(_currentJob != null)
         {
-            MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
-            WorkingData endJobData = new WorkingData(5f, () => AfterJob(toBuildingData));
-            MovingData toJobData = new MovingData(_currentJob.JobPos,() => ChangeState<WorkingState>(endJobData));
-            
-            ChangeState<MovingState>(toJobData);
+            if(_currentJob.jobType == JobType.Mining)
+            {
+                MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
+                WorkingData endJobData = new WorkingData(5f, JobType.Mining, () => AfterMiningJob(toBuildingData));
+                MovingData toJobData = new MovingData(_currentJob.JobPos,() => ChangeState<WorkingState>(endJobData));
+                
+                ChangeState<MovingState>(toJobData);
+            }
+            else if(_currentJob.jobType == JobType.Production)
+            {
+                MovingData backToStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => JobEnded()); 
+                WorkingData workingData = new WorkingData(5f, JobType.Production, () => ChangeState<MovingState>(backToStorageData));
+                MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => ChangeState<WorkingState>(workingData));
+                MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => ChangeState<MovingState>(toBuildingData));
+                
+                ChangeState<MovingState>(toStorageData);
+            } 
         }
     }
 
-    private void AfterJob(MovingData toBuildingData)
+    private void AfterMiningJob(MovingData toBuildingData)
     {
         //refactor, amount need to move to another place (5)
         ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(this, _currentJob.ResourcePos, 5, _assignedBuilding.buildingData.resourceType));

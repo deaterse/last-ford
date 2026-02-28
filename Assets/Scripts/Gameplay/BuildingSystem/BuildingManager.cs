@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BuildingManager : MonoBehaviour, IService
 {
     private BuildingMap _buildingMap;
-    private List<GameObject> _buildingInstances = new();
+    [SerializeField] private List<GameObject> _buildingInstances = new();
 
     public void Init()
     {
@@ -58,6 +58,11 @@ public class BuildingManager : MonoBehaviour, IService
         }
         
         _buildingInstances.Add(buildingObj);
+    }
+
+    public Vector3Int GetNearestStorage(Vector3Int pos)
+    {
+        return new Vector3Int(5, 5, 0);
     }
 
     private void TryToUpgrade(TryUpdateBuilding signal)

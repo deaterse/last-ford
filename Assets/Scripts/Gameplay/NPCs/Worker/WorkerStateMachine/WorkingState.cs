@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class WorkingState: State
 {
     private Worker _worker;
+    private JobType _jobType;
     private float _workingTime;
     private System.Action _onReachedCallback;
 
@@ -19,6 +20,7 @@ public class WorkingState: State
         if (data is WorkingData workingData)
         {
             _workingTime = workingData.Time;
+            _jobType = workingData._jobType;
             _onReachedCallback = workingData.OnReached;
         }
     }
@@ -35,10 +37,13 @@ public class WorkingState: State
 
     public override void OnUpdate()
     {
-        if(_worker.ResourceIsGone())
+        if(_jobType == JobType.Mining)
         {
-            _worker.JobFailed();
-            return;
+            if(_worker.ResourceIsGone())
+            {
+                _worker.JobFailed();
+                return;
+            }
         }
     }
 

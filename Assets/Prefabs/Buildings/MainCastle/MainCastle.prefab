@@ -455,9 +455,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1129429510967982109}
   - component: {fileID: 7127970216908786792}
-  - component: {fileID: -6688750509498499344}
   - component: {fileID: 6892305658474601962}
   - component: {fileID: 6573988328209353531}
+  - component: {fileID: 941856425030193529}
   m_Layer: 0
   m_Name: MainCastle
   m_TagString: Untagged
@@ -505,20 +505,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-6688750509498499344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576521533274311486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 916919bb4dddac34c913c9c6319b8f8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 9214508002826462099}
-  _buildingUI: {fileID: 6892305658474601962}
 --- !u!114 &6892305658474601962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859fed53a29687b4080af50e17d7d272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisBuilding: {fileID: -6688750509498499344}
+  _thisBuilding: {fileID: 941856425030193529}
   _buildingCanvas: {fileID: 2134696004122999994}
   _upgradeButton: {fileID: 7227002983127108126}
   _removeButton: {fileID: 2711331105893407966}
@@ -583,6 +569,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.0703692, y: 2.6381304}
   m_EdgeRadius: 0
+--- !u!114 &941856425030193529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576521533274311486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb01e3be3a34dd40af5ac88dd6ad81c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 9214508002826462099}
+  _buildingUI: {fileID: 6892305658474601962}
 --- !u!1 &4522985073502506946
 GameObject:
   m_ObjectHideFlags: 0

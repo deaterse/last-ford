@@ -21,8 +21,8 @@ MonoBehaviour:
   - {x: 1, y: 1, z: 1}
   _buildingTime: 2
   _miningRadius: 5
-  _jobType: 0
-  _resourceType: 0
+  _jobType: 1
+  _resourceType: 2
   _buildCost:
   - Type: 1
     Amount: 10
@@ -35,4 +35,4 @@ MonoBehaviour:
     Amount: 100
   _levelsData:
   - {fileID: 11400000, guid: 34a603cf06a6048468899a13f52d8a8b, type: 2}
-  _buildingFrameSprite: {fileID: 7482667652216324306, guid: fa710f242ebee5641b9cac7bb78e4acf, type: 3}
+  _buildingFrameSprite: {fileID: -8340344382419685985, guid: 927c83b4b6f6fa843a2dee7cd769ba9d, type: 3}

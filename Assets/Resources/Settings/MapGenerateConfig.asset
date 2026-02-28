@@ -16,6 +16,6 @@ MonoBehaviour:
   _generateRiver: 0
   _generateShore: 0
   _generatePreSand: 0
-  _generateStones: 1
+  _generateStones: 0
   _generateForests: 1
-  _generateFertility: 1
+  _generateFertility: 0

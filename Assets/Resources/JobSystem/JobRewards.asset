@@ -23,3 +23,8 @@ MonoBehaviour:
     ResourceAmounts:
     - Type: 1
       Amount: 5
+  - jobType: 1
+    resourceType: 2
+    ResourceAmounts:
+    - Type: 2
+      Amount: 5

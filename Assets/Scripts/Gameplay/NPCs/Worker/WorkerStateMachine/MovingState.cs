@@ -36,6 +36,7 @@ public class MovingState : State
     public void MoveTo(Vector3Int targetCell)
     {
         Vector3Int startCell = ServiceLocator.GetService<Pathfinder>().WorldToCell(transform.position);
+        startCell.z = 0;
         List<Vector3Int> path = ServiceLocator.GetService<Pathfinder>().FindPath(startCell, targetCell);
         
         if (path != null)
