@@ -133,8 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5920648297933911012}
   - component: {fileID: 7450447815898949580}
+  - component: {fileID: 4796088433805906451}
   - component: {fileID: 8999738276123419180}
-  - component: {fileID: 6893738869445138398}
   - component: {fileID: 8147529673225251274}
   m_Layer: 0
   m_Name: VillageSpawner
@@ -183,6 +183,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4796088433805906451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2353464301491537542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c1fa983539b6c343b59a8c716f240eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 3151273906306253097}
+  _buildingUI: {fileID: 8999738276123419180}
 --- !u!114 &8999738276123419180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,26 +209,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859fed53a29687b4080af50e17d7d272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisBuilding: {fileID: 0}
+  _thisBuilding: {fileID: 4796088433805906451}
   _buildingCanvas: {fileID: 4265227906977122231}
   _upgradeButton: {fileID: 2223742471931140727}
   _removeButton: {fileID: 7102512108860525838}
   _progressCanvas: {fileID: 5047530541476012738}
   _progressSlider: {fileID: 3558205063394369301}
---- !u!114 &6893738869445138398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2353464301491537542}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ded7595e1fe6ebb458d7d2f34e7c5ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _spriteRenderer: {fileID: 3151273906306253097}
-  _buildingUI: {fileID: 8999738276123419180}
 --- !u!61 &8147529673225251274
 BoxCollider2D:
   m_ObjectHideFlags: 0

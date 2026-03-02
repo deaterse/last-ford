@@ -45,6 +45,8 @@ public class JobManager : MonoBehaviour, IService
         Building freeBuilding = signal.building;
         int workersCount = signal.WorkersCount;
 
+        if(workersCount < 0 || freeBuilding.buildingData.jobType == JobType.NonWorkable) return;
+
         _freeBuildings[freeBuilding] = workersCount;
 
         TryFillBuilding(freeBuilding);

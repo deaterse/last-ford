@@ -21,7 +21,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   _buildingTime: 2
   _miningRadius: 5
-  _jobType: 0
+  _jobType: 2
   _resourceType: 0
   _buildCost:
   - Type: 0

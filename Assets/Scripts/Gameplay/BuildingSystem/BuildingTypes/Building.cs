@@ -12,10 +12,10 @@ public abstract class Building : Entity, IDamageable
     protected int _level = 1;
 
     protected bool _isBuilded;
-    [SerializeField] protected bool _haveJob;
+    protected bool _haveJob;
 
-    [SerializeField] protected int _avaliableWorkersSlots;
-    [SerializeField] protected List<Worker> _assignedWorkers = new();
+    protected int _avaliableWorkersSlots;
+    protected List<Worker> _assignedWorkers = new();
 
     public BuildingData buildingData => _buildingData;
     public Vector2Int GridPosition => _gridPos;

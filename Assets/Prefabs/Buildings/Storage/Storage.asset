@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: FortTowerMetal
+  m_Name: Storage
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 2576521533274311486, guid: 19f21164debaaa445893eacf33a8346e, type: 3}
+  m_DefaultGameObject: {fileID: 2576521533274311486, guid: 27ab38e62b0493e429e1eb2ba345c191, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []
