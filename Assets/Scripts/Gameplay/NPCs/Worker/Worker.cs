@@ -146,11 +146,18 @@ public class Worker : MonoBehaviour
                 MovingData backToStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => JobEnded()); 
                 WorkingData workingData = new WorkingData(5f, JobType.Production, () => ChangeState<MovingState>(backToStorageData));
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => ChangeState<WorkingState>(workingData));
-                MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => ChangeState<MovingState>(toBuildingData));
+                MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => AfterTakingJob(toBuildingData));
                 
                 ChangeState<MovingState>(toStorageData);
             } 
         }
+    }
+
+    private void AfterTakingJob(MovingData toBuildingData)
+    {
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourcesTakenFromStorage>(new OnResourcesTakenFromStorage(_currentJob, this));
+        
+        ChangeState<MovingState>(toBuildingData);
     }
 
     private void AfterMiningJob(MovingData toBuildingData)

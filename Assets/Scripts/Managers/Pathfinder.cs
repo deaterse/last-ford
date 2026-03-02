@@ -108,16 +108,6 @@ public class Pathfinder: IService
     bool isDiagonal = a.x != b.x && a.y != b.y;
     return isDiagonal ? 1.414f : 1f;
   }
-
-  private Vector3Int GetLowestFScore(List<Vector3Int> openSet, Dictionary<Vector3Int, float> fScore)
-  {
-    Vector3Int lowest = openSet[0];
-    foreach (var node in openSet)
-    {
-      if (fScore.ContainsKey(node) && fScore[node] < fScore[lowest]) lowest = node;
-    }
-    return lowest;
-  }
   
   private List<Vector3Int> ReconstructPath(Dictionary<Vector3Int, Vector3Int> cameFrom, Vector3Int current)
   {

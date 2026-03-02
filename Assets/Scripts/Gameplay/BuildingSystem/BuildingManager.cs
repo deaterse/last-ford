@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Numerics;
 
 public class BuildingManager : MonoBehaviour, IService
 {
     private BuildingMap _buildingMap;
+    private List<GameObject> _storagesInstances = new();
     [SerializeField] private List<GameObject> _buildingInstances = new();
 
     public void Init()
@@ -58,11 +60,23 @@ public class BuildingManager : MonoBehaviour, IService
         }
         
         _buildingInstances.Add(buildingObj);
+        if(buildingObj.TryGetComponent<Storage>(out Storage _storage))
+        {
+            _storagesInstances.Add(buildingObj);
+        }
     }
 
     public Vector3Int GetNearestStorage(Vector3Int pos)
     {
-        return new Vector3Int(5, 5, 0);
+        if(_storagesInstances.Count > 0)
+        {
+            Vector2Int pos2int = _storagesInstances[Random.Range(0, _storagesInstances.Count)].GetComponent<Building>().GridPosition;
+            Vector3Int pos3int = new Vector3Int(pos2int.x, pos2int.y, 0);
+
+            return pos3int;
+        }
+
+        return new Vector3Int(0,0,0);
     }
 
     private void TryToUpgrade(TryUpdateBuilding signal)

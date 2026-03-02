@@ -10,4 +10,7 @@ public struct JobReward
 
     [Header("Reward Parameters")]
     public List<ResourceAmount> ResourceAmounts;
+
+    [Header("Spending Parameters")]
+    public List<ResourceAmount> SpendingResourceAmounts;
 }

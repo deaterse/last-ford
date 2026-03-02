@@ -16,6 +16,7 @@ public class JobManager : MonoBehaviour, IService
 
         ServiceLocator.ProvideService<JobManager>(this);
 
+        ServiceLocator.GetService<EventBus>().Subscribe<OnResourcesTakenFromStorage>(ResourcesTakenFromStorage);
         ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(JobFinished);
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingFinished>(NewFreeBuilding);
@@ -26,6 +27,7 @@ public class JobManager : MonoBehaviour, IService
     {
         ClearAll();
 
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnResourcesTakenFromStorage>(ResourcesTakenFromStorage);
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobFinished>(JobFinished);
 
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingFinished>(NewFreeBuilding);
@@ -110,6 +112,20 @@ public class JobManager : MonoBehaviour, IService
     private void JobFinished(OnJobFinished signal)
     {
         RewardJob(signal._job);
+    }
+
+    private void ResourcesTakenFromStorage(OnResourcesTakenFromStorage signal)
+    {
+        SpendResources(signal._job);
+    }
+
+    private void SpendResources(Job job)
+    {
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetSpendings(job.jobType, job.resourceType);
+        foreach(ResourceAmount ra in resourcesAmount)
+        {
+            ServiceLocator.GetService<ResourceManager>().TrySpendResource(ra.Type, ra.Amount);
+        }
     }
 
     private void RewardJob(Job job)

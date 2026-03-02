@@ -18,4 +18,17 @@ public class JobsRewardsConfig : ScriptableObject
     
         return null;
     }
+
+    public List<ResourceAmount> GetSpendings(JobType jobType, ResourceType resourceType)
+    {
+        foreach(JobReward jr in _jobRewards)
+        {
+            if(jr.jobType == jobType && jr.resourceType == resourceType)
+            {
+                return jr.SpendingResourceAmounts;
+            }
+        }
+    
+        return null;
+    }
 }

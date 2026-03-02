@@ -18,13 +18,18 @@ MonoBehaviour:
     ResourceAmounts:
     - Type: 0
       Amount: 5
+    SpendingResourceAmounts: []
   - jobType: 0
     resourceType: 1
     ResourceAmounts:
     - Type: 1
       Amount: 5
+    SpendingResourceAmounts: []
   - jobType: 1
     resourceType: 2
     ResourceAmounts:
     - Type: 2
+      Amount: 5
+    SpendingResourceAmounts:
+    - Type: 1
       Amount: 5

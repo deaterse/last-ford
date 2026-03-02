@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 
 public class BuildingUI : MonoBehaviour
 {
-    [SerializeField] private Building _thisBuilding;
+    private Building _thisBuilding;
+    [Header("Canvas")]
     [SerializeField] private GameObject _buildingCanvas;
 
     [Header("Buttons")]
