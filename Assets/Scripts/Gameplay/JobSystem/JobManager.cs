@@ -136,4 +136,18 @@ public class JobManager : MonoBehaviour, IService
             ServiceLocator.GetService<ResourceManager>().AddResource(ra.Type, ra.Amount);
         }
     }
+
+    public bool CheckResources(BuildingData data)
+    {
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetSpendings(data.jobType, data.resourceType);
+        foreach(ResourceAmount ra in resourcesAmount)
+        {
+            if(!ServiceLocator.GetService<ResourceManager>().IsResourceEnough(ra.Type, ra.Amount))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

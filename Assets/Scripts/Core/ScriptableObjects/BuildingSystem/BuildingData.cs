@@ -33,7 +33,9 @@ public class BuildingData : ScriptableObject
     public float BuildingTime => _buildingTime;
     public int MiningRadius => _miningRadius;
     public JobType jobType => _jobType;
+    //Outcome Resource
     public ResourceType resourceType => _resourceType;
+    //Add here ResourceAmount to spending resource for production buildings
 
     public Vector3Int[] BuildingSize => _buildSize;
 

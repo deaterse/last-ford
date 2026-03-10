@@ -31,5 +31,5 @@ MonoBehaviour:
     - Type: 2
       Amount: 5
     SpendingResourceAmounts:
-    - Type: 1
+    - Type: 3
       Amount: 5

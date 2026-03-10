@@ -6,10 +6,15 @@ public class BuildingProduction : Building
 {
     public override Job GetAvailableJob(Job lastJob = null)
     {
-        if(!HaveJob)
+        if(!HaveJob && IsResourcesEnough())
         {
             return new Job(this, JobType.Production, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0));
         }
         return null;
+    }
+
+    private bool IsResourcesEnough()
+    {
+        return ServiceLocator.GetService<JobManager>().CheckResources(buildingData);
     }
 }

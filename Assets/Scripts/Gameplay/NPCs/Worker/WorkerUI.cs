@@ -18,6 +18,7 @@ public class WorkerUI : MonoBehaviour
         _worker = worker;
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnResourceMined>(ChangeCarryingResource);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnResourcesTakenFromStorage>(ChangeCarryingResource);
         ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(ClearCarryingResource);
     }
 
@@ -37,6 +38,34 @@ public class WorkerUI : MonoBehaviour
         {
             _carryResource.sprite = null;
             _carryPanel.SetActive(false);
+        }
+    }
+
+    private void ChangeCarryingResource(OnResourcesTakenFromStorage signal)
+    {
+        if(signal._worker == _worker)
+        {
+            _carryPanel.SetActive(true);
+
+            ResourceType resourceType = signal._job.resourceType;
+        
+            ResourceVisualizationConfig currentRvs = null;
+            foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
+            {
+                if(rvs.resourceType.ToString() == resourceType.ToString())
+                {
+                    currentRvs = rvs;
+                }
+            }
+
+            if(currentRvs != null)
+            {
+                _carryResource.sprite = currentRvs.ResourceSprite;
+            }
+            else
+            {
+                Debug.LogWarning($"ResourceVisualizationConfig for {resourceType.ToString()} not founded.");
+            }
         }
     }
 
