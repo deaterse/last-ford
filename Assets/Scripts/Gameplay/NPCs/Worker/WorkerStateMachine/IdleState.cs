@@ -23,6 +23,14 @@ public class IdleState: State
         StopAllCoroutines();
     }
 
+    public void SetSpeed(float speed)
+    {
+        if(speed > 0)
+        {
+            _moveSpeed = speed;
+        }
+    }
+
     private IEnumerator ChoosePoint()
     {
         yield return new WaitForSeconds(3);

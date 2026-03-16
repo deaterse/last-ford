@@ -8,16 +8,20 @@ public class Worker : MonoBehaviour
 {
     [SerializeField] private List<StateString> _statesByString;
     
+    [SerializeField] private ResourceType _inventory;
+    
     [SerializeField] private SpriteRenderer _workerRenderer;
     [SerializeField] private SpriteRenderer _attributeRenderer;
 
     private State _currentState;
 
+    public ResourceType CurrentResource => _inventory;
+
     private Building _assignedBuilding;
     private Job _currentJob;
     private Job _lastJob;
 
-    private NPCsSpritesConfig _npcsConfig;
+    private NPCsConfig _npcsConfig;
     private WorkAttributesConfig _attributesConfig;
 
     private Vector3Int _destinition;
@@ -26,12 +30,12 @@ public class Worker : MonoBehaviour
 
     public State CurrentState => _currentState;
 
-    public void Init(NPCsSpritesConfig npcsConfig, WorkAttributesConfig attributesConfig)
+    public void Init(NPCsConfig npcsConfig, WorkAttributesConfig attributesConfig)
     {
         _npcsConfig = npcsConfig;
         _attributesConfig = attributesConfig;
 
-        ChooseRandomSprite();
+        ChooseRandomParameters();
     }
 
     private void Start()
@@ -43,6 +47,32 @@ public class Worker : MonoBehaviour
         }
 
         ChangeState<IdleState>();
+    }
+
+    private void ChooseRandomParameters()
+    {
+        ChooseRandomSprite();
+        ChooseRandomSpeed();
+    }
+
+    private void ChooseRandomSpeed()
+    {
+        if(_npcsConfig != null && _npcsConfig.MinSpeed > 0 && _npcsConfig.MaxSpeed > 0)
+        {
+            foreach(StateString stateStr in _statesByString)
+            {
+                if(stateStr.name == "IdleState")
+                {
+                    if(stateStr.state.name == "IdleState")
+                    {
+                        IdleState idleState = (IdleState) stateStr.state;
+                        float randomSpeed = UnityEngine.Random.Range(_npcsConfig.MinSpeed, _npcsConfig.MaxSpeed);
+
+                        idleState.SetSpeed(randomSpeed);
+                    }
+                }
+            }
+        }
     }
 
     private void ChooseRandomSprite()
@@ -129,6 +159,12 @@ public class Worker : MonoBehaviour
         ChangeAttribute(_assignedBuilding.buildingData.jobType, _assignedBuilding.buildingData.resourceType);
     }
 
+    private void ChangeInventoryResource(ResourceType resource = ResourceType.None)
+    {
+        _inventory = resource;
+        ServiceLocator.GetService<EventBus>().Invoke<OnInventoryChanged>(new OnInventoryChanged(this, resource));
+    }
+
     public void StartJob()
     {
         if(_currentJob != null)
@@ -155,6 +191,7 @@ public class Worker : MonoBehaviour
 
     private void AfterTakingJob(MovingData toBuildingData)
     {
+        ChangeInventoryResource();
         ServiceLocator.GetService<EventBus>().Invoke<OnResourcesTakenFromStorage>(new OnResourcesTakenFromStorage(_currentJob, this));
         
         ChangeState<MovingState>(toBuildingData);

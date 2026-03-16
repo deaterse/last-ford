@@ -17,8 +17,7 @@ public class WorkerUI : MonoBehaviour
     {
         _worker = worker;
 
-        ServiceLocator.GetService<EventBus>().Subscribe<OnResourceMined>(ChangeCarryingResource);
-        ServiceLocator.GetService<EventBus>().Subscribe<OnResourcesTakenFromStorage>(ChangeCarryingResource);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnInventoryChanged>(ChangeCarryingResource);
         ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(ClearCarryingResource);
     }
 
@@ -41,41 +40,13 @@ public class WorkerUI : MonoBehaviour
         }
     }
 
-    private void ChangeCarryingResource(OnResourcesTakenFromStorage signal)
+    private void ChangeCarryingResource(OnInventoryChanged signal)
     {
-        if(signal._worker == _worker)
+        if(signal.worker == _worker)
         {
             _carryPanel.SetActive(true);
 
-            ResourceType resourceType = signal._job.resourceType;
-        
-            ResourceVisualizationConfig currentRvs = null;
-            foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
-            {
-                if(rvs.resourceType.ToString() == resourceType.ToString())
-                {
-                    currentRvs = rvs;
-                }
-            }
-
-            if(currentRvs != null)
-            {
-                _carryResource.sprite = currentRvs.ResourceSprite;
-            }
-            else
-            {
-                Debug.LogWarning($"ResourceVisualizationConfig for {resourceType.ToString()} not founded.");
-            }
-        }
-    }
-
-    private void ChangeCarryingResource(OnResourceMined signal)
-    {
-        if(signal._worker == _worker)
-        {
-            _carryPanel.SetActive(true);
-
-            ResourceType resourceType = signal._resourceType;
+            ResourceType resourceType = signal.resource;
         
             ResourceVisualizationConfig currentRvs = null;
             foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)

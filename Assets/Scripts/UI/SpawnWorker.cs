@@ -5,13 +5,11 @@ using UnityEngine.Tilemaps;
 public class SpawnWorker : MonoBehaviour
 {
     [SerializeField] private GameObject _workerPrefab;
-    [SerializeField] private NPCsSpritesConfig _npcsConfig;
+    [SerializeField] private NPCsConfig _npcsConfig;
     [SerializeField] private WorkAttributesConfig _attributesConfig;
 
     public void SpawnWorkerButton()
     {
-        Transform spawnPos = Camera.main.transform;
-
         var newWorker = Instantiate(_workerPrefab);
         if(newWorker.TryGetComponent<Worker>(out Worker worker))
         {
