@@ -34,6 +34,17 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
+    public ResourceType GetSpendingResource(Job job)
+    {
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetSpendings(job.jobType, job.resourceType);
+        foreach(ResourceAmount ra in resourcesAmount)
+        {
+            return ra.Type;
+        }
+
+        return ResourceType.None;
+    }
+
     private void ClearAll()
     {
         _freeBuildings.Clear();

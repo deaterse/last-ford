@@ -180,8 +180,8 @@ public class Worker : MonoBehaviour
             else if(_currentJob.jobType == JobType.Production)
             {
                 MovingData backToStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => JobEnded()); 
-                WorkingData workingData = new WorkingData(5f, JobType.Production, () => ChangeState<MovingState>(backToStorageData));
-                MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => ChangeState<WorkingState>(workingData));
+                WorkingData workingData = new WorkingData(5f, JobType.Production, () => BackToStorage(backToStorageData));
+                MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => WorkingProduction(workingData));
                 MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => AfterTakingJob(toBuildingData));
                 
                 ChangeState<MovingState>(toStorageData);
@@ -189,17 +189,35 @@ public class Worker : MonoBehaviour
         }
     }
 
+    //1
     private void AfterTakingJob(MovingData toBuildingData)
     {
-        ChangeInventoryResource();
+        ChangeInventoryResource(ServiceLocator.GetService<JobManager>().GetSpendingResource(_currentJob));
         ServiceLocator.GetService<EventBus>().Invoke<OnResourcesTakenFromStorage>(new OnResourcesTakenFromStorage(_currentJob, this));
         
         ChangeState<MovingState>(toBuildingData);
     }
 
+    //2 => 3 (after moving to building)
+    private void WorkingProduction(WorkingData workingData)
+    {
+        ChangeInventoryResource();
+
+        ChangeState<WorkingState>(workingData);
+    }
+
+    // 3 => 4 (after work at building)
+    private void BackToStorage(MovingData movingData)
+    {
+        ChangeInventoryResource(_currentJob.resourceType);
+        
+        ChangeState<MovingState>(movingData);
+    }
+
     private void AfterMiningJob(MovingData toBuildingData)
     {
         //refactor, amount need to move to another place (5)
+        ChangeInventoryResource(_currentJob.resourceType);
         ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(this, _currentJob.ResourcePos, 5, _assignedBuilding.buildingData.resourceType));
         
         ChangeState<MovingState>(toBuildingData);
@@ -207,6 +225,8 @@ public class Worker : MonoBehaviour
 
     public void JobEnded()
     {
+        ChangeInventoryResource();
+
         ChangeState<IdleState>();
 
         if(_currentJob != null)

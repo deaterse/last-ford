@@ -15,3 +15,5 @@ MonoBehaviour:
   _allResourcesVisConfigs:
   - {fileID: 11400000, guid: f748c705172a8034f93b785d20309dbe, type: 2}
   - {fileID: 11400000, guid: 5cd6da94466f9f04f9bd455b949526a9, type: 2}
+  - {fileID: 11400000, guid: bcea0040b462634448c5a47c8dbd2e0e, type: 2}
+  - {fileID: 11400000, guid: d5bb04cc69be5b846a874c2b1f2c2772, type: 2}

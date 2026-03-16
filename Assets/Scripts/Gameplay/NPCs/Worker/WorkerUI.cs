@@ -18,7 +18,6 @@ public class WorkerUI : MonoBehaviour
         _worker = worker;
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnInventoryChanged>(ChangeCarryingResource);
-        ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(ClearCarryingResource);
     }
 
     private void OpenCarryPanel()
@@ -31,39 +30,43 @@ public class WorkerUI : MonoBehaviour
         _carryPanel.SetActive(false);
     }
 
-    private void ClearCarryingResource(OnJobFinished signal)
+    private void ClearCarryingResource()
     {
-        if(signal._worker == _worker)
-        {
-            _carryResource.sprite = null;
-            _carryPanel.SetActive(false);
-        }
+        _carryResource.sprite = null;
+        _carryPanel.SetActive(false);
     }
 
     private void ChangeCarryingResource(OnInventoryChanged signal)
     {
         if(signal.worker == _worker)
         {
-            _carryPanel.SetActive(true);
-
-            ResourceType resourceType = signal.resource;
-        
-            ResourceVisualizationConfig currentRvs = null;
-            foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
+            if(signal.resource != ResourceType.None)
             {
-                if(rvs.resourceType.ToString() == resourceType.ToString())
+                _carryPanel.SetActive(true);
+
+                ResourceType resourceType = signal.resource;
+            
+                ResourceVisualizationConfig currentRvs = null;
+                foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
                 {
-                    currentRvs = rvs;
+                    if(rvs.resourceType.ToString() == resourceType.ToString())
+                    {
+                        currentRvs = rvs;
+                    }
                 }
-            }
 
-            if(currentRvs != null)
-            {
-                _carryResource.sprite = currentRvs.ResourceSprite;
+                if(currentRvs != null)
+                {
+                    _carryResource.sprite = currentRvs.ResourceSprite;
+                }
+                else
+                {
+                    Debug.LogWarning($"ResourceVisualizationConfig for {resourceType.ToString()} not founded.");
+                }
             }
             else
             {
-                Debug.LogWarning($"ResourceVisualizationConfig for {resourceType.ToString()} not founded.");
+                ClearCarryingResource();
             }
         }
     }
