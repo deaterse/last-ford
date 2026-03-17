@@ -120,7 +120,7 @@ public class BuildingManager : MonoBehaviour, IService
         {
             _buildingInstances.Remove(building.gameObject);
             _buildingMap.RemoveBuilding(building);
-            building.Destroy();
+            building.DestroyMethod();
 
             Debug.Log("Building successfully destroyed.");
 

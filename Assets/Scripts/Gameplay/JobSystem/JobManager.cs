@@ -20,6 +20,8 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Subscribe<OnJobFinished>(JobFinished);
 
         ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingFinished>(NewFreeBuilding);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingDestroyed>(BuildingDestroyed);
+
         ServiceLocator.GetService<EventBus>().Subscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
@@ -31,6 +33,8 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnJobFinished>(JobFinished);
 
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingFinished>(NewFreeBuilding);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingDestroyed>(BuildingDestroyed);
+
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
@@ -74,6 +78,20 @@ public class JobManager : MonoBehaviour, IService
         _freeBuildings[freeBuilding] = workersCount;
 
         TryFillBuilding(freeBuilding);
+    }
+
+    private void BuildingDestroyed(OnBuildingDestroyed signal)
+    {
+        Building destroyedBuilding = signal._building;
+        if(_freeBuildings.ContainsKey(destroyedBuilding))
+        {
+            _freeBuildings.Remove(destroyedBuilding);
+        }
+
+        foreach(Worker worker in destroyedBuilding.AssignedWorkers)
+        {
+            NewFreeWorker(worker);
+        }
     }
 
     private void TryFillBuilding(Building building)
@@ -122,6 +140,13 @@ public class JobManager : MonoBehaviour, IService
         building.AssignWorker(worker);
     }
 
+    private void NewFreeWorker(Worker freeWorker)
+    {
+        _freeWorkers.Add(freeWorker);
+
+        TryAssignWorker(freeWorker);
+    }
+
     private void NewFreeWorker(OnWorkerSpawned signal)
     {
         Worker freeWorker = signal._worker;
@@ -135,6 +160,7 @@ public class JobManager : MonoBehaviour, IService
     {
         RewardJob(signal._job);
     }
+
 
     private void ResourcesTakenFromStorage(OnResourcesTakenFromStorage signal)
     {

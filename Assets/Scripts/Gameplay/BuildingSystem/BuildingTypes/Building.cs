@@ -118,8 +118,17 @@ public abstract class Building : Entity, IDamageable
         }
     }
 
-    public void Destroy()
+    public void DestroyMethod()
     {
+        StartCoroutine(Destroy());
+    }
+
+    private IEnumerator Destroy()
+    {
+        ServiceLocator.GetService<EventBus>().Invoke(new OnBuildingDestroyed(this));
+
+        yield return new WaitForSeconds(0.3f);
+        
         Destroy(gameObject);
     }
 
