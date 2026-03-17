@@ -34,15 +34,26 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
-    public ResourceType GetSpendingResource(Job job)
+    public ResourceAmount GetSpendingResource(Job job)
     {
         List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetSpendings(job.jobType, job.resourceType);
         foreach(ResourceAmount ra in resourcesAmount)
         {
-            return ra.Type;
+            return ra;
         }
 
-        return ResourceType.None;
+        return new ResourceAmount();
+    }
+
+    public ResourceAmount GetRewardResource(Job job)
+    {
+        List<ResourceAmount> resourcesAmount = _jobsRewConfig.GetRewards(job.jobType, job.resourceType);
+        foreach(ResourceAmount ra in resourcesAmount)
+        {
+            return ra;
+        }
+
+        return new ResourceAmount();
     }
 
     private void ClearAll()

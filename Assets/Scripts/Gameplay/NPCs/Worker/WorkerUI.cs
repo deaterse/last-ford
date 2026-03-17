@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class WorkerUI : MonoBehaviour
 
     [Header("Carrying Panel")]
     [SerializeField] private Image _carryResource;
+    [SerializeField] private TMP_Text _carryIntText;
 
     private Worker _worker;
 
@@ -40,11 +42,11 @@ public class WorkerUI : MonoBehaviour
     {
         if(signal.worker == _worker)
         {
-            if(signal.resource != ResourceType.None)
+            if(signal.resource.Type != ResourceType.None)
             {
                 _carryPanel.SetActive(true);
 
-                ResourceType resourceType = signal.resource;
+                ResourceType resourceType = signal.resource.Type;
             
                 ResourceVisualizationConfig currentRvs = null;
                 foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
@@ -62,6 +64,11 @@ public class WorkerUI : MonoBehaviour
                 else
                 {
                     Debug.LogWarning($"ResourceVisualizationConfig for {resourceType.ToString()} not founded.");
+                }
+
+                if(_carryIntText != null)
+                {
+                    _carryIntText.text = $"{signal.resource.Amount}";
                 }
             }
             else

@@ -8,14 +8,14 @@ public class Worker : MonoBehaviour
 {
     [SerializeField] private List<StateString> _statesByString;
     
-    [SerializeField] private ResourceType _inventory;
+    [SerializeField] private ResourceAmount _inventory;
     
     [SerializeField] private SpriteRenderer _workerRenderer;
     [SerializeField] private SpriteRenderer _attributeRenderer;
 
     private State _currentState;
 
-    public ResourceType CurrentResource => _inventory;
+    public ResourceAmount CurrentInventoryResource => _inventory;
 
     private Building _assignedBuilding;
     private Job _currentJob;
@@ -159,10 +159,12 @@ public class Worker : MonoBehaviour
         ChangeAttribute(_assignedBuilding.buildingData.jobType, _assignedBuilding.buildingData.resourceType);
     }
 
-    private void ChangeInventoryResource(ResourceType resource = ResourceType.None)
+    private void ChangeInventoryResource(ResourceType resource = ResourceType.None, int amount = 0)
     {
-        _inventory = resource;
-        ServiceLocator.GetService<EventBus>().Invoke<OnInventoryChanged>(new OnInventoryChanged(this, resource));
+        _inventory.Type = resource;
+        _inventory.Amount = amount;
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnInventoryChanged>(new OnInventoryChanged(this, _inventory));
     }
 
     public void StartJob()
@@ -192,7 +194,9 @@ public class Worker : MonoBehaviour
     //1
     private void AfterTakingJob(MovingData toBuildingData)
     {
-        ChangeInventoryResource(ServiceLocator.GetService<JobManager>().GetSpendingResource(_currentJob));
+        ResourceAmount spendResource = ServiceLocator.GetService<JobManager>().GetSpendingResource(_currentJob);
+        ChangeInventoryResource(spendResource.Type, spendResource.Amount);
+
         ServiceLocator.GetService<EventBus>().Invoke<OnResourcesTakenFromStorage>(new OnResourcesTakenFromStorage(_currentJob, this));
         
         ChangeState<MovingState>(toBuildingData);
@@ -209,7 +213,8 @@ public class Worker : MonoBehaviour
     // 3 => 4 (after work at building)
     private void BackToStorage(MovingData movingData)
     {
-        ChangeInventoryResource(_currentJob.resourceType);
+        ResourceAmount rewardResource = ServiceLocator.GetService<JobManager>().GetRewardResource(_currentJob);
+        ChangeInventoryResource(rewardResource.Type, rewardResource.Amount);
         
         ChangeState<MovingState>(movingData);
     }
@@ -217,7 +222,9 @@ public class Worker : MonoBehaviour
     private void AfterMiningJob(MovingData toBuildingData)
     {
         //refactor, amount need to move to another place (5)
-        ChangeInventoryResource(_currentJob.resourceType);
+        ResourceAmount rewardResource = ServiceLocator.GetService<JobManager>().GetRewardResource(_currentJob);
+        ChangeInventoryResource(rewardResource.Type, rewardResource.Amount);
+
         ServiceLocator.GetService<EventBus>().Invoke<OnResourceMined>(new OnResourceMined(this, _currentJob.ResourcePos, 5, _assignedBuilding.buildingData.resourceType));
         
         ChangeState<MovingState>(toBuildingData);
@@ -237,6 +244,8 @@ public class Worker : MonoBehaviour
 
     public void JobFailed()
     {
+        ChangeInventoryResource();
+        
         ChangeState<IdleState>();
 
         OnJobCompleted();
