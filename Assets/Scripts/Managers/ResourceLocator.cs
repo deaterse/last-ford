@@ -16,9 +16,9 @@ public class ResourceLocator: IService
         int height = _terrainMap.Height;
 
         List<Vector2Int> allResourcesCell = new();
-        for(int x = gridPos.x - radius; x < (gridPos.x + radius); x++)
+        for(int x = gridPos.x - radius; x < (gridPos.x + radius + 1); x++)
         {
-            for(int y = gridPos.y - radius; y < (gridPos.y + radius); y++)
+            for(int y = gridPos.y - radius; y < (gridPos.y + radius + 1); y++)
             {
                 if(_terrainMap.GetResourceType(x, y) == rt)
                 {

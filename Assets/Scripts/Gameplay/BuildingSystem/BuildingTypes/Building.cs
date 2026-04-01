@@ -38,8 +38,8 @@ public abstract class Building : Entity, IDamageable
         SetData(buildingData, pos);
 
         _spriteRenderer.sprite = buildingData.BuildingFrameSprite;
-
         _buildingUI.OnBuildingBuilded();
+
         StartBuild();
     }
 

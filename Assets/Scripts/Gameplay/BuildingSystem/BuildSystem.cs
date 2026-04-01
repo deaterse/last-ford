@@ -111,6 +111,11 @@ public class BuildSystem : MonoBehaviour, IService
 
         _currentPrefab = Instantiate(_buildingPrefab, MousePosOnTile(), Quaternion.identity);
         _currentData = _buildingData;
+
+        if(_currentPrefab.TryGetComponent<MiningRadius>(out MiningRadius miningRadius))
+        {
+            miningRadius.SetSize(_currentData.MiningRadius);
+        }
     }
 
     private bool IsResourcesEnough()
@@ -174,7 +179,11 @@ public class BuildSystem : MonoBehaviour, IService
             GameObject buildingObj = Instantiate(_currentData.GetLevel(1).ObjPrefab);
             buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
 
-            buildingObj.GetComponent<Building>().Init(_currentData, startPos);
+            buildingObj.GetComponent<Building>().Init(_currentData, (Vector2Int) cellMousePos);
+            if(buildingObj.TryGetComponent<MiningRadius>(out MiningRadius miningRadius))
+            {
+                miningRadius.OffVisualize();
+            }
             
             ServiceLocator.GetService<BuildingManager>().AddBuilding(buildingObj, startPos);
             

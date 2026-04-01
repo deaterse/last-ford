@@ -41,6 +41,7 @@ public class BuildingMining : Building
         //refactor
         if(buildingData.jobType == JobType.Mining)
         {
+            print(GridPosition);
             ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
             ResourceNeighbour resPos = rl.GetCellNearResource(GridPosition, buildingData.resourceType, buildingData.MiningRadius);
 
