@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3afa190ce9128bd449a4d253cb44268b, type: 3}
+  m_Name: ParticleConfig
+  m_EditorClassIdentifier: 
+  _cuttingParticle: {fileID: 5217771919660424079, guid: dc916315885219744b70b09804cf6bb7, type: 3}

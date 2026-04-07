@@ -8,7 +8,7 @@ public class BuildingProduction : Building
     {
         if(!HaveJob && IsResourcesEnough())
         {
-            return new Job(this, JobType.Production, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0));
+            return new Job(this, JobType.Production, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime);
         }
         return null;
     }

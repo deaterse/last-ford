@@ -15,7 +15,7 @@ public class BuildingMining : Building
                 {
                     ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
 
-                    return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), currentResNeighbour);
+                    return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, currentResNeighbour);
                 }
             }
 
@@ -23,7 +23,7 @@ public class BuildingMining : Building
 
             if(!IsNoneResource(positionData))
             {
-                return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), positionData);
+                return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, positionData);
             }
 
             _haveJob = true;

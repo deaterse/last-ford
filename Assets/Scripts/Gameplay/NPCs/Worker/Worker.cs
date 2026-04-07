@@ -174,21 +174,28 @@ public class Worker : MonoBehaviour
             if(_currentJob.jobType == JobType.Mining)
             {
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
-                WorkingData endJobData = new WorkingData(5f, JobType.Mining, () => AfterMiningJob(toBuildingData));
-                MovingData toJobData = new MovingData(_currentJob.JobPos,() => ChangeState<WorkingState>(endJobData));
+                WorkingData endJobData = new WorkingData(_currentJob.JobTime, JobType.Mining, () => AfterMiningJob(toBuildingData));
+                MovingData toJobData = new MovingData(_currentJob.JobPos,() => StartMiningJob(endJobData));
                 
                 ChangeState<MovingState>(toJobData);
             }
             else if(_currentJob.jobType == JobType.Production)
             {
                 MovingData backToStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => JobEnded()); 
-                WorkingData workingData = new WorkingData(5f, JobType.Production, () => BackToStorage(backToStorageData));
+                WorkingData workingData = new WorkingData(_currentJob.JobTime, JobType.Production, () => BackToStorage(backToStorageData));
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => WorkingProduction(workingData));
                 MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => AfterTakingJob(toBuildingData));
                 
                 ChangeState<MovingState>(toStorageData);
             } 
         }
+    }
+    
+    private void StartMiningJob(WorkingData wokringData)
+    {
+        ServiceLocator.GetService<EventBus>().Invoke<OnMiningJobStarted>(new OnMiningJobStarted(_currentJob));
+
+        ChangeState<WorkingState>(wokringData);
     }
 
     //1

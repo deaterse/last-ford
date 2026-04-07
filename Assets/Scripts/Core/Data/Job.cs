@@ -9,6 +9,8 @@ public class Job
     private Vector3Int _buildingPosition;
     private ResourceNeighbour _resourceNeighbour;
 
+    private float _jobTime;
+
     private JobType _jobType;
     private ResourceType _resourceType;
 
@@ -22,12 +24,15 @@ public class Job
     public Vector3Int ResourcePos => _resourceNeighbour.resourcePos;
     public Vector3Int JobPos => _resourceNeighbour.neighbourPos;
 
-    public Job(Building building, JobType jobType, ResourceType resourceType, Vector3Int buildingPosition, ResourceNeighbour? resourceNeighbour = null)
+    public float JobTime => _jobTime;
+
+    public Job(Building building, JobType jobType, ResourceType resourceType, Vector3Int buildingPosition, float jobTime, ResourceNeighbour? resourceNeighbour = null)
     {
         _building = building;
         _jobType = jobType;
         _resourceType = resourceType;
         _buildingPosition = buildingPosition;
+        _jobTime = jobTime;
 
         if(jobType == JobType.Mining)
         {

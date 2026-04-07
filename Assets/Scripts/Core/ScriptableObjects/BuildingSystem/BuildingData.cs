@@ -14,6 +14,7 @@ public class BuildingData : ScriptableObject
     [SerializeField] private Vector3Int[] _buildSize = new Vector3Int[3];
 
     [SerializeField] private float _buildingTime = 2f;
+    [SerializeField] private float _workingTime = 5f;
     [SerializeField] private int _miningRadius = 5;
     [SerializeField] private JobType _jobType;
     [SerializeField] private ResourceType _resourceType;
@@ -31,6 +32,7 @@ public class BuildingData : ScriptableObject
     public BuildingType buildingType => _buildingType;
     public string displayedName => _displayedName;
     public float BuildingTime => _buildingTime;
+    public float WorkingTime => _workingTime;
     public int MiningRadius => _miningRadius;
     public JobType jobType => _jobType;
     //Outcome Resource
