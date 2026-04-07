@@ -193,7 +193,7 @@ public class Worker : MonoBehaviour
     
     private void StartMiningJob(WorkingData wokringData)
     {
-        ServiceLocator.GetService<EventBus>().Invoke<OnMiningJobStarted>(new OnMiningJobStarted(_currentJob));
+        ServiceLocator.GetService<EventBus>().Invoke<OnMiningJobStarted>(new OnMiningJobStarted(_currentJob, this));
 
         ChangeState<WorkingState>(wokringData);
     }
@@ -252,8 +252,10 @@ public class Worker : MonoBehaviour
     public void JobFailed()
     {
         ChangeInventoryResource();
-        
+    
         ChangeState<IdleState>();
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnJobFailed>(new OnJobFailed(_currentJob, this));
 
         OnJobCompleted();
     }
