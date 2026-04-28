@@ -185,8 +185,6 @@ public class BuildSystem : MonoBehaviour, IService
                 miningRadius.OffVisualize();
             }
             
-            ServiceLocator.GetService<BuildingManager>().AddBuilding(buildingObj, startPos);
-            
             ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
             
             StartBuilding(_currentData);

@@ -12,6 +12,7 @@ public class BuildingManager : MonoBehaviour, IService
     {
         ServiceLocator.ProvideService<BuildingManager>(this);
 
+        ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingFinished>(AddBuilding);
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Subscribe<TryUpdateBuilding>(TryToUpgrade);
         ServiceLocator.GetService<EventBus>().Subscribe<TryRemoveBuilding>(TryToRemove);
@@ -36,10 +37,13 @@ public class BuildingManager : MonoBehaviour, IService
         return _buildingMap.CanPlaceBuilding(pos, sizeArray);
     }
 
-    public void AddBuilding(GameObject buildingObj, Vector2Int pos)
+    public void AddBuilding(OnBuildingFinished signal)
     {
         BuildingData data;
         Building building;
+
+        GameObject buildingObj = signal.building.gameObject;
+        Vector2Int buildingPos = signal.building.GridPosition; 
         if(buildingObj.TryGetComponent<Building>(out Building _building))
         {
             data = _building.buildingData;
@@ -51,7 +55,7 @@ public class BuildingManager : MonoBehaviour, IService
             return;
         }
 
-        _buildingMap.PlaceBuilding(pos, data.BuildingSize, building);
+        _buildingMap.PlaceBuilding(buildingPos, data.BuildingSize, building);
         
         if (_buildingInstances.Contains(buildingObj))
         {
@@ -76,7 +80,7 @@ public class BuildingManager : MonoBehaviour, IService
             return pos3int;
         }
 
-        return new Vector3Int(0,0,0);
+        return new Vector3Int(-1,-1,-1);
     }
 
     private void TryToUpgrade(TryUpdateBuilding signal)

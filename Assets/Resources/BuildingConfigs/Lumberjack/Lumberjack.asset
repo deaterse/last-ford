@@ -20,6 +20,7 @@ MonoBehaviour:
   - {x: 0, y: 1, z: 1}
   - {x: 0, y: 0, z: 0}
   _buildingTime: 2
+  _workingTime: 5
   _miningRadius: 5
   _jobType: 0
   _resourceType: 0
@@ -32,3 +33,4 @@ MonoBehaviour:
   _levelsData:
   - {fileID: 11400000, guid: 20bde3d9677c53244b4405cc9d7e86dc, type: 2}
   _buildingFrameSprite: {fileID: -4059051880555158148, guid: f3ca9851b4fd3c345bab441b57899236, type: 3}
+  _particles: {fileID: 5217771919660424079, guid: dc916315885219744b70b09804cf6bb7, type: 3}

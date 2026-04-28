@@ -19,6 +19,7 @@ public abstract class Building : Entity, IDamageable
 
     public BuildingData buildingData => _buildingData;
     public Vector2Int GridPosition => _gridPos;
+    public GameObject WorkParticles => _buildingData.Particles;
     public int Level => _level;
 
     public bool IsBuilded => _isBuilded;

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System;
 
 [CreateAssetMenu(fileName = "Building", menuName = "Scriptable Objects/BuildingSystem/Building")]
 public class BuildingData : ScriptableObject
@@ -28,6 +29,8 @@ public class BuildingData : ScriptableObject
 
     [SerializeField] private Sprite _buildingFrameSprite;
 
+    [Header("Particle System")]
+    [SerializeField] private GameObject _particles;
 
     public BuildingType buildingType => _buildingType;
     public string displayedName => _displayedName;
@@ -49,6 +52,8 @@ public class BuildingData : ScriptableObject
     public List<BuildingLevelData> LevelsData => _levelsData;
     
     public Sprite BuildingFrameSprite => _buildingFrameSprite;
+
+    public GameObject Particles => _particles;
 
     public BuildingLevelData GetLevel(int lvl)
     {

@@ -8,7 +8,11 @@ public class BuildingProduction : Building
     {
         if(!HaveJob && IsResourcesEnough())
         {
-            return new Job(this, JobType.Production, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime);
+            Vector3Int nearestStorage = ServiceLocator.GetService<BuildingManager>().GetNearestStorage(new Vector3Int(GridPosition.x, GridPosition.y, 0));
+            if(nearestStorage.x != -1)
+            {
+                return new Job(this, JobType.Production, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, storage: nearestStorage);
+            }
         }
         return null;
     }

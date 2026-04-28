@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class BuildingMining : Building
 {
+
     public override Job GetAvailableJob(Job lastJob = null)
     {
         if(!HaveJob)

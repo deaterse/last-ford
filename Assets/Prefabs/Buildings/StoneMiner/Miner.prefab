@@ -426,6 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2870714414518107048}
   _buildingUI: {fileID: 4849204433310828063}
+  _workParticles: {fileID: 5217771919660424079, guid: 080e397401a7f7b4e8d39e28826f1c84, type: 3}
 --- !u!114 &2350472932310377978
 MonoBehaviour:
   m_ObjectHideFlags: 0

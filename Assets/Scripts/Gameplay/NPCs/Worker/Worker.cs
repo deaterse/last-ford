@@ -194,12 +194,12 @@ public class Worker : MonoBehaviour
                 
                 ChangeState<MovingState>(toJobData);
             }
-            else if(_currentJob.jobType == JobType.Production)
+            else if(_currentJob.jobType == JobType.Production && _currentJob.StoragePos != default(Vector3Int))
             {
-                MovingData backToStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => JobEnded()); 
+                MovingData backToStorageData = new MovingData(_currentJob.StoragePos, () => JobEnded()); 
                 WorkingData workingData = new WorkingData(_currentJob.JobTime, JobType.Production, () => BackToStorage(backToStorageData));
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => WorkingProduction(workingData));
-                MovingData toStorageData = new MovingData(ServiceLocator.GetService<BuildingManager>().GetNearestStorage(_currentJob.BuildingPos), () => AfterTakingJob(toBuildingData));
+                MovingData toStorageData = new MovingData(_currentJob.StoragePos, () => AfterTakingJob(toBuildingData));
                 
                 ChangeState<MovingState>(toStorageData);
             } 
@@ -208,7 +208,8 @@ public class Worker : MonoBehaviour
     
     private void StartMiningJob(WorkingData wokringData)
     {
-        ServiceLocator.GetService<EventBus>().Invoke<OnMiningJobStarted>(new OnMiningJobStarted(_currentJob, this));
+        GameObject particleType = _assignedBuilding.WorkParticles;
+        ServiceLocator.GetService<EventBus>().Invoke<OnMiningJobStarted>(new OnMiningJobStarted(_currentJob, this, particleType));
 
         ChangeState<WorkingState>(wokringData);
     }

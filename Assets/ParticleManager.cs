@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ParticleManager : MonoBehaviour
 {
-    [SerializeField] private ParticleSystemConfig _config;
     public Dictionary<Worker, GameObject> _workersParticles = new Dictionary<Worker, GameObject>();
 
     private void Start()
@@ -15,7 +14,7 @@ public class ParticleManager : MonoBehaviour
 
     private void SpawnCuttingParticle(OnMiningJobStarted signal)
     {
-        GameObject newParticle = Instantiate(_config.CuttingParticle, signal._job.JobPos, Quaternion.identity);
+        GameObject newParticle = Instantiate(signal._particles, signal._job.JobPos, Quaternion.identity);
 
         _workersParticles[signal._worker] = newParticle;
 
