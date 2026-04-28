@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 public class Worker : MonoBehaviour
 {
@@ -63,12 +64,16 @@ public class Worker : MonoBehaviour
             {
                 if(stateStr.name == "IdleState")
                 {
-                    if(stateStr.state.name == "IdleState")
+                    try
                     {
                         IdleState idleState = (IdleState) stateStr.state;
                         float randomSpeed = UnityEngine.Random.Range(_npcsConfig.MinSpeed, _npcsConfig.MaxSpeed);
 
                         idleState.SetSpeed(randomSpeed);
+                    }
+                    catch
+                    {
+                        Debug.LogWarning("Something wrong with choosing Random Speed,\nlooks like IdleState is not a IdleState\n, check properties!");
                     }
                 }
             }
@@ -85,6 +90,10 @@ public class Worker : MonoBehaviour
 
             _workerRenderer.sprite = choosenSprite;
         }
+        else
+        {
+            Debug.LogWarning("Something wrong with NPCsConfig");
+        }
     }
 
     private void ChangeAttribute(JobType jobType, ResourceType resourceType)
@@ -98,6 +107,10 @@ public class Worker : MonoBehaviour
                     _attributeRenderer.sprite = attribute.sprite;
                 }
             }
+        }
+        else
+        {
+            Debug.LogWarning("AttributeRenderer is null");
         }
     }
 
@@ -119,6 +132,8 @@ public class Worker : MonoBehaviour
                 return;
             }
         }
+
+        Debug.LogWarning($"State:{typeof(T).Name} is not exist");
     }
     
     public bool ResourceIsGone()
