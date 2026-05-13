@@ -8,7 +8,6 @@ public class BuildingSystemUI : MonoBehaviour
 {
     [Header("Transform (To Use Instantiate)")]
     [SerializeField] private Transform _typesContentBox;
-    [SerializeField] private Transform _buildingsContentBox;
     [SerializeField] private GameObject _buildingsGridBox;
 
     [Header("Config")]
@@ -17,7 +16,7 @@ public class BuildingSystemUI : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject _buildingTypePrefab;
     [SerializeField] private GameObject _buildingButtonPrefab;
-    [SerializeField] private GameObject _buildingContainerPrefab;
+    [SerializeField] private GameObject _buildingsContainerPrefab;
 
     private Dictionary<string, GameObject> _typesButtons = new();
     private Dictionary<string, GameObject> _typesContainers = new();
@@ -68,16 +67,47 @@ public class BuildingSystemUI : MonoBehaviour
 
     private void SpawnTypesContainers()
     {
-        foreach(string type in _typesButtons.Keys)
+        _buildingsContainerPrefab.SetActive(false);
+        
+        string[] allTypes = Enum.GetNames(typeof(BuildingType));
+
+        if(allTypes.Length <= 0) return;
+
+        for(int i = 0; i < allTypes.Length; i++)
         {
-            GameObject current = Instantiate(_buildingContainerPrefab, _buildingsContentBox);
+            string currentType = allTypes[i];
 
-            _typesContainers[type.ToString()] = current;
+            GameObject container = Instantiate(_buildingsContainerPrefab, _buildingsGridBox.transform);
+            container.name = currentType;
 
-            current.SetActive(false);
+            _typesContainers[currentType] = container;
+
+            container.SetActive(false);
         }
 
         AddTypesButtonsListeners();
+    }
+
+    private void SpawnBuildingsButtons()
+    {
+        foreach(BuildingData bd in _allBuildingsConfig.AllBuildingsData)
+        {
+            BuildingType currentType = bd.buildingType;
+            GameObject container = _typesContainers[currentType.ToString()];
+
+            GameObject currentButton = Instantiate(_buildingButtonPrefab, container.transform);
+
+            _buildingButtons[bd] = currentButton;
+
+            if (currentButton.TryGetComponent(out BuildingButtonUI buildingButtonUI))
+            {
+                TMP_Text currentNameText = buildingButtonUI.TypeText;
+                // later add here image and etc.
+                currentNameText.text = bd.displayedName;
+            }
+        }
+
+        AddBuildingsButtonsListeners();
     }
 
     private void AddTypesButtonsListeners()
@@ -102,28 +132,6 @@ public class BuildingSystemUI : MonoBehaviour
                 currentBuildingButton.onClick.AddListener(() => _buildSystem.StartBuilding(currentBuildingData));
             }
         }
-    }
-
-    private void SpawnBuildingsButtons()
-    {
-        foreach(BuildingData bd in _allBuildingsConfig.AllBuildingsData)
-        {
-            BuildingType currentType = bd.buildingType;
-            Transform currentTransform = _typesContainers[currentType.ToString()].transform;
-
-            GameObject currentButton = Instantiate(_buildingButtonPrefab, currentTransform);
-
-            _buildingButtons[bd] = currentButton;
-
-            if (currentButton.TryGetComponent(out BuildingButtonUI buildingButtonUI))
-            {
-                TMP_Text currentNameText = buildingButtonUI.TypeText;
-                // later add here image and etc.
-                currentNameText.text = bd.displayedName;
-            }
-        }
-
-        AddBuildingsButtonsListeners();
     }
 
     private void OpenBuildingsContainer(GameObject container)
@@ -176,7 +184,7 @@ public class BuildingSystemUI : MonoBehaviour
         foreach (Transform child in _typesContentBox)
             Destroy(child.gameObject);
         
-        foreach (Transform child in _buildingsContentBox)
+        foreach (Transform child in _buildingsGridBox.transform)
             Destroy(child.gameObject);
 
         _buildingButtons.Clear();

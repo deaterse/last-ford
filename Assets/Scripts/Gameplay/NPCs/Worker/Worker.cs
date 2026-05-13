@@ -202,7 +202,11 @@ public class Worker : MonoBehaviour
                 MovingData toStorageData = new MovingData(_currentJob.StoragePos, () => AfterTakingJob(toBuildingData));
                 
                 ChangeState<MovingState>(toStorageData);
-            } 
+            }
+            else
+            {
+                Debug.LogError("Problem with job in Worker!");
+            }
         }
     }
     

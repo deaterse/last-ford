@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ca794771dc0ca4ea250dbbbe3b7080, type: 3}
   m_Name: MainCastle
   m_EditorClassIdentifier: 
-  _buildingType: 0
+  _buildingType: 1
   _displayedName: Castle
   _buildingSize: {x: 3, y: 3}
   _buildSize:
@@ -20,6 +20,7 @@ MonoBehaviour:
   - {x: 1, y: 1, z: 1}
   - {x: 1, y: 1, z: 1}
   _buildingTime: 2
+  _workingTime: 5
   _miningRadius: 5
   _jobType: 1
   _resourceType: 2
@@ -36,3 +37,4 @@ MonoBehaviour:
   _levelsData:
   - {fileID: 11400000, guid: 34a603cf06a6048468899a13f52d8a8b, type: 2}
   _buildingFrameSprite: {fileID: -8340344382419685985, guid: 927c83b4b6f6fa843a2dee7cd769ba9d, type: 3}
+  _particles: {fileID: 0}
