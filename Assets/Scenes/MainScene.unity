@@ -2687,8 +2687,9 @@ GameObject:
   - component: {fileID: 1429480951}
   - component: {fileID: 1429480953}
   - component: {fileID: 1429480952}
+  - component: {fileID: 1429480954}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ResourcePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2751,6 +2752,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429480950}
   m_CullTransparentMesh: 1
+--- !u!114 &1429480954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429480950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 20
+    m_Right: 0
+    m_Top: 15
+    m_Bottom: 20
+  m_ChildAlignment: 3
+  m_Spacing: 20
+  m_ChildForceExpandWidth: 0
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1465030909
 GameObject:
   m_ObjectHideFlags: 0
@@ -3500,8 +3527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourcesVisConfig: {fileID: 11400000, guid: aa35b78acf34ae24fa63d2b2b515e53d, type: 2}
-  _resourcePanelParent: {fileID: 0}
-  _resourcePanelPrefab: {fileID: 281681395903012317, guid: eb770f3443ebb274e9e0d914220615be, type: 3}
+  _resourcePanelParent: {fileID: 1429480951}
+  _resourcePanelPrefab: {fileID: 5425669806479347815, guid: 6a4a8a84b56ef384d94c96c36ad88e68, type: 3}
 --- !u!4 &2027308164
 Transform:
   m_ObjectHideFlags: 0

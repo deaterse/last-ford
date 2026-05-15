@@ -42,8 +42,23 @@ public class ResourceUI : MonoBehaviour
                 resourcePanelUI.ResourceCountText.text = $"{0}";
                 if(currentRvs != null)
                 {
-                    resourcePanelUI.ResourceNameText.text = $"{currentRvs.DisplayedName}";
-                    resourcePanelUI.ResourceImage.sprite = currentRvs.ResourceSprite;
+                    if(resourcePanelUI.ResourceNameText != null)
+                    {
+                        resourcePanelUI.ResourceNameText.text = $"{currentRvs.DisplayedName}";
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No ResourceNameText attached to ResourcePanel");
+                    }
+
+                    if(resourcePanelUI.ResourceImage != null)
+                    {
+                        resourcePanelUI.ResourceImage.sprite = currentRvs.ResourceSprite;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No ResourceImage attached to ResourcePanel");
+                    }
                 }
                 else
                 {
