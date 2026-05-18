@@ -48,15 +48,35 @@ public class BuildingUI : MonoBehaviour
         {
             if(!_activeCanvas)
             {
-                _buildingCanvas.SetActive(true);
-                _activeCanvas = true;
+                ShowUI();
             }
             else
             {
-                _buildingCanvas.SetActive(false);
-                _activeCanvas = false;
+                HideUI();
             }
         }
+    }
+
+    public void HideUI()
+    {
+        if(TryGetComponent<MiningRadius>(out MiningRadius _miningRadius))
+        {
+            _miningRadius.OffVisualize();
+        }
+
+        _buildingCanvas.SetActive(false);
+        _activeCanvas = false;
+    }
+
+    public void ShowUI()
+    {
+        if(TryGetComponent<MiningRadius>(out MiningRadius _miningRadius))
+        {
+            _miningRadius.OnVisualize();
+        }
+
+        _buildingCanvas.SetActive(true);
+        _activeCanvas = true;
     }
 
     public void UpdateSlider(float value)

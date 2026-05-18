@@ -413,6 +413,7 @@ MonoBehaviour:
   _removeButton: {fileID: 3025872952814881896}
   _progressCanvas: {fileID: 7585966235670488953}
   _progressSlider: {fileID: 6602741006339251855}
+  _miningRadius: {fileID: 6124112586612264333}
 --- !u!114 &6124112586612264333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,7 +441,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2870714414518107048}
   _buildingUI: {fileID: 4849204433310828063}
-  _workParticles: {fileID: 5217771919660424079, guid: dc916315885219744b70b09804cf6bb7, type: 3}
 --- !u!61 &1130711185828022910
 BoxCollider2D:
   m_ObjectHideFlags: 0

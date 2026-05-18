@@ -16,13 +16,18 @@ public class BuildingManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Subscribe<TryUpdateBuilding>(TryToUpgrade);
         ServiceLocator.GetService<EventBus>().Subscribe<TryRemoveBuilding>(TryToRemove);
+
+        ServiceLocator.GetService<EventBus>().Subscribe<OnEmptyClicked>(HideAllUIs);
     }
 
     private void OnDisable()
     {
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingFinished>(AddBuilding);
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Unsubscribe<TryUpdateBuilding>(TryToUpgrade);
         ServiceLocator.GetService<EventBus>().Unsubscribe<TryRemoveBuilding>(TryToRemove);
+
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnEmptyClicked>(HideAllUIs);
     }
 
     private void GenerateBuildingMap(OnTerrainMapGenerated signal)
@@ -129,6 +134,17 @@ public class BuildingManager : MonoBehaviour, IService
             Debug.Log("Building successfully destroyed.");
 
             return;
+        }
+    }
+
+    private void HideAllUIs(OnEmptyClicked signal)
+    {
+        foreach(GameObject b in _buildingInstances)
+        {
+            if(b.TryGetComponent<BuildingUI>(out BuildingUI bui))
+            {
+                bui.HideUI();
+            }
         }
     }
 

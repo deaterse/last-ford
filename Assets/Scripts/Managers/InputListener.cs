@@ -93,6 +93,14 @@ public class InputListener : MonoBehaviour
             {
                 buildingUI.OnBuildingClicked();
             }
+            else
+            {
+                ServiceLocator.GetService<EventBus>().Invoke<OnEmptyClicked>(new OnEmptyClicked());
+            }
+        }
+        else
+        {
+            ServiceLocator.GetService<EventBus>().Invoke<OnEmptyClicked>(new OnEmptyClicked());
         }
     }
 

@@ -13,4 +13,9 @@ public class MiningRadius : MonoBehaviour
     {
         _miningRadiusVis.gameObject.SetActive(false);
     }
+
+    public void  OnVisualize()
+    {
+        _miningRadiusVis.gameObject.SetActive(true);
+    }
 }
