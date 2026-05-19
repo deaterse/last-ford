@@ -90,6 +90,8 @@ public abstract class Building : Entity, IDamageable
         {
             _assignedWorkers.Add(worker);
             worker.AssignToBuilding(this);
+
+            ServiceLocator.GetService<EventBus>().Invoke<OnWorkerAssigned>(new OnWorkerAssigned(this));
         }
     }
 
