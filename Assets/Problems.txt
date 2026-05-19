@@ -1,0 +1,2 @@
+1. - for example: worker didnt finished his job at stonemining, 
+but started working at lumberjack, so he will start mining stone, thinking its wood -- FIXED

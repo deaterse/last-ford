@@ -18,7 +18,7 @@ public class Worker : MonoBehaviour
 
     public ResourceAmount CurrentInventoryResource => _inventory;
 
-    private Building _assignedBuilding;
+    [SerializeField]private Building _assignedBuilding;
     private Job _currentJob;
     private Job _lastJob;
 
@@ -114,8 +114,24 @@ public class Worker : MonoBehaviour
         }
     }
 
+    private void ClearAttribute()
+    {
+        _attributeRenderer.sprite = null;
+    }
+
+    public void StopJob()
+    {
+        _assignedBuilding = null;
+        ClearAttribute();
+        if(_currentJob != null)
+        {
+            JobFailed();
+        }
+    }
+
     public void ChangeState<T>(object data = null) where T : State
     {
+        Debug.Log(typeof(T).Name);
         foreach(StateString sstr in _statesByString)
         {
             if(sstr.name == typeof(T).Name)
@@ -157,7 +173,7 @@ public class Worker : MonoBehaviour
 
     private void TryGetJob()
     {
-        if (_assignedBuilding == null) return;
+        if (!_assignedBuilding) return;
 
         if (_currentJob == null && !_assignedBuilding.HaveJob)
         {
@@ -169,6 +185,8 @@ public class Worker : MonoBehaviour
 
     public void AssignToBuilding(Building building)
     {
+        StopJob();
+
         _assignedBuilding = building;
 
         ChangeAttribute(_assignedBuilding.buildingData.jobType, _assignedBuilding.buildingData.resourceType);
@@ -272,12 +290,12 @@ public class Worker : MonoBehaviour
     public void JobFailed()
     {
         ChangeInventoryResource();
-    
-        ChangeState<IdleState>();
 
         ServiceLocator.GetService<EventBus>().Invoke<OnJobFailed>(new OnJobFailed(_currentJob, this));
 
         OnJobCompleted();
+
+        ChangeState<IdleState>();
     }
 
     public void OnJobCompleted()

@@ -37,6 +37,7 @@ public abstract class Building : Entity, IDamageable
     public void Init(BuildingData buildingData, Vector2Int pos)
     {
         SetData(buildingData, pos);
+        SetEvents();
 
         _spriteRenderer.sprite = buildingData.BuildingFrameSprite;
         _buildingUI.OnBuildingBuilded();
@@ -50,6 +51,11 @@ public abstract class Building : Entity, IDamageable
         _gridPos = pos;
         _level = 1;
         _isBuilded = false;
+    }
+
+    private void SetEvents()
+    {
+        ServiceLocator.GetService<EventBus>().Subscribe<CanDestroyBuilding>(DestroySignal);
     }
 
     protected void StartBuild()
@@ -123,16 +129,20 @@ public abstract class Building : Entity, IDamageable
 
     public void DestroyMethod()
     {
-        StartCoroutine(Destroy());
+        ServiceLocator.GetService<EventBus>().Invoke(new OnBuildingDestroyed(this));
     }
 
-    private IEnumerator Destroy()
+    private void DestroySignal(CanDestroyBuilding signal)
     {
-        ServiceLocator.GetService<EventBus>().Invoke(new OnBuildingDestroyed(this));
-
-        yield return new WaitForSeconds(0.3f);
-        
-        Destroy(gameObject);
+        if(signal._building == this)
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        ServiceLocator.GetService<EventBus>().Unsubscribe<CanDestroyBuilding>(DestroySignal);
     }
 
     public abstract Job GetAvailableJob(Job lastJob = null);

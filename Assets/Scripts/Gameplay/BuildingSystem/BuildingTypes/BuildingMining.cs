@@ -9,7 +9,7 @@ public class BuildingMining : Building
     {
         if(!HaveJob)
         {
-            if(lastJob != null)
+            if(lastJob != null && lastJob.jobType == _buildingData.jobType && lastJob.resourceType == _buildingData.resourceType)
             {
                 Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
                 if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))

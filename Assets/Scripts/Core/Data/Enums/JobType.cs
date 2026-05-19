@@ -1,1 +1,1 @@
-public enum JobType { Mining, Production, NonWorkable }
+public enum JobType { Mining, Production, NonWorkable, None }

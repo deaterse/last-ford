@@ -90,8 +90,11 @@ public class JobManager : MonoBehaviour, IService
 
         foreach(Worker worker in destroyedBuilding.AssignedWorkers)
         {
+            worker.StopJob();
             NewFreeWorker(worker);
         }
+
+        ServiceLocator.GetService<EventBus>().Invoke<CanDestroyBuilding>(new CanDestroyBuilding(destroyedBuilding));    
     }
 
     private void TryFillBuilding(Building building)
