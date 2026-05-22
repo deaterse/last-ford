@@ -1,1 +1,1 @@
-public enum ResourceType { Wood, Stone, Iron, Gold, None }
+public enum ResourceType { Wood, Stone, Iron, Gold, Food, None }

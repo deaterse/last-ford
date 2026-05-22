@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71eb1355d386f0c449f52cdb085d5b88, type: 3}
-  m_Name: Iron
+  m_Name: Food
   m_EditorClassIdentifier: 
-  _displayedName: Iron
-  _resourceType: 2
-  _resourceSprite: {fileID: 3981835969576752010, guid: 54f50a52ee4376544b6a00f6cefb87f7, type: 3}
+  _displayedName: Food
+  _resourceType: 4
+  _resourceSprite: {fileID: 21300000, guid: 7acf175b783a7f642a17e016b302fad4, type: 3}

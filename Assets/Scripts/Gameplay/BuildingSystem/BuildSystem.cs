@@ -179,13 +179,13 @@ public class BuildSystem : MonoBehaviour, IService
             GameObject buildingObj = Instantiate(_currentData.GetLevel(1).ObjPrefab);
             buildingObj.transform.position = new Vector3(cellMousePos.x + 0.5f, cellMousePos.y + 0.5f, 0);
 
-            buildingObj.GetComponent<Building>().Init(_currentData, (Vector2Int) cellMousePos);
+            buildingObj.GetComponent<Building>().Init(_currentData, (Vector2Int) startPos);
             if(buildingObj.TryGetComponent<MiningRadius>(out MiningRadius miningRadius))
             {
                 miningRadius.OffVisualize();
             }
             
-            ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(_currentData, startPos));
+            ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(buildingObj.GetComponent<Building>(), _currentData, startPos));
             
             StartBuilding(_currentData);
         }

@@ -6,13 +6,13 @@ public class BuildingManager : MonoBehaviour, IService
 {
     private BuildingMap _buildingMap;
     private List<GameObject> _storagesInstances = new();
-    [SerializeField] private List<GameObject> _buildingInstances = new();
+    private List<GameObject> _buildingInstances = new();
 
     public void Init()
     {
         ServiceLocator.ProvideService<BuildingManager>(this);
 
-        ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingFinished>(AddBuilding);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnBuildingBuilded>(AddBuilding);
         ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Subscribe<TryUpdateBuilding>(TryToUpgrade);
         ServiceLocator.GetService<EventBus>().Subscribe<TryRemoveBuilding>(TryToRemove);
@@ -22,7 +22,7 @@ public class BuildingManager : MonoBehaviour, IService
 
     private void OnDisable()
     {
-        ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingFinished>(AddBuilding);
+        ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingBuilded>(AddBuilding);
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnTerrainMapGenerated>(GenerateBuildingMap);
         ServiceLocator.GetService<EventBus>().Unsubscribe<TryUpdateBuilding>(TryToUpgrade);
         ServiceLocator.GetService<EventBus>().Unsubscribe<TryRemoveBuilding>(TryToRemove);
@@ -42,13 +42,14 @@ public class BuildingManager : MonoBehaviour, IService
         return _buildingMap.CanPlaceBuilding(pos, sizeArray);
     }
 
-    public void AddBuilding(OnBuildingFinished signal)
+    public void AddBuilding(OnBuildingBuilded signal)
     {
+        Debug.Log("Called");
         BuildingData data;
         Building building;
 
-        GameObject buildingObj = signal.building.gameObject;
-        Vector2Int buildingPos = signal.building.GridPosition; 
+        GameObject buildingObj = signal._building.gameObject;
+        Vector2Int buildingPos = signal._building.GridPosition; 
         if(buildingObj.TryGetComponent<Building>(out Building _building))
         {
             data = _building.buildingData;
@@ -74,6 +75,39 @@ public class BuildingManager : MonoBehaviour, IService
             _storagesInstances.Add(buildingObj);
         }
     }
+
+    // public void AddBuilding(OnBuildingFinished signal)
+    // {
+    //     BuildingData data;
+    //     Building building;
+
+    //     GameObject buildingObj = signal.building.gameObject;
+    //     Vector2Int buildingPos = signal.building.GridPosition; 
+    //     if(buildingObj.TryGetComponent<Building>(out Building _building))
+    //     {
+    //         data = _building.buildingData;
+    //         building = _building;
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("U are trying to add not a building!");
+    //         return;
+    //     }
+
+    //     _buildingMap.PlaceBuilding(buildingPos, data.BuildingSize, building);
+        
+    //     if (_buildingInstances.Contains(buildingObj))
+    //     {
+    //         Debug.LogWarning("Building already added to BuildingManager!");
+    //         return;
+    //     }
+        
+    //     _buildingInstances.Add(buildingObj);
+    //     if(buildingObj.TryGetComponent<Storage>(out Storage _storage))
+    //     {
+    //         _storagesInstances.Add(buildingObj);
+    //     }
+    // }
 
     public Vector3Int GetNearestStorage(Vector3Int pos)
     {

@@ -18,7 +18,6 @@ public class WorldGeneratorOld : MonoBehaviour
     [Header("Renderer Components")]
     [SerializeField] private TerrainRenderer _terrainRenderer;
     [SerializeField] private ResourcesRenderer _resourcesRenderer;
-    [SerializeField] private BaseVisualize _baseVisualize;
 
     private HeightMap _heightMap;
     private TerrainMap _terrainMap;
