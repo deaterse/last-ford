@@ -172,7 +172,7 @@ public class BuildSystem : MonoBehaviour, IService
             Vector3Int cellMousePos = MousePosOnTile();
             Vector2Int startPos;
             
-            startPos = new Vector2Int(cellMousePos.x - 1, cellMousePos.y + 1);
+            startPos = new Vector2Int(cellMousePos.x, cellMousePos.y);
 
             if (!ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize) || !_terrainMap.CanBuild(startPos, _currentData.BuildingSize)) return;
 
@@ -198,6 +198,7 @@ public class BuildSystem : MonoBehaviour, IService
 
         Vector3Int cellMousePos = _buildingsTilemap.WorldToCell(mousePosWorld);
 
+        Debug.Log(cellMousePos);
         return cellMousePos;
     }
 

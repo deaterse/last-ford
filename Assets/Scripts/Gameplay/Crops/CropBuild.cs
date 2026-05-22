@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class CropBuild : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject _cropPrefab;
+
     void Start()
     {
         

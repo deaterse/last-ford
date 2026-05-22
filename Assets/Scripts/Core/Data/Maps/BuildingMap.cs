@@ -4,6 +4,7 @@ using UnityEngine;
 public class BuildingMap
 {
     public Building[,] BuildingData { get; private set; }
+
     public int Width { get; private set; }
     public int Height { get; private set; }
     
@@ -43,13 +44,15 @@ public class BuildingMap
     public void PlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray, Building building)
     {
         int rowIndex = 0;
+        Vector2Int leftUpPos = new Vector2Int(pos.x - 1, pos.y + 1);
+        
         foreach(Vector3Int row in sizeArray)
         {
             for (int x = 0; x < 3; x++)
             {
                 if(row[x] != 0)
                 {
-                    BuildingData[pos.x + x, pos.y - rowIndex] = building;
+                    BuildingData[leftUpPos.x + x, leftUpPos.y - rowIndex] = building;
                 }
             }
 

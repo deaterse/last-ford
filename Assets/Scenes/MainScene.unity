@@ -974,7 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044ba5e22568e9e4f9a1086919b0591a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildingInstances: []
 --- !u!4 &368933620
 Transform:
   m_ObjectHideFlags: 0
@@ -1973,7 +1972,6 @@ MonoBehaviour:
   _resourceSubtypeConfig: {fileID: 11400000, guid: 051a74372976af9438a0278e2cd52afb, type: 2}
   _terrainRenderer: {fileID: 1673380620}
   _resourcesRenderer: {fileID: 1099372737}
-  _baseVisualize: {fileID: 1413267780}
 --- !u!1 &1054958965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2675,7 +2673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4a988e6dea0bc4ebedcf7a12da555c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _castleData: {fileID: 11400000, guid: 5e7e693acbfde044896182a4dc9d1493, type: 2}
 --- !u!1 &1429480950
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,7 +2724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.23018861, g: 0.23018861, b: 0.23018861, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3225,7 +3222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.23018861, g: 0.23018861, b: 0.23018861, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
