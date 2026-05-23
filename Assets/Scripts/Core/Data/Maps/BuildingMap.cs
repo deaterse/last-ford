@@ -18,14 +18,16 @@ public class BuildingMap
     public bool CanPlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray)
     {
         int rowIndex = 0;
+        Vector2Int leftUpPos = new Vector2Int(pos.x - 1, pos.y + 1);
+
         foreach(Vector3Int row in sizeArray)
         {
             for (int x = 0; x < 3; x++)
             {
                 if(row[x] != 0)
                 {
-                    int checkX = pos.x + x;
-                    int checkY = pos.y - rowIndex;
+                    int checkX = leftUpPos.x + x;
+                    int checkY = leftUpPos.y - rowIndex;
 
                     if (checkX >= Width || checkY >= Height || checkX < 0 || checkY < 0)
                         return false;

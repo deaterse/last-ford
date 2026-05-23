@@ -7,10 +7,14 @@ public class BuildSystem : MonoBehaviour, IService
 
     [Header("Tilemap Components")]
     [SerializeField] private Tilemap _buildingsTilemap;
+    [SerializeField] private Tilemap _roadsTilemap;
 
     [Header("Building Colors")]
     [SerializeField] private Color _canBuildColor = Color.green;
     [SerializeField] private Color _cantBuildColor = Color.red;
+
+    [Header("Prefabs")]
+    [SerializeField] private RuleTile _roadTile;
 
     private GameObject _currentPrefab;
     private BuildingData _currentData;
@@ -91,7 +95,7 @@ public class BuildSystem : MonoBehaviour, IService
     private bool IsPlaceEmpty()
     {
         Vector3Int mousePos = MousePosOnTile();
-        Vector2Int startPos = new Vector2Int(mousePos.x - 1, mousePos.y + 1);
+        Vector2Int startPos = new Vector2Int(mousePos.x, mousePos.y);
 
         if(_terrainMap.CanBuild(startPos, _currentData.BuildingSize) && ServiceLocator.GetService<BuildingManager>().CanPlaceBuilding(startPos, _currentData.BuildingSize))
         {
@@ -188,6 +192,8 @@ public class BuildSystem : MonoBehaviour, IService
             ServiceLocator.GetService<EventBus>().Invoke<OnBuildingBuilded>(new OnBuildingBuilded(buildingObj.GetComponent<Building>(), _currentData, startPos));
             
             StartBuilding(_currentData);
+
+            CheckIfRoad();
         }
     }
 
@@ -199,6 +205,7 @@ public class BuildSystem : MonoBehaviour, IService
         Vector3Int cellMousePos = _buildingsTilemap.WorldToCell(mousePosWorld);
 
         Debug.Log(cellMousePos);
+
         return cellMousePos;
     }
 
@@ -210,65 +217,84 @@ public class BuildSystem : MonoBehaviour, IService
         }
     }
 
+    public void CheckIfRoad()
+    {
+        BuildingManager buildingManager = ServiceLocator.GetService<BuildingManager>();
+        int buildingsCount = buildingManager._buildingsCount;
 
-    // public void BuildRoad(Vector3Int start, Vector3Int end)
-    // {
-    //     _roadsTilemap.SetTile(start, _roadTile);
-    //     _roadsTilemap.SetTile(end, _roadTile);
+        if(buildingsCount > 1)
+        {
+            for(int i = 0; i < buildingsCount - 1; i++)
+            {
+                Vector2Int startPos2D = buildingManager.GetBuidlingPos(i);
+                Vector3Int startPos = new Vector3Int(startPos2D.x, startPos2D.y, 0);
 
-    //     Vector3Int startDot = new Vector3Int(start.x, start.y - 1, 0);
-    //     Vector3Int endDot = new Vector3Int(end.x, end.y - 1, 0);
+                Vector2Int endPos2D = buildingManager.GetBuidlingPos(i + 1);
+                Vector3Int endPos = new Vector3Int(endPos2D.x, endPos2D.y, 0);
 
-    //     Vector3Int delta = endDot - startDot;
-    //     Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);
+                BuildRoad(startPos, endPos);
+            }
+        }
+    }
+
+    public void BuildRoad(Vector3Int start, Vector3Int end)
+    {
+        _roadsTilemap.SetTile(start, _roadTile);
+        _roadsTilemap.SetTile(end, _roadTile);
+
+        Vector3Int startDot = new Vector3Int(start.x, start.y - 1, 0);
+        Vector3Int endDot = new Vector3Int(end.x, end.y - 1, 0);
+
+        Vector3Int delta = endDot - startDot;
+        Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);
         
-    //     bool xIsMajor = absDelta.x > absDelta.y;
+        bool xIsMajor = absDelta.x > absDelta.y;
 
-    //     int majorStep = xIsMajor ? absDelta.x : absDelta.y;
-    //     int minorStep = xIsMajor ? absDelta.y : absDelta.x;
+        int majorStep = xIsMajor ? absDelta.x : absDelta.y;
+        int minorStep = xIsMajor ? absDelta.y : absDelta.x;
         
-    //     int stepX = (int)Mathf.Sign(delta.x);
-    //     int stepY = (int)Mathf.Sign(delta.y);
+        int stepX = (int)Mathf.Sign(delta.x);
+        int stepY = (int)Mathf.Sign(delta.y);
         
-    //     Vector3Int currentPos = startDot;
+        Vector3Int currentPos = startDot;
 
-    //     float error = 0;
-    //     float errorStep = (float) minorStep / majorStep;
+        float error = 0;
+        float errorStep = (float) minorStep / majorStep;
 
-    //     bool stepCorner = false;
-    //     for(int i = 0; i <= majorStep; i++)
-    //     {
-    //         if(stepCorner)
-    //         {
-    //             Vector3Int cornerPos;
+        bool stepCorner = false;
+        for(int i = 0; i <= majorStep; i++)
+        {
+            if(stepCorner)
+            {
+                Vector3Int cornerPos;
             
-    //             if(xIsMajor)
-    //             {
-    //                 cornerPos = new Vector3Int(currentPos.x - 1 * stepX, currentPos.y, 0);
-    //             }
-    //             else
-    //             {
-    //                 cornerPos = new Vector3Int(currentPos.x, currentPos.y - 1 * stepY, 0);
-    //             }
+                if(xIsMajor)
+                {
+                    cornerPos = new Vector3Int(currentPos.x - 1 * stepX, currentPos.y, 0);
+                }
+                else
+                {
+                    cornerPos = new Vector3Int(currentPos.x, currentPos.y - 1 * stepY, 0);
+                }
 
-    //             _roadsTilemap.SetTile(cornerPos, _roadTile);
-    //         }
-    //         stepCorner = false;
+                _roadsTilemap.SetTile(cornerPos, _roadTile);
+            }
+            stepCorner = false;
 
-    //         _roadsTilemap.SetTile(currentPos, _roadTile);
+            _roadsTilemap.SetTile(currentPos, _roadTile);
             
-    //         if(xIsMajor) currentPos.x += stepX;
-    //         else currentPos.y += stepY;
+            if(xIsMajor) currentPos.x += stepX;
+            else currentPos.y += stepY;
             
-    //         error += errorStep;
-    //         if(error >= 0.5f)
-    //         {
-    //             if(xIsMajor) currentPos.y += stepY;
-    //             else currentPos.x += stepX;
-    //             error -= 1f;
+            error += errorStep;
+            if(error >= 0.5f)
+            {
+                if(xIsMajor) currentPos.y += stepY;
+                else currentPos.x += stepX;
+                error -= 1f;
 
-    //             stepCorner = true;
-    //         }
-    //     }
-    // }
+                stepCorner = true;
+            }
+        }
+    }
 }

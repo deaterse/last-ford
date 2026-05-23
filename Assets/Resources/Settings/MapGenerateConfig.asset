@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _generateHeight: 1
   _generateRiver: 1
-  _generateShore: 1
+  _generateShore: 0
   _generatePreSand: 0
   _generateStones: 1
   _generateForests: 1

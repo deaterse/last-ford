@@ -1,0 +1,1 @@
+public enum CycleType {Morning, AfterNoon, Evening, Night}

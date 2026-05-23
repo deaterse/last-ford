@@ -83,15 +83,17 @@ public class TerrainMap
     {
         if(startPos.x > Width || startPos.y > Height || startPos.x < -1 || startPos.y < -1) return false;
 
+        Vector2Int leftUpPos = new Vector2Int(startPos.x - 1, startPos.y + 1);
         int rowIndex = 0;
+        
         foreach(Vector3Int row in sizeArray)
         {
             for (int x = 0; x < 3; x++)
             {
                 if(row[x] != 0)
                 {
-                    int checkX = startPos.x + x;
-                    int checkY = startPos.y - rowIndex;
+                    int checkX = leftUpPos.x + x;
+                    int checkY = leftUpPos.y - rowIndex;
 
                     if(!IsWalkable(checkX, checkY))
                     {

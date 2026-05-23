@@ -8,6 +8,8 @@ public class BuildingManager : MonoBehaviour, IService
     private List<GameObject> _storagesInstances = new();
     private List<GameObject> _buildingInstances = new();
 
+    public int _buildingsCount => _buildingInstances.Count;
+
     public void Init()
     {
         ServiceLocator.ProvideService<BuildingManager>(this);
@@ -40,6 +42,11 @@ public class BuildingManager : MonoBehaviour, IService
     public bool CanPlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray)
     {
         return _buildingMap.CanPlaceBuilding(pos, sizeArray);
+    }
+
+    public Vector2Int GetBuidlingPos(int index)
+    {
+        return _buildingInstances[index].GetComponent<Building>().GridPosition;
     }
 
     public void AddBuilding(OnBuildingBuilded signal)

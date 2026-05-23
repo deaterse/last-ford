@@ -11,71 +11,114 @@ public class DayCycle : MonoBehaviour, IService
 
     [Header("Light")]
     [SerializeField] private Light2D _globalLight;
+    [SerializeField] private TMP_Text _cycleText;
 
-    private bool _dayNow = true;
+    [SerializeField] private float time = 0.25f;
+
+    private CycleType _cycleNow;
     private int _currentDay = 1;
 
     public void Init()
     {
-        StartCoroutine(StartCycle());
+        CoroutinesRun();
     }
 
-    private IEnumerator StartCycle()
+    private void CoroutinesRun()
     {
-        if(_dayNow)
+        StartCoroutine(TimeCycle());
+        StartCoroutine(DuringNight());
+    }
+
+    private void CycleText()
+    {
+        _cycleNow = CheckCycle();
+        _cycleText.text = _cycleNow.ToString();
+    }
+
+    private IEnumerator TimeCycle()
+    {
+        float duration = _config.DayLength + _config.NightLength;
+        while(true)
         {
-            yield return new WaitForSeconds(_config.DayLength);
-            ChangeToNight();
-        }
-        else
-        {
-            yield return new WaitForSeconds(_config.NightLength);
-            ChangeToDay();
+            float dayLeftover = time * duration;
+
+            float iterations = duration - dayLeftover;
+            float step = 1f / duration;
+
+            for(int i = 0; i < iterations; i++)
+            {
+                time += step;
+                
+                CycleText();
+
+                yield return new WaitForSeconds(1);
+            }
+
+            time = 0;
         }
     }
 
     private void ChangeToNight()
     {
-        StartCoroutine(StartNight());
+        StartCoroutine(DuringDay());
     }
 
-    private IEnumerator StartNight()
+    private IEnumerator DuringDay()
     {
-        _dayNow = false;
+        float way = -(_config.MinIntesity - _globalLight.intensity);
+        float step = way / _config.DayLength;
 
-        while(_globalLight.intensity > 0.03f)
+        while(_globalLight.intensity > _config.MinIntesity)
         {
-            yield return new WaitForSeconds(0.05f);
+            _globalLight.intensity -= step;
 
-            _globalLight.intensity -= 0.025f;
+            yield return new WaitForSeconds(1);
         }
+        _globalLight.intensity = _config.MinIntesity;
 
-        StartCoroutine(StartCycle());
+        ChangeToDay();
     }
 
     private void ChangeToDay()
     {
-        StartCoroutine(StartDay());
+        StartCoroutine(DuringNight());
     }
 
-
-    private IEnumerator StartDay()
+    private IEnumerator DuringNight()
     {
-        _dayNow = true;
-        _currentDay++;
-
-        while(_globalLight.intensity < 1f)
+        float step = (_config.MaxIntensity - _globalLight.intensity) / _config.DayLength;
+        while(_globalLight.intensity < _config.MaxIntensity)
         {
-            yield return new WaitForSeconds(0.1f);
+            _globalLight.intensity += step;
 
-            _globalLight.intensity += 0.05f;
+            yield return new WaitForSeconds(1);
         }
+        
+        _globalLight.intensity = _config.MaxIntensity;
 
-        StartCoroutine(StartCycle());
+        ChangeToNight();
     }
 
-    public bool IsDay()
+    private CycleType CheckCycle()
     {
-        return _dayNow;
+        float intensity = _globalLight.intensity;
+        float localTime = time;
+
+        if(intensity >= 0.5f && localTime >= 0.25f && localTime <= 0.5f)
+        {
+            return CycleType.Morning;
+        }
+        else if(intensity >= 0.5f && localTime >= 0.5f && localTime <= 0.75f)
+        {
+            return CycleType.AfterNoon;
+        }
+        else if(intensity >= 0.2f && localTime >= 0.75f && localTime <= 0.92f)
+        {
+            return CycleType.Evening;
+        }
+        else
+        {
+            return CycleType.Night;
+        }
     }
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Torch
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 2576521533274311486, guid: 44eec77f68dd0d84991d8adfcf8c2792, type: 3}
+  m_DefaultGameObject: {fileID: 7228043352471391031, guid: 2933b4ab1889879499e3dacdbda629f7, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []

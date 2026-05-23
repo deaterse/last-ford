@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5352377917015518460}
   - component: {fileID: 1035309744298211290}
   m_Layer: 0
-  m_Name: ForestPine_4
+  m_Name: ForestPine_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,10 +73,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1744217811
+  m_SortingLayer: 3
   m_SortingOrder: 3
-  m_Sprite: {fileID: 313158698595202974, guid: ae35137977976f94d9b80c5636ba4146, type: 3}
+  m_Sprite: {fileID: -2234450033623174746, guid: 14581559bb5ab18478024cc640790a97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

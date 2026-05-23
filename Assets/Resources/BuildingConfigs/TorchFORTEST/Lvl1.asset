@@ -16,6 +16,6 @@ MonoBehaviour:
   _level: 1
   _upgradeSprite: {fileID: -6297035948296621503, guid: 9a474b4be92fd9b4da143181902c648f, type: 3}
   _tilePrefab: {fileID: 11400000, guid: c0fdd7a7a0519d543b71f77987c61309, type: 2}
-  _objPrefab: {fileID: 2576521533274311486, guid: 44eec77f68dd0d84991d8adfcf8c2792, type: 3}
+  _objPrefab: {fileID: 7228043352471391031, guid: 2933b4ab1889879499e3dacdbda629f7, type: 3}
   _workerSlots: 0
   _productionRate: 0
