@@ -18,6 +18,9 @@ public class DayCycle : MonoBehaviour, IService
     private CycleType _cycleNow;
     private int _currentDay = 1;
 
+    public float Time => time;
+    public float Intensity => _globalLight.intensity;
+
     public void Init()
     {
         CoroutinesRun();
