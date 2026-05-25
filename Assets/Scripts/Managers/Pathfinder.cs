@@ -74,12 +74,85 @@ public class Pathfinder: IService
 
     return null;
   }
+
+  public List<Vector3Int> FindPathWithCorners(Vector3Int start, Vector3Int end)
+  {
+    if (start == end) return new List<Vector3Int> { start };
+    if (!IsWalkable(end)) return null;
+    
+    Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+    Dictionary<Vector3Int, float> gScore = new Dictionary<Vector3Int, float>();
+    Dictionary<Vector3Int, float> fScore = new Dictionary<Vector3Int, float>();
+    
+    List<Vector3Int> openSet = new List<Vector3Int> { start };
+    HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
+    
+    gScore[start] = 0;
+    fScore[start] = Heuristic(start, end);
+    
+    int maxIterations = 4096;
+    int currentIterations = 0;
+
+    while (openSet.Count > 0 && currentIterations <= maxIterations)
+    {
+      currentIterations++;
+
+      Vector3Int current = openSet[0];
+      float minF = fScore.ContainsKey(current) ? fScore[current] : float.MaxValue;
+      
+      for (int i = 1; i < openSet.Count; i++)
+      {
+          Vector3Int node = openSet[i];
+          if (fScore.ContainsKey(node) && fScore[node] < minF)
+          {
+            current = node;
+            minF = fScore[node];
+          }
+      }
+      
+      if (current == end)
+        return ReconstructPath(cameFrom, current);
+
+      openSet.Remove(current);
+      closedSet.Add(current);
+
+      foreach (Vector3Int neighbor in GetNeighboursWithourCorners(current))
+      {
+        if (closedSet.Contains(neighbor) || !IsWalkable(neighbor))
+          continue;
+        
+        float tentativeGScore = gScore[current] + Distance(current, neighbor);
+        
+        if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
+        {
+          cameFrom[neighbor] = current;
+          gScore[neighbor] = tentativeGScore;
+          fScore[neighbor] = tentativeGScore + Heuristic(neighbor, end);
+          
+          if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
+        }
+      }
+    }
+
+    return null;
+  }
   
   private bool IsWalkable(Vector3Int cell)
   {
-    if(_terrainMap.IsWalkable(cell.x, cell.y)) return true;
+    if(_terrainMap.IsWalkable(cell.x, cell.y) && !ServiceLocator.GetService<BuildingManager>().buildingMap.IsTaken(cell.x, cell.y)) return true;
 
     return false;
+  }
+
+  private List<Vector3Int> GetNeighboursWithourCorners(Vector3Int cell)
+  {
+    return new List<Vector3Int>
+    {
+      cell + Vector3Int.up,
+      cell + Vector3Int.down,
+      cell + Vector3Int.left,
+      cell + Vector3Int.right,
+    };
   }
   
   private List<Vector3Int> GetNeighbours(Vector3Int cell)

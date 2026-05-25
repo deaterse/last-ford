@@ -8,6 +8,7 @@ public class BuildingManager : MonoBehaviour, IService
     private List<GameObject> _storagesInstances = new();
     private List<GameObject> _buildingInstances = new();
 
+    public BuildingMap buildingMap => _buildingMap;
     public int _buildingsCount => _buildingInstances.Count;
 
     public void Init()

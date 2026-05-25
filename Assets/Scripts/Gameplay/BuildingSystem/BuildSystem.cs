@@ -204,8 +204,6 @@ public class BuildSystem : MonoBehaviour, IService
 
         Vector3Int cellMousePos = _buildingsTilemap.WorldToCell(mousePosWorld);
 
-        Debug.Log(cellMousePos);
-
         return cellMousePos;
     }
 
@@ -242,59 +240,70 @@ public class BuildSystem : MonoBehaviour, IService
         _roadsTilemap.SetTile(start, _roadTile);
         _roadsTilemap.SetTile(end, _roadTile);
 
-        Vector3Int startDot = new Vector3Int(start.x, start.y - 1, 0);
-        Vector3Int endDot = new Vector3Int(end.x, end.y - 1, 0);
+        Pathfinder pathfinder = ServiceLocator.GetService<Pathfinder>();
 
-        Vector3Int delta = endDot - startDot;
-        Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);
-        
-        bool xIsMajor = absDelta.x > absDelta.y;
+        List<Vector3Int> allDots = pathfinder.FindPathWithCorners(new Vector3Int(start.x, start.y-1, start.z), new Vector3Int(end.x, end.y-1, end.z));
 
-        int majorStep = xIsMajor ? absDelta.x : absDelta.y;
-        int minorStep = xIsMajor ? absDelta.y : absDelta.x;
-        
-        int stepX = (int)Mathf.Sign(delta.x);
-        int stepY = (int)Mathf.Sign(delta.y);
-        
-        Vector3Int currentPos = startDot;
+        Debug.Log(allDots);
 
-        float error = 0;
-        float errorStep = (float) minorStep / majorStep;
-
-        bool stepCorner = false;
-        for(int i = 0; i <= majorStep; i++)
+        foreach(Vector3Int dot in allDots)
         {
-            if(stepCorner)
-            {
-                Vector3Int cornerPos;
-            
-                if(xIsMajor)
-                {
-                    cornerPos = new Vector3Int(currentPos.x - 1 * stepX, currentPos.y, 0);
-                }
-                else
-                {
-                    cornerPos = new Vector3Int(currentPos.x, currentPos.y - 1 * stepY, 0);
-                }
-
-                _roadsTilemap.SetTile(cornerPos, _roadTile);
-            }
-            stepCorner = false;
-
-            _roadsTilemap.SetTile(currentPos, _roadTile);
-            
-            if(xIsMajor) currentPos.x += stepX;
-            else currentPos.y += stepY;
-            
-            error += errorStep;
-            if(error >= 0.5f)
-            {
-                if(xIsMajor) currentPos.y += stepY;
-                else currentPos.x += stepX;
-                error -= 1f;
-
-                stepCorner = true;
-            }
+            _roadsTilemap.SetTile(dot, _roadTile);
         }
+
+        // Vector3Int startDot = new Vector3Int(start.x, start.y - 1, 0);
+        // Vector3Int endDot = new Vector3Int(end.x, end.y - 1, 0);
+
+        // Vector3Int delta = endDot - startDot;
+        // Vector3Int absDelta = new Vector3Int(Mathf.Abs(delta.x), Mathf.Abs(delta.y), 0);
+        
+        // bool xIsMajor = absDelta.x > absDelta.y;
+
+        // int majorStep = xIsMajor ? absDelta.x : absDelta.y;
+        // int minorStep = xIsMajor ? absDelta.y : absDelta.x;
+        
+        // int stepX = (int)Mathf.Sign(delta.x);
+        // int stepY = (int)Mathf.Sign(delta.y);
+        
+        // Vector3Int currentPos = startDot;
+
+        // float error = 0;
+        // float errorStep = (float) minorStep / majorStep;
+
+        // bool stepCorner = false;
+        // for(int i = 0; i <= majorStep; i++)
+        // {
+        //     if(stepCorner)
+        //     {
+        //         Vector3Int cornerPos;
+            
+        //         if(xIsMajor)
+        //         {
+        //             cornerPos = new Vector3Int(currentPos.x - 1 * stepX, currentPos.y, 0);
+        //         }
+        //         else
+        //         {
+        //             cornerPos = new Vector3Int(currentPos.x, currentPos.y - 1 * stepY, 0);
+        //         }
+
+        //         _roadsTilemap.SetTile(cornerPos, _roadTile);
+        //     }
+        //     stepCorner = false;
+
+        //     _roadsTilemap.SetTile(currentPos, _roadTile);
+            
+        //     if(xIsMajor) currentPos.x += stepX;
+        //     else currentPos.y += stepY;
+            
+        //     error += errorStep;
+        //     if(error >= 0.5f)
+        //     {
+        //         if(xIsMajor) currentPos.y += stepY;
+        //         else currentPos.x += stepX;
+        //         error -= 1f;
+
+        //         stepCorner = true;
+        //     }
+        // }
     }
 }

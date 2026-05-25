@@ -17,9 +17,12 @@ public class DayCycle : MonoBehaviour, IService
 
     private CycleType _cycleNow;
     private int _currentDay = 1;
+    
+    private static readonly WaitForSeconds waitSecond = new WaitForSeconds(1);
 
     public float Time => time;
     public float Intensity => _globalLight.intensity;
+
 
     public void Init()
     {
@@ -54,7 +57,7 @@ public class DayCycle : MonoBehaviour, IService
                 
                 CycleText();
 
-                yield return new WaitForSeconds(1);
+                yield return waitSecond;
             }
 
             time = 0;
@@ -75,7 +78,7 @@ public class DayCycle : MonoBehaviour, IService
         {
             _globalLight.intensity -= step;
 
-            yield return new WaitForSeconds(1);
+            yield return waitSecond;
         }
         _globalLight.intensity = _config.MinIntesity;
 
@@ -94,7 +97,7 @@ public class DayCycle : MonoBehaviour, IService
         {
             _globalLight.intensity += step;
 
-            yield return new WaitForSeconds(1);
+            yield return waitSecond;
         }
         
         _globalLight.intensity = _config.MaxIntensity;

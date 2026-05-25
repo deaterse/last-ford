@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovingData
+public struct MovingData
 {
     public Vector3Int Target { get; }
     public System.Action OnReached { get; }

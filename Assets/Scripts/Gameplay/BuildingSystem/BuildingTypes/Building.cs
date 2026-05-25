@@ -35,6 +35,8 @@ public abstract class Building : Entity, IDamageable
     public List<Light2D> SpotLights => _spotLights;
     public List<Light2D> SpriteLights => _spriteLights;
 
+    private static readonly WaitForSeconds waitStep = new WaitForSeconds(0.1f);
+
     protected void Awake()
     {
         _buildingUI.Init();
@@ -77,7 +79,7 @@ public abstract class Building : Entity, IDamageable
         float step = 0.1f;
         while(timer < buildingTime)
         {
-            yield return new WaitForSeconds(step);
+            yield return waitStep;
 
             timer += step;
             _buildingUI.UpdateSlider(timer);

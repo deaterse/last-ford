@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WorkingData
+public struct WorkingData
 {
     public float Time { get; }
     public JobType _jobType { get; }

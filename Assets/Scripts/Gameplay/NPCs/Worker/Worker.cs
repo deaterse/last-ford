@@ -205,7 +205,10 @@ public class Worker : MonoBehaviour
         {
             if(_currentJob.jobType == JobType.Mining)
             {
-                MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => JobEnded());
+                //CHANGE LATER
+                Vector3Int buildingPos = new Vector3Int(_currentJob.BuildingPos.x, _currentJob.BuildingPos.y-1,_currentJob.BuildingPos.z);
+                //
+                MovingData toBuildingData = new MovingData(buildingPos, () => JobEnded());
                 WorkingData endJobData = new WorkingData(_currentJob.JobTime, JobType.Mining, () => AfterMiningJob(toBuildingData));
                 MovingData toJobData = new MovingData(_currentJob.JobPos,() => StartMiningJob(endJobData));
                 

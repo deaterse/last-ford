@@ -13,6 +13,8 @@ public class WindowLightManager : MonoBehaviour, IService
     private List<Light2D> _spotLights = new();
     private List<Light2D> _spriteLights = new();
 
+    private static readonly WaitForSeconds waitCoroutine = new WaitForSeconds(0.5f);
+
     public void Init()
     {
         ServiceLocator.ProvideService<WindowLightManager>(this);
@@ -66,7 +68,7 @@ public class WindowLightManager : MonoBehaviour, IService
         {
             WindowChange();
 
-            yield return new WaitForSeconds(0.5f);
+            yield return waitCoroutine;
         }
     }
 

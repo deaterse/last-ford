@@ -27,13 +27,13 @@ public class GameInitializer : MonoBehaviour
 
     [SerializeField] private bool oldGeneration;
 
+    private TerrainMap _terrainMap;
+
     private void Awake()
     {
         InitEventBus();
     
-        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitPathfinder);
-        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitResourceLocator);
-        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(InitMapManager);
+        ServiceLocator.GetService<EventBus>().Subscribe<OnTerrainMapGenerated>(GetTerrainMap);
         
         _inputListener.Init();
 
@@ -49,8 +49,17 @@ public class GameInitializer : MonoBehaviour
         _buildingUI.Init(_buildSystem);
         GenerateWorld();
 
+        InitResourceLocator();
+        InitMapManager();
+        InitPathfinder();
+
         _windowLightManager.Init();
         InitDayCycle();
+    }
+
+    private void GetTerrainMap(OnTerrainMapGenerated signal)
+    {
+        _terrainMap = signal._terrainMap;
     }
 
     private void InitResourceManager()
@@ -66,15 +75,15 @@ public class GameInitializer : MonoBehaviour
         #endif
     }
 
-    private void InitResourceLocator(OnTerrainMapGenerated signal)
+    private void InitResourceLocator()
     {
-        ResourceLocator resourceLocator = new ResourceLocator(signal._terrainMap);
+        ResourceLocator resourceLocator = new ResourceLocator(_terrainMap);
         ServiceLocator.ProvideService<ResourceLocator>(resourceLocator);
     }
 
-    private void InitMapManager(OnTerrainMapGenerated signal)
+    private void InitMapManager()
     {
-        _terrainMapManager.Init(signal._terrainMap);
+        _terrainMapManager.Init(_terrainMap);
         ServiceLocator.ProvideService<TerrainMapManager>(_terrainMapManager);
     }
 
@@ -96,9 +105,9 @@ public class GameInitializer : MonoBehaviour
         _dayCycle.Init();
     }
 
-    private void InitPathfinder(OnTerrainMapGenerated signal)
+    private void InitPathfinder()
     {
-        Pathfinder _pathFinder = new Pathfinder(signal._terrainMap, _terrainTilemap);
+        Pathfinder _pathFinder = new Pathfinder(_terrainMap, _terrainTilemap);
         ServiceLocator.ProvideService<Pathfinder>(_pathFinder);
     }
 

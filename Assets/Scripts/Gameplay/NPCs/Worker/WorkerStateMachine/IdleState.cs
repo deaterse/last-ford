@@ -8,6 +8,8 @@ public class IdleState: State
     [SerializeField] private int _radius;
     [SerializeField] private float _moveSpeed;
 
+    private static readonly WaitForSeconds waitPoint = new WaitForSeconds(3);
+
     public override void Enter()
     {
         StartCoroutine(ChoosePoint());
@@ -33,10 +35,10 @@ public class IdleState: State
 
     private IEnumerator ChoosePoint()
     {
-        yield return new WaitForSeconds(3);
+        yield return waitPoint;
 
         Vector3 randomPos = transform.position + GetRandomPointOnCircle(_radius);
-        randomPos = new Vector3(randomPos.x, randomPos.y, 0);
+        randomPos.z = 0;
 
         Vector3Int gridPos = ServiceLocator.GetService<Pathfinder>().WorldToCell(randomPos);
 

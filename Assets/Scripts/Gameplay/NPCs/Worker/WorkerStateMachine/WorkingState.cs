@@ -10,6 +10,8 @@ public class WorkingState: State
     private float _workingTime;
     private System.Action _onReachedCallback;
 
+    private WaitForSeconds waitWorkingTime;
+
     public override void SetData(object data)
     {
         if(TryGetComponent<Worker>(out Worker worker))
@@ -20,6 +22,7 @@ public class WorkingState: State
         if (data is WorkingData workingData)
         {
             _workingTime = workingData.Time;
+            waitWorkingTime = new WaitForSeconds(_workingTime);
             _jobType = workingData._jobType;
             _onReachedCallback = workingData.OnReached;
         }
@@ -54,7 +57,7 @@ public class WorkingState: State
 
     private IEnumerator StartWork()
     {
-        yield return new WaitForSeconds(_workingTime);
+        yield return waitWorkingTime;
     
         _onReachedCallback?.Invoke();
     }

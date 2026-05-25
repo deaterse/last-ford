@@ -14,6 +14,16 @@ public class BuildingMap
         Height = height;
         BuildingData = new Building[width, height];
     }
+
+    public bool IsTaken(int x, int y)
+    {
+        if(BuildingData[x, y] != null)
+        {
+            return true;
+        }
+
+        return false;
+    }
     
     public bool CanPlaceBuilding(Vector2Int pos, Vector3Int[] sizeArray)
     {
