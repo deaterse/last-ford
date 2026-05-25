@@ -28,44 +28,47 @@ public class ResourceUI : MonoBehaviour
 
         foreach(string rtStr in allTypesStr)
         {
-            GameObject resourcePanelObj = Instantiate(_resourcePanelPrefab, _resourcePanelParent);
-            if(resourcePanelObj.TryGetComponent<ResourcePanelUI>(out ResourcePanelUI resourcePanelUI))
+            if(rtStr != "None")
             {
-                ResourceVisualizationConfig currentRvs = null;
-                foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
+                GameObject resourcePanelObj = Instantiate(_resourcePanelPrefab, _resourcePanelParent);
+                if(resourcePanelObj.TryGetComponent<ResourcePanelUI>(out ResourcePanelUI resourcePanelUI))
                 {
-                    if(rvs.resourceType.ToString() == rtStr)
+                    ResourceVisualizationConfig currentRvs = null;
+                    foreach(ResourceVisualizationConfig rvs in _resourcesVisConfig.AllResourcesVisConfigs)
                     {
-                        currentRvs = rvs;
+                        if(rvs.resourceType.ToString() == rtStr)
+                        {
+                            currentRvs = rvs;
+                        }
                     }
-                }
-                resourcePanelUI.ResourceCountText.text = $"{0}";
-                if(currentRvs != null)
-                {
-                    if(resourcePanelUI.ResourceNameText != null)
+                    resourcePanelUI.ResourceCountText.text = $"{0}";
+                    if(currentRvs != null)
                     {
-                        resourcePanelUI.ResourceNameText.text = $"{currentRvs.DisplayedName}";
+                        if(resourcePanelUI.ResourceNameText != null)
+                        {
+                            resourcePanelUI.ResourceNameText.text = $"{currentRvs.DisplayedName}";
+                        }
+                        else
+                        {
+                            Debug.LogWarning("No ResourceNameText attached to ResourcePanel");
+                        }
+
+                        if(resourcePanelUI.ResourceImage != null)
+                        {
+                            resourcePanelUI.ResourceImage.sprite = currentRvs.ResourceSprite;
+                        }
+                        else
+                        {
+                            Debug.LogWarning("No ResourceImage attached to ResourcePanel");
+                        }
                     }
                     else
                     {
-                        Debug.LogWarning("No ResourceNameText attached to ResourcePanel");
+                        Debug.LogWarning($"ResourceVisualizationConfig for {rtStr} not founded.");
                     }
 
-                    if(resourcePanelUI.ResourceImage != null)
-                    {
-                        resourcePanelUI.ResourceImage.sprite = currentRvs.ResourceSprite;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("No ResourceImage attached to ResourcePanel");
-                    }
+                    _allResourcesPanels[rtStr] = resourcePanelUI;
                 }
-                else
-                {
-                    Debug.LogWarning($"ResourceVisualizationConfig for {rtStr} not founded.");
-                }
-
-                _allResourcesPanels[rtStr] = resourcePanelUI;
             }
         }
     }

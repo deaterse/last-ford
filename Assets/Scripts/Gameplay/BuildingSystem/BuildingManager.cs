@@ -83,39 +83,6 @@ public class BuildingManager : MonoBehaviour, IService
         }
     }
 
-    // public void AddBuilding(OnBuildingFinished signal)
-    // {
-    //     BuildingData data;
-    //     Building building;
-
-    //     GameObject buildingObj = signal.building.gameObject;
-    //     Vector2Int buildingPos = signal.building.GridPosition; 
-    //     if(buildingObj.TryGetComponent<Building>(out Building _building))
-    //     {
-    //         data = _building.buildingData;
-    //         building = _building;
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("U are trying to add not a building!");
-    //         return;
-    //     }
-
-    //     _buildingMap.PlaceBuilding(buildingPos, data.BuildingSize, building);
-        
-    //     if (_buildingInstances.Contains(buildingObj))
-    //     {
-    //         Debug.LogWarning("Building already added to BuildingManager!");
-    //         return;
-    //     }
-        
-    //     _buildingInstances.Add(buildingObj);
-    //     if(buildingObj.TryGetComponent<Storage>(out Storage _storage))
-    //     {
-    //         _storagesInstances.Add(buildingObj);
-    //     }
-    // }
-
     public Vector3Int GetNearestStorage(Vector3Int pos)
     {
         if(_storagesInstances.Count > 0)
@@ -188,25 +155,4 @@ public class BuildingManager : MonoBehaviour, IService
             }
         }
     }
-
-    
-    // public Building GetNearestBuilding(Vector3Int start)
-    // {
-    //     Building _nearestBuilding = null;
-    //     float _minDistance = 1000;
-
-    //     foreach(Building b in _allBuildings)
-    //     {
-    //         Vector3Int cellPos = BuildSystem.Instance.BuildingsTilemap.WorldToCell(b.transform.position);
-
-    //         float distance = Vector3Int.Distance(start, cellPos);
-    //         if(distance < _minDistance && start != cellPos)
-    //         {
-    //             _minDistance = distance;
-    //             _nearestBuilding = b;
-    //         }
-    //     }
-
-    //     return _nearestBuilding;
-    // }
 }

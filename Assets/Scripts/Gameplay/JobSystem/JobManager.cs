@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,27 @@ public class JobManager : MonoBehaviour, IService
     {
         Building freeBuilding = signal.building;
         int workersCount = signal.WorkersCount;
+
+        List<Light2D> spotLights = freeBuilding.SpotLights;
+        List<Light2D> spriteLights = freeBuilding.SpriteLights;
+
+        if(spotLights != null)
+        {
+            foreach(Light2D spotLight in spotLights)
+            {
+                spotLight.gameObject.SetActive(true);
+                ServiceLocator.GetService<EventBus>().Invoke<OnWindowAdded>(new OnWindowAdded(null, spotLight));
+            }
+        }
+
+        if(spriteLights != null)
+        {
+            foreach(Light2D spriteLight in spriteLights)
+            {
+                spriteLight.gameObject.SetActive(true);
+                ServiceLocator.GetService<EventBus>().Invoke<OnWindowAdded>(new OnWindowAdded(spriteLight, null));
+            }
+        }
 
         if(workersCount < 0 || freeBuilding.buildingData.jobType == JobType.NonWorkable) return;
 

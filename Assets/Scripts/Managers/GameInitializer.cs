@@ -23,6 +23,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private WorldGeneratorOld _worldGeneratorOld;
     [SerializeField] private DayCycle _dayCycle;
     [SerializeField] private TerrainMapManager _terrainMapManager;
+    [SerializeField] private WindowLightManager _windowLightManager;
 
     [SerializeField] private bool oldGeneration;
 
@@ -48,6 +49,7 @@ public class GameInitializer : MonoBehaviour
         _buildingUI.Init(_buildSystem);
         GenerateWorld();
 
+        _windowLightManager.Init();
         InitDayCycle();
     }
 

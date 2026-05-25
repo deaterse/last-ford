@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
 
 public abstract class Building : Entity, IDamageable
 {
     [SerializeField] protected SpriteRenderer _spriteRenderer;
     [SerializeField] protected BuildingUI _buildingUI;
+    [SerializeField] protected List<Light2D> _spotLights = new();
+    [SerializeField] protected List<Light2D> _spriteLights = new();
 
     protected BuildingData _buildingData;
     protected Vector2Int _gridPos;
@@ -28,6 +31,9 @@ public abstract class Building : Entity, IDamageable
     public List<Worker> AssignedWorkers => _assignedWorkers;
 
     public bool HasAvailableSlot => _assignedWorkers.Count < _avaliableWorkersSlots;
+
+    public List<Light2D> SpotLights => _spotLights;
+    public List<Light2D> SpriteLights => _spriteLights;
 
     protected void Awake()
     {
