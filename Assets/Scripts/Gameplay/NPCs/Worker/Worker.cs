@@ -167,21 +167,7 @@ public class Worker : MonoBehaviour
     private void Update()
     {
         _currentState?.OnUpdate();
-
-        // TryGetJob();
     }
-
-    // public void TryGetJob()
-    // {
-    //     if (!_assignedBuilding) return;
-
-    //     if (_currentJob == null && !_assignedBuilding.HaveJob)
-    //     {
-    //         _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
-    //         if (_currentJob != null)
-    //             StartJob();
-    //     }
-    // }
 
     public void SetJob(Job job)
     {

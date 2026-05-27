@@ -11,22 +11,27 @@ public class DayCycle : MonoBehaviour, IService
 
     [Header("Light")]
     [SerializeField] private Light2D _globalLight;
+    
+    [Header("Texts")]
     [SerializeField] private TMP_Text _cycleText;
+    [SerializeField] private TMP_Text _dayText;
 
-    [SerializeField] private float time = 0.25f;
+    private float _time = 0.25f;
 
     private CycleType _cycleNow;
     private int _currentDay = 1;
     
     private static readonly WaitForSeconds waitSecond = new WaitForSeconds(1);
 
-    public float Time => time;
+    public float Time => _time;
     public float Intensity => _globalLight.intensity;
 
 
     public void Init()
     {
         CoroutinesRun();
+
+        UpdateUI();
     }
 
     private void CoroutinesRun()
@@ -35,10 +40,21 @@ public class DayCycle : MonoBehaviour, IService
         StartCoroutine(DuringNight());
     }
 
-    private void CycleText()
+    private void UpdateUI()
+    {
+        UpdateCycleText();
+        UpdateDayText();
+    }
+
+    private void UpdateCycleText()
     {
         _cycleNow = CheckCycle();
         _cycleText.text = _cycleNow.ToString();
+    }
+
+    private void UpdateDayText()
+    {
+        _dayText.text = _currentDay.ToString();
     }
 
     private IEnumerator TimeCycle()
@@ -46,27 +62,35 @@ public class DayCycle : MonoBehaviour, IService
         float duration = _config.DayLength + _config.NightLength;
         while(true)
         {
-            float dayLeftover = time * duration;
+            float dayLeftover = _time * duration;
 
             float iterations = duration - dayLeftover;
             float step = 1f / duration;
 
             for(int i = 0; i < iterations; i++)
             {
-                time += step;
+                _time += step;
                 
-                CycleText();
+                UpdateCycleText();
 
                 yield return waitSecond;
             }
 
-            time = 0;
+            _currentDay += 1;
+            _time = 0;
+
+            UpdateDayText();
         }
     }
 
     private void ChangeToNight()
     {
         StartCoroutine(DuringDay());
+    }
+
+    private void ChangeToDay()
+    {
+        StartCoroutine(DuringNight());
     }
 
     private IEnumerator DuringDay()
@@ -83,11 +107,6 @@ public class DayCycle : MonoBehaviour, IService
         _globalLight.intensity = _config.MinIntesity;
 
         ChangeToDay();
-    }
-
-    private void ChangeToDay()
-    {
-        StartCoroutine(DuringNight());
     }
 
     private IEnumerator DuringNight()
@@ -108,7 +127,7 @@ public class DayCycle : MonoBehaviour, IService
     private CycleType CheckCycle()
     {
         float intensity = _globalLight.intensity;
-        float localTime = time;
+        float localTime = _time;
 
         if(intensity >= 0.5f && localTime >= 0.25f && localTime <= 0.5f)
         {

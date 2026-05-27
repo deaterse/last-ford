@@ -7,135 +7,86 @@ public class Pathfinder: IService
   private TerrainMap _terrainMap;
   private Tilemap _terrainTilemap;
 
+  private List<Vector3Int> _neighbours = new();
+  private List<Vector3Int> _openSet = new();
+  private HashSet<Vector3Int> _closedSet = new();
+
+  private Dictionary<Vector3Int, Vector3Int> _cameFrom = new();
+  private Dictionary<Vector3Int, float> _gScore = new();
+  private Dictionary<Vector3Int, float> _fScore = new();
+
   public Pathfinder(TerrainMap terrainMap, Tilemap terrainTilemap)
   {
     _terrainMap = terrainMap;
     _terrainTilemap = terrainTilemap;
   }
 
-  public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
-  {
-    if (start == end){
-      return new List<Vector3Int> { start };
-    };
-    if (!IsWalkable(end))
-    {
-      return null;
-    }
-    
-    Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
-    Dictionary<Vector3Int, float> gScore = new Dictionary<Vector3Int, float>();
-    Dictionary<Vector3Int, float> fScore = new Dictionary<Vector3Int, float>();
-    
-    List<Vector3Int> openSet = new List<Vector3Int> { start };
-    HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
-    
-    gScore[start] = 0;
-    fScore[start] = Heuristic(start, end);
-    
-    int maxIterations = 4096;
-    int currentIterations = 0;
-
-    while (openSet.Count > 0 && currentIterations <= maxIterations)
-    {
-      currentIterations++;
-
-      Vector3Int current = openSet[0];
-      float minF = fScore.ContainsKey(current) ? fScore[current] : float.MaxValue;
-      
-      for (int i = 1; i < openSet.Count; i++)
-      {
-          Vector3Int node = openSet[i];
-          if (fScore.ContainsKey(node) && fScore[node] < minF)
-          {
-            current = node;
-            minF = fScore[node];
-          }
-      }
-      
-      if (current == end)
-        return ReconstructPath(cameFrom, current);
-
-      openSet.Remove(current);
-      closedSet.Add(current);
-
-      foreach (Vector3Int neighbor in GetNeighbours(current))
-      {
-        if (closedSet.Contains(neighbor) || !IsWalkable(neighbor))
-          continue;
-        
-        float tentativeGScore = gScore[current] + Distance(current, neighbor);
-        
-        if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
-        {
-          cameFrom[neighbor] = current;
-          gScore[neighbor] = tentativeGScore;
-          fScore[neighbor] = tentativeGScore + Heuristic(neighbor, end);
-          
-          if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
-        }
-      }
-    }
-
-    Debug.Log("CANT FIND WAY");
-    return null;
-  }
-
-  public List<Vector3Int> FindPathWithCorners(Vector3Int start, Vector3Int end)
+  public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end, bool withCorners = true)
   {
     if (start == end) return new List<Vector3Int> { start };
     if (!IsWalkable(end)) return null;
     
-    Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
-    Dictionary<Vector3Int, float> gScore = new Dictionary<Vector3Int, float>();
-    Dictionary<Vector3Int, float> fScore = new Dictionary<Vector3Int, float>();
+    _cameFrom.Clear();
+    _gScore.Clear();
+    _fScore.Clear();
     
-    List<Vector3Int> openSet = new List<Vector3Int> { start };
-    HashSet<Vector3Int> closedSet = new HashSet<Vector3Int>();
+    _openSet.Clear();
+    _closedSet.Clear();
+
+    _openSet.Add(start);
     
-    gScore[start] = 0;
-    fScore[start] = Heuristic(start, end);
+    _gScore[start] = 0;
+    _fScore[start] = Heuristic(start, end);
     
     int maxIterations = 4096;
     int currentIterations = 0;
 
-    while (openSet.Count > 0 && currentIterations <= maxIterations)
+    while (_openSet.Count > 0 && currentIterations <= maxIterations)
     {
       currentIterations++;
 
-      Vector3Int current = openSet[0];
-      float minF = fScore.ContainsKey(current) ? fScore[current] : float.MaxValue;
+      Vector3Int current = _openSet[0];
+      float minF = _fScore.ContainsKey(current) ? _fScore[current] : float.MaxValue;
       
-      for (int i = 1; i < openSet.Count; i++)
+      for (int i = 1; i < _openSet.Count; i++)
       {
-          Vector3Int node = openSet[i];
-          if (fScore.ContainsKey(node) && fScore[node] < minF)
+          Vector3Int node = _openSet[i];
+          if (_fScore.ContainsKey(node) && _fScore[node] < minF)
           {
             current = node;
-            minF = fScore[node];
+            minF = _fScore[node];
           }
       }
       
       if (current == end)
-        return ReconstructPath(cameFrom, current);
+        return ReconstructPath(_cameFrom, current);
 
-      openSet.Remove(current);
-      closedSet.Add(current);
+      _openSet.Remove(current);
+      _closedSet.Add(current);
 
-      foreach (Vector3Int neighbor in GetNeighboursWithourCorners(current))
+      if(withCorners)
       {
-        if (closedSet.Contains(neighbor) || !IsWalkable(neighbor))
+        GetNeighbours(current);
+      }
+      else
+      {
+        GetNeighboursWithourCorners(current);
+      }
+
+      foreach (Vector3Int neighbor in _neighbours)
+      {
+        if (_closedSet.Contains(neighbor) || !IsWalkable(neighbor))
           continue;
         
-        float tentativeGScore = gScore[current] + Distance(current, neighbor);
+        float tentativeGScore = _gScore[current] + Distance(current, neighbor);
         
-        if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
+        if (!_gScore.ContainsKey(neighbor) || tentativeGScore < _gScore[neighbor])
         {
-          cameFrom[neighbor] = current;
-          gScore[neighbor] = tentativeGScore;
-          fScore[neighbor] = tentativeGScore + Heuristic(neighbor, end);
+          _cameFrom[neighbor] = current;
+          _gScore[neighbor] = tentativeGScore;
+          _fScore[neighbor] = tentativeGScore + Heuristic(neighbor, end);
           
-          if (!openSet.Contains(neighbor)) openSet.Add(neighbor);
+          if (!_openSet.Contains(neighbor)) _openSet.Add(neighbor);
         }
       }
     }
@@ -150,31 +101,29 @@ public class Pathfinder: IService
     return false;
   }
 
-  private List<Vector3Int> GetNeighboursWithourCorners(Vector3Int cell)
+  private void GetNeighboursWithourCorners(Vector3Int cell)
   {
-    return new List<Vector3Int>
-    {
-      cell + Vector3Int.up,
-      cell + Vector3Int.down,
-      cell + Vector3Int.left,
-      cell + Vector3Int.right,
-    };
+    _neighbours.Clear();
+
+    _neighbours.Add(cell + Vector3Int.up);
+    _neighbours.Add(cell + Vector3Int.down);
+    _neighbours.Add(cell + Vector3Int.left);
+    _neighbours.Add(cell + Vector3Int.right);
   }
   
-  private List<Vector3Int> GetNeighbours(Vector3Int cell)
+  private void GetNeighbours(Vector3Int cell)
   {
-    return new List<Vector3Int>
-    {
-      cell + Vector3Int.up,
-      cell + Vector3Int.down,
-      cell + Vector3Int.left,
-      cell + Vector3Int.right,
+    _neighbours.Clear();
+
+    _neighbours.Add(cell + Vector3Int.up);
+    _neighbours.Add(cell + Vector3Int.down);
+    _neighbours.Add(cell + Vector3Int.left);
+    _neighbours.Add(cell + Vector3Int.right);
       
-      cell + new Vector3Int(1, 1, 0),
-      cell + new Vector3Int(-1, 1, 0),
-      cell + new Vector3Int(1, -1, 0),
-      cell + new Vector3Int(-1, -1, 0)
-    };
+    _neighbours.Add(cell + new Vector3Int(1, 1, 0));
+    _neighbours.Add(cell + new Vector3Int(-1, 1, 0));
+    _neighbours.Add(cell + new Vector3Int(1, -1, 0));
+    _neighbours.Add(cell + new Vector3Int(-1, -1, 0));
   }
   
   private float Heuristic(Vector3Int a, Vector3Int b)
@@ -190,19 +139,20 @@ public class Pathfinder: IService
   
   private List<Vector3Int> ReconstructPath(Dictionary<Vector3Int, Vector3Int> cameFrom, Vector3Int current)
   {
-    List<Vector3Int> path = new List<Vector3Int> { current };
+    List<Vector3Int> path = new List<Vector3Int> {current};
+
     while (cameFrom.ContainsKey(current))
     {
       current = cameFrom[current];
       path.Insert(0, current);
     }
+
     return path;
   }
 
   public bool HasWay(Vector3Int start, Vector3Int end)
   {
-    List<Vector3Int> path = new();
-    path = FindPath(start, end);
+    List<Vector3Int> path = FindPath(start, end);
 
     if(path == null)
     {

@@ -5,6 +5,8 @@ public class ResourceLocator: IService
 {
     private TerrainMap _terrainMap;
 
+    private List<Vector2Int> _neighbours = new();
+
     public ResourceLocator(TerrainMap terrainMap)
     {
         _terrainMap = terrainMap;
@@ -61,15 +63,15 @@ public class ResourceLocator: IService
 
     private List<Vector2Int> AvaliableNeighbours(Vector2Int buildingPos, int x, int y)
     {
-        List<Vector2Int> neighbours = new();
+        _neighbours.Clear();
 
-        neighbours.Add(new Vector2Int(x - 1, y));
-        neighbours.Add(new Vector2Int(x + 1, y));
-        neighbours.Add(new Vector2Int(x, y - 1));
-        neighbours.Add(new Vector2Int(x, y + 1));
+        _neighbours.Add(new Vector2Int(x - 1, y));
+        _neighbours.Add(new Vector2Int(x + 1, y));
+        _neighbours.Add(new Vector2Int(x, y - 1));
+        _neighbours.Add(new Vector2Int(x, y + 1));
 
         List<Vector2Int> avaliableCells = new();
-        foreach(Vector2Int n in neighbours)
+        foreach(Vector2Int n in _neighbours)
         {
             if(ServiceLocator.GetService<Pathfinder>().HasWay(new Vector3Int(buildingPos.x, buildingPos.y, 0), new Vector3Int(n.x, n.y, 0)))
             {
