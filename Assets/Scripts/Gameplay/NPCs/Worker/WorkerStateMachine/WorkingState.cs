@@ -8,6 +8,7 @@ public class WorkingState: State
     private Worker _worker;
     private JobType _jobType;
     private float _workingTime;
+    private Vector3Int _resourcePos;
     private System.Action _onReachedCallback;
 
     private WaitForSeconds waitWorkingTime;
