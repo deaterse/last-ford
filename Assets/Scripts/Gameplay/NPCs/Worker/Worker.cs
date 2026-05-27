@@ -15,10 +15,11 @@ public class Worker : MonoBehaviour
     [SerializeField] private SpriteRenderer _attributeRenderer;
 
     private State _currentState;
+    private bool _atWork = false;
 
     public ResourceAmount CurrentInventoryResource => _inventory;
 
-    [SerializeField]private Building _assignedBuilding;
+    private Building _assignedBuilding;
     private Job _currentJob;
     private Job _lastJob;
 
@@ -30,16 +31,11 @@ public class Worker : MonoBehaviour
     private WorkerUI _workerUI;
 
     public State CurrentState => _currentState;
+    public Job CurrentJob => _currentJob;
+    public Job LastJob => _lastJob;
+    public Building AssignedBuilding => _assignedBuilding;
 
     public void Init(NPCsConfig npcsConfig, WorkAttributesConfig attributesConfig)
-    {
-        _npcsConfig = npcsConfig;
-        _attributesConfig = attributesConfig;
-
-        ChooseRandomParameters();
-    }
-
-    private void Start()
     {
         if(TryGetComponent<WorkerUI>(out WorkerUI workerUI))
         {
@@ -48,6 +44,11 @@ public class Worker : MonoBehaviour
         }
 
         ChangeState<IdleState>();
+
+        _npcsConfig = npcsConfig;
+        _attributesConfig = attributesConfig;
+
+        ChooseRandomParameters();
     }
 
     private void ChooseRandomParameters()
@@ -85,8 +86,6 @@ public class Worker : MonoBehaviour
         if(_npcsConfig != null && _npcsConfig.VillagersTypes.Count > 0 && _workerRenderer != null)
         {
             Sprite choosenSprite = _npcsConfig.VillagersTypes[UnityEngine.Random.Range(0, _npcsConfig.VillagersTypes.Count)];
-
-            Debug.Log(choosenSprite);
 
             _workerRenderer.sprite = choosenSprite;
         }
@@ -131,6 +130,8 @@ public class Worker : MonoBehaviour
 
     public void ChangeState<T>(object data = null) where T : State
     {
+        Debug.Log($"ChangeState<{typeof(T).Name}> called on {gameObject.name}, frame: {Time.frameCount}, stack: {Environment.StackTrace}");
+    
         foreach(StateString sstr in _statesByString)
         {
             if(sstr.name == typeof(T).Name)
@@ -167,18 +168,31 @@ public class Worker : MonoBehaviour
     {
         _currentState?.OnUpdate();
 
-        TryGetJob();
+        // TryGetJob();
     }
 
-    private void TryGetJob()
-    {
-        if (!_assignedBuilding) return;
+    // public void TryGetJob()
+    // {
+    //     if (!_assignedBuilding) return;
 
-        if (_currentJob == null && !_assignedBuilding.HaveJob)
+    //     if (_currentJob == null && !_assignedBuilding.HaveJob)
+    //     {
+    //         _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
+    //         if (_currentJob != null)
+    //             StartJob();
+    //     }
+    // }
+
+    public void SetJob(Job job)
+    {
+
+        if(!_atWork)
         {
-            _currentJob = _assignedBuilding.GetAvailableJob(_lastJob);
-            if (_currentJob != null)
+            _currentJob = job;
+            if(_currentJob != null)
+            {
                 StartJob();
+            }
         }
     }
 
@@ -211,6 +225,8 @@ public class Worker : MonoBehaviour
                 MovingData toBuildingData = new MovingData(buildingPos, () => JobEnded());
                 WorkingData endJobData = new WorkingData(_currentJob.JobTime, JobType.Mining, () => AfterMiningJob(toBuildingData));
                 MovingData toJobData = new MovingData(_currentJob.JobPos,() => StartMiningJob(endJobData));
+
+                _atWork = true;
                 
                 ChangeState<MovingState>(toJobData);
             }
@@ -220,6 +236,8 @@ public class Worker : MonoBehaviour
                 WorkingData workingData = new WorkingData(_currentJob.JobTime, JobType.Production, () => BackToStorage(backToStorageData));
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => WorkingProduction(workingData));
                 MovingData toStorageData = new MovingData(_currentJob.StoragePos, () => AfterTakingJob(toBuildingData));
+
+                _atWork = true;
                 
                 ChangeState<MovingState>(toStorageData);
             }
@@ -304,5 +322,6 @@ public class Worker : MonoBehaviour
     {
         _lastJob = _currentJob;
         _currentJob = null;
+        _atWork = false;
     }
 }

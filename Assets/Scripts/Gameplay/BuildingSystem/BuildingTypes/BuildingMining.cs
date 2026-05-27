@@ -7,7 +7,7 @@ public class BuildingMining : Building
 
     public override Job GetAvailableJob(Job lastJob = null)
     {
-        if(!HaveJob)
+        if(!_dontHaveJob)
         {
             if(lastJob != null && lastJob.jobType == _buildingData.jobType && lastJob.resourceType == _buildingData.resourceType)
             {
@@ -15,7 +15,7 @@ public class BuildingMining : Building
                 if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
                 {
                     ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
-
+                    
                     return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, currentResNeighbour);
                 }
             }
@@ -27,7 +27,7 @@ public class BuildingMining : Building
                 return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, positionData);
             }
 
-            _haveJob = true;
+            _dontHaveJob = true;
         }
         return null;
     }
@@ -42,7 +42,6 @@ public class BuildingMining : Building
         //refactor
         if(buildingData.jobType == JobType.Mining)
         {
-            print(GridPosition);
             ResourceLocator rl = ServiceLocator.GetService<ResourceLocator>();
             ResourceNeighbour resPos = rl.GetCellNearResource(GridPosition, buildingData.resourceType, buildingData.MiningRadius);
 

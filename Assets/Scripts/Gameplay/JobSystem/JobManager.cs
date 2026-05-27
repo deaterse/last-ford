@@ -10,6 +10,7 @@ public class JobManager : MonoBehaviour, IService
 
     private Dictionary<Building, int> _freeBuildings = new(); // Building = Free Places
     private List<Worker> _freeWorkers = new();
+    [SerializeField] private List<Worker> _assignedWorkers = new();
 
     public void Init()
     {
@@ -26,6 +27,11 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Subscribe<OnWorkerSpawned>(NewFreeWorker);
     }
 
+    private void Update()
+    {
+        TryGetJobs();
+    }
+
     private void OnDisable()
     {
         ClearAll();
@@ -37,6 +43,18 @@ public class JobManager : MonoBehaviour, IService
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnBuildingDestroyed>(BuildingDestroyed);
 
         ServiceLocator.GetService<EventBus>().Unsubscribe<OnWorkerSpawned>(NewFreeWorker);
+    }
+
+    private void TryGetJobs()
+    {
+        foreach(Worker worker in _assignedWorkers)
+        {
+            if (worker.CurrentJob == null && !worker.AssignedBuilding.DontHaveJob)
+            {
+                Job newJob = worker.AssignedBuilding.GetAvailableJob(worker.LastJob);
+                worker.SetJob(newJob);
+            }
+        }
     }
 
     public ResourceAmount GetSpendingResource(Job job)
@@ -162,7 +180,16 @@ public class JobManager : MonoBehaviour, IService
     private void AssignWorker(Worker worker, Building building)
     {
         _freeWorkers.Remove(worker);
-        building.AssignWorker(worker);
+        bool assigned = building.AssignWorker(worker);
+
+        if(assigned)
+        {
+            _assignedWorkers.Add(worker);
+        }
+        else
+        {
+            _freeWorkers.Add(worker);
+        }
     }
 
     private void NewFreeWorker(Worker freeWorker)

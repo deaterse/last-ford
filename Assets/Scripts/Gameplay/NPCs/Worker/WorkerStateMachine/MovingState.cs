@@ -53,6 +53,7 @@ public class MovingState : State
     {
         foreach (Vector3Int cell in path)
         {
+            Debug.Log("i was called");
             Vector3 worldPos = ServiceLocator.GetService<Pathfinder>().GetCellCenterWorld(cell);
             while (Vector3.Distance(transform.position, worldPos) > 0.1f)
             {
@@ -61,6 +62,7 @@ public class MovingState : State
             }
         }
 
+        Debug.Log("i ended");
         _onReachedCallback?.Invoke();
     }
 

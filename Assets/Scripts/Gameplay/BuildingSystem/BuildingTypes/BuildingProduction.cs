@@ -6,7 +6,7 @@ public class BuildingProduction : Building
 {
     public override Job GetAvailableJob(Job lastJob = null)
     {
-        if(!HaveJob && IsResourcesEnough())
+        if(!DontHaveJob && IsResourcesEnough())
         {
             Vector3Int nearestStorage = ServiceLocator.GetService<BuildingManager>().GetNearestStorage(new Vector3Int(GridPosition.x, GridPosition.y, 0));
             if(nearestStorage.x != -1)

@@ -15,7 +15,7 @@ public abstract class Building : Entity, IDamageable
     protected int _level = 1;
 
     protected bool _isBuilded;
-    protected bool _haveJob;
+    protected bool _dontHaveJob;
 
     protected int _avaliableWorkersSlots;
     protected List<Worker> _assignedWorkers = new();
@@ -26,7 +26,7 @@ public abstract class Building : Entity, IDamageable
     public int Level => _level;
 
     public bool IsBuilded => _isBuilded;
-    public bool HaveJob => _haveJob;
+    public bool DontHaveJob => _dontHaveJob;
 
     public List<Worker> AssignedWorkers => _assignedWorkers;
 
@@ -98,7 +98,7 @@ public abstract class Building : Entity, IDamageable
         ServiceLocator.GetService<EventBus>().Invoke<OnBuildingFinished>(new OnBuildingFinished(this, buildingData.GetLevel(_level).WorkerSlots));
     }
 
-    public void AssignWorker(Worker worker)
+    public bool AssignWorker(Worker worker)
     {
         if (HasAvailableSlot)
         {
@@ -106,7 +106,11 @@ public abstract class Building : Entity, IDamageable
             worker.AssignToBuilding(this);
 
             ServiceLocator.GetService<EventBus>().Invoke<OnWorkerAssigned>(new OnWorkerAssigned(this));
+
+            return true;
         }
+
+        return false;
     }
 
     public void UnassignWorker(Worker worker)

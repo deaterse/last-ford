@@ -15,8 +15,13 @@ public class Pathfinder: IService
 
   public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
   {
-    if (start == end) return new List<Vector3Int> { start };
-    if (!IsWalkable(end)) return null;
+    if (start == end){
+      return new List<Vector3Int> { start };
+    };
+    if (!IsWalkable(end))
+    {
+      return null;
+    }
     
     Dictionary<Vector3Int, Vector3Int> cameFrom = new Dictionary<Vector3Int, Vector3Int>();
     Dictionary<Vector3Int, float> gScore = new Dictionary<Vector3Int, float>();
@@ -72,6 +77,7 @@ public class Pathfinder: IService
       }
     }
 
+    Debug.Log("CANT FIND WAY");
     return null;
   }
 

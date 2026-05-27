@@ -237,19 +237,19 @@ public class BuildSystem : MonoBehaviour, IService
 
     public void BuildRoad(Vector3Int start, Vector3Int end)
     {
-        _roadsTilemap.SetTile(start, _roadTile);
-        _roadsTilemap.SetTile(end, _roadTile);
+        // _roadsTilemap.SetTile(start, _roadTile);
+        // _roadsTilemap.SetTile(end, _roadTile);
 
-        Pathfinder pathfinder = ServiceLocator.GetService<Pathfinder>();
+        // Pathfinder pathfinder = ServiceLocator.GetService<Pathfinder>();
 
-        List<Vector3Int> allDots = pathfinder.FindPathWithCorners(new Vector3Int(start.x, start.y-1, start.z), new Vector3Int(end.x, end.y-1, end.z));
+        // List<Vector3Int> allDots = pathfinder.FindPathWithCorners(new Vector3Int(start.x, start.y-1, start.z), new Vector3Int(end.x, end.y-1, end.z));
 
-        Debug.Log(allDots);
+        // Debug.Log(allDots);
 
-        foreach(Vector3Int dot in allDots)
-        {
-            _roadsTilemap.SetTile(dot, _roadTile);
-        }
+        // foreach(Vector3Int dot in allDots)
+        // {
+        //     _roadsTilemap.SetTile(dot, _roadTile);
+        // }
 
         // Vector3Int startDot = new Vector3Int(start.x, start.y - 1, 0);
         // Vector3Int endDot = new Vector3Int(end.x, end.y - 1, 0);

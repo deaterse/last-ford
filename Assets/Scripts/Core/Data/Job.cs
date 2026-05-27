@@ -53,4 +53,9 @@ public class Job
             _storagePosition = storage;
         }
     }
+
+    public string JobString()
+    {
+        return $"JobType: {_jobType}, Res: {_resourceType}, JobTime: {_jobTime}, Buildingpos = {_buildingPosition}";
+    }
 }
