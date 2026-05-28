@@ -12,15 +12,15 @@ public class ResourceTypesConfig: ScriptableObject
     public ResourceType ResourceType => _resourceType;
     public List<VisualResourceType> ResourceTypes => _resourceTypes;
 
-    public List<TileBase> GetTilesByIndex(int index)
+    public List<GameObject> GetObjByIndex(int index)
     {
         if(index < _resourceTypes.Count)
         {
-            return _resourceTypes[index].ResourceTiles;
+            return _resourceTypes[index].ResourceObjs;
         }
         else if(_resourceTypes.Count != 0)
         {
-            return _resourceTypes[0].ResourceTiles;
+            return _resourceTypes[0].ResourceObjs;
         }
         else
         {

@@ -14,17 +14,33 @@ public class TerrainRenderer : MonoBehaviour
 
     public void VisualizeHeightMap(HeightMap _heightMap)
     {
-        _heightVisualizer.ColoringMap(_heightMap);
+        if(_heightMap != null)
+        {
+            _heightVisualizer.ColoringMap(_heightMap);
+        }
     }
     
     public void VisualizeFertilityMap(FertilityMap _fertilityMap)
     {
-        _fertilityVisualizer.ColoringMap(_fertilityMap);
+        if(_fertilityMap != null)
+        {
+            _fertilityVisualizer.ColoringMap(_fertilityMap);
+        }
     }
 
-    public void Visualize(TerrainMap _terrainMap)
+    public void Visualize(TerrainMap _terrainMap, MapGenerateConfig _mapGenerateConfig, HeightMap _heightMap, FertilityMap _fertilityMap)
     {
+        CleanTerrainTilemap();
+        
         _terrainVisualizer.Visualize(_terrainMap, _terrainTilemap);
+        if(_mapGenerateConfig.GenerateHeight)
+        {
+           VisualizeHeightMap(_heightMap);
+        }
+        if(_mapGenerateConfig.GenerateFertility)
+        {
+            VisualizeFertilityMap(_fertilityMap);
+        }
     }
 
     public void CleanTerrainTilemap()

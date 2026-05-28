@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class MovingState : State
 {
     private Vector3Int _target;
-    private float _moveSpeed = 5f;
+    private float _movingSpeed;
 
     private System.Action _onReachedCallback;
 
@@ -25,6 +25,7 @@ public class MovingState : State
 
     public override void Enter()
     {
+        _movingSpeed = GetComponent<Worker>().Speed;
         MoveTo(_target);
     }
     
@@ -57,7 +58,7 @@ public class MovingState : State
             Vector3 worldPos = ServiceLocator.GetService<Pathfinder>().GetCellCenterWorld(cell);
             while (Vector3.Distance(transform.position, worldPos) > 0.1f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, worldPos, _moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, worldPos, _movingSpeed * Time.deltaTime);
                 yield return null;
             }
         }

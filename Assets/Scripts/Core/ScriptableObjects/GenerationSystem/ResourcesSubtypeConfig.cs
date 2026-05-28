@@ -9,7 +9,7 @@ public class ResourcesSubtypeConfig : ScriptableObject
 
     public List<ResourceTypesConfig> TypesConfig => _resourceTypesConfig;
 
-    public ResourceTypesConfig GetTypesFromResourceType(ResourceType _resourceType)
+    public ResourceTypesConfig GetTypeFromResourceType(ResourceType _resourceType)
     {
         foreach(ResourceTypesConfig rtc in _resourceTypesConfig)
         {
@@ -35,5 +35,19 @@ public class ResourcesSubtypeConfig : ScriptableObject
 
         Debug.LogWarning($"Didnt found any resource {_resourceType.ToString()}");
         return 0;
+    }
+
+    public ResourceTypesConfig GetConfigByType(ResourceType resourceType)
+    {
+        foreach(ResourceTypesConfig rtc in _resourceTypesConfig)
+        {
+            if(rtc.ResourceType == resourceType)
+            {
+                return rtc;
+            }
+        }
+
+        Debug.LogWarning($"Config not found for resource type: {resourceType.ToString()}");
+        return null;
     }
 }

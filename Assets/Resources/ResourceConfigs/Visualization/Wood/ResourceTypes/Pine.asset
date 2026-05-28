@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Pine
   m_EditorClassIdentifier: 
   _name: Pine
-  _resourceTiles:
-  - {fileID: 11400000, guid: e32a1c56db9561e4382eb65b0addd653, type: 2}
-  - {fileID: 11400000, guid: 20a4928277f9c7e41a24f6f261187c77, type: 2}
-  - {fileID: 11400000, guid: f943dca0631beaa41b01c462b0e18f9d, type: 2}
-  - {fileID: 11400000, guid: 9087291d908159c46b913d432aba0697, type: 2}
-  - {fileID: 11400000, guid: 163a50dd6c4b00242a6e11547d17f0d5, type: 2}
-  - {fileID: 11400000, guid: 4785a566508aaab45b1867cc61db0f37, type: 2}
-  - {fileID: 11400000, guid: eeb762ef5b07b3949a1b57f71d006a46, type: 2}
-  - {fileID: 11400000, guid: 7a47a64e23855ea4fbcc3ea40ed396ce, type: 2}
+  _resourceObjs:
+  - {fileID: 8989649484218709557, guid: fdd643cf8b4c9e14180dba2433a28e10, type: 3}
+  - {fileID: 8989649484218709557, guid: 207315c308c4cd445b3aa9a5993ef1d9, type: 3}
+  - {fileID: 8989649484218709557, guid: e7bfb3c65ab9e7a4baf0b3e7ec156de8, type: 3}
+  - {fileID: 8989649484218709557, guid: 8a4a611825f600f42862f36660877519, type: 3}
+  - {fileID: 8989649484218709557, guid: 6c3cec4d36491084b863ce380cb01dec, type: 3}
+  - {fileID: 8989649484218709557, guid: 84c7a4fca99c7074196b12414c4495dc, type: 3}
+  - {fileID: 8989649484218709557, guid: 0e23b303041d4ed439e238620d4586fa, type: 3}
+  - {fileID: 8989649484218709557, guid: d507dbc96d7378343bb2277033d86e39, type: 3}

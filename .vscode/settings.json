@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "LastFord.sln"
+    "dotnet.defaultSolution": "LastFord.slnx"
 }

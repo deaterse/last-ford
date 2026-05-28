@@ -27,7 +27,6 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateWorld()
     {
         _terrainRenderer.CleanTerrainTilemap();
-        _resourcesRenderer.CleanResourcesTilemap();
 
         int widthX = _mapConfig.MapSize.x;
         int heightY =  _mapConfig.MapSize.y;
@@ -63,11 +62,11 @@ public class WorldGenerator : MonoBehaviour
         terrainModifier.Modify();
 
         //Visualize All
-        _terrainRenderer.Visualize(_terrainMap);
-        _terrainRenderer.VisualizeHeightMap(_heightMap);
-        _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
+        // _terrainRenderer.Visualize(_terrainMap);
+        // _terrainRenderer.VisualizeHeightMap(_heightMap);
+        // _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
 
-        OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
-        ServiceLocator.GetService<EventBus>().Invoke<OnTerrainMapGenerated>(signal);
+        // OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
+        // ServiceLocator.GetService<EventBus>().Invoke<OnTerrainMapGenerated>(signal);
     }
 }

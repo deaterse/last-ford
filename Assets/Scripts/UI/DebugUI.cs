@@ -5,9 +5,10 @@ public class DebugUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _forestCountText;
     [SerializeField] private TMP_Text _stoneCountText;
-    
+
     public void Init()
     {
+        
         ServiceLocator.GetService<EventBus>().Subscribe<OnForestsGenerated>(UpdateForestUI);
         ServiceLocator.GetService<EventBus>().Subscribe<OnStonesGenerated>(UpdateStoneUI);
     }

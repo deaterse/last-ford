@@ -7,6 +7,8 @@ public class GameInitializer : MonoBehaviour
 
     [Header("Configs")]
     [SerializeField] private StartResourcesConfig _startResourcesConfig;
+    [SerializeField] private MapGenerateConfig _mapGenerateConfig;
+    [SerializeField] private ResourcesSubtypeConfig _resourcesSubtypeConfig;
 
     [Header("UI Managers")]
     [SerializeField] private DebugUI _debugUI;
@@ -21,6 +23,7 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private JobManager _jobManager;
     [SerializeField] private WorldGenerator _worldGenerator;
     [SerializeField] private WorldGeneratorOld _worldGeneratorOld;
+    [SerializeField] private Visualizer _visualizer;
     [SerializeField] private DayCycle _dayCycle;
     [SerializeField] private TerrainMapManager _terrainMapManager;
     [SerializeField] private WindowLightManager _windowLightManager;
@@ -28,6 +31,8 @@ public class GameInitializer : MonoBehaviour
     [SerializeField] private bool oldGeneration;
 
     private TerrainMap _terrainMap;
+    private FertilityMap _fertilityMap;
+    private HeightMap _heightMap;
 
     private void Awake()
     {
@@ -52,6 +57,8 @@ public class GameInitializer : MonoBehaviour
         InitResourceLocator();
         InitMapManager();
         InitPathfinder();
+
+        Visualize();
 
         _windowLightManager.Init();
         InitDayCycle();
@@ -97,6 +104,11 @@ public class GameInitializer : MonoBehaviour
         {
             _worldGenerator.GenerateWorld();
         }
+    }
+
+    private void Visualize()
+    {
+        _visualizer.VisualizeEverything(_terrainMap, _mapGenerateConfig, _heightMap, _fertilityMap, _resourcesSubtypeConfig);
     }
 
     private void InitDayCycle()

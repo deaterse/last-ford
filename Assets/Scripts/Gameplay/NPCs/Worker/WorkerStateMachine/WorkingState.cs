@@ -8,6 +8,7 @@ public class WorkingState: State
     private Worker _worker;
     private JobType _jobType;
     private float _workingTime;
+    private bool _animationStarted = false;
     private Vector3Int _resourcePos;
     private System.Action _onReachedCallback;
 
@@ -25,6 +26,7 @@ public class WorkingState: State
             _workingTime = workingData.Time;
             waitWorkingTime = new WaitForSeconds(_workingTime);
             _jobType = workingData._jobType;
+            _resourcePos = workingData._resourcePos;
             _onReachedCallback = workingData.OnReached;
         }
     }
@@ -48,11 +50,20 @@ public class WorkingState: State
                 _worker.JobFailed();
                 return;
             }
+
+            if(!_animationStarted)
+            {
+                ServiceLocator.GetService<TerrainMapManager>().AnimateResource(_resourcePos);
+                _animationStarted = true;
+            }
         }
     }
 
     public override void Exit()
     {
+        _animationStarted = false;
+        ServiceLocator.GetService<TerrainMapManager>().StopAnimation(_resourcePos);
+        
         StopAllCoroutines();
     }
 

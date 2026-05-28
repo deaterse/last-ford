@@ -15,7 +15,10 @@ public class Worker : MonoBehaviour
     [SerializeField] private SpriteRenderer _attributeRenderer;
 
     private State _currentState;
+    private float _speed;
     private bool _atWork = false;
+
+    public float Speed => _speed;
 
     public ResourceAmount CurrentInventoryResource => _inventory;
 
@@ -34,6 +37,7 @@ public class Worker : MonoBehaviour
     public Job CurrentJob => _currentJob;
     public Job LastJob => _lastJob;
     public Building AssignedBuilding => _assignedBuilding;
+
 
     public void Init(NPCsConfig npcsConfig, WorkAttributesConfig attributesConfig)
     {
@@ -61,23 +65,7 @@ public class Worker : MonoBehaviour
     {
         if(_npcsConfig != null && _npcsConfig.MinSpeed > 0 && _npcsConfig.MaxSpeed > 0)
         {
-            foreach(StateString stateStr in _statesByString)
-            {
-                if(stateStr.name == "IdleState")
-                {
-                    try
-                    {
-                        IdleState idleState = (IdleState) stateStr.state;
-                        float randomSpeed = UnityEngine.Random.Range(_npcsConfig.MinSpeed, _npcsConfig.MaxSpeed);
-
-                        idleState.SetSpeed(randomSpeed);
-                    }
-                    catch
-                    {
-                        Debug.LogWarning("Something wrong with choosing Random Speed,\nlooks like IdleState is not a IdleState\n, check properties!");
-                    }
-                }
-            }
+            _speed = UnityEngine.Random.Range(_npcsConfig.MinSpeed, _npcsConfig.MaxSpeed);
         }
     }
 
@@ -209,7 +197,7 @@ public class Worker : MonoBehaviour
                 Vector3Int buildingPos = new Vector3Int(_currentJob.BuildingPos.x, _currentJob.BuildingPos.y-1,_currentJob.BuildingPos.z);
                 //
                 MovingData toBuildingData = new MovingData(buildingPos, () => JobEnded());
-                WorkingData endJobData = new WorkingData(_currentJob.JobTime, JobType.Mining, () => AfterMiningJob(toBuildingData));
+                WorkingData endJobData = new WorkingData(_currentJob.JobTime, JobType.Mining, _currentJob.ResourcePos,() => AfterMiningJob(toBuildingData));
                 MovingData toJobData = new MovingData(_currentJob.JobPos,() => StartMiningJob(endJobData));
 
                 _atWork = true;
@@ -219,7 +207,7 @@ public class Worker : MonoBehaviour
             else if(_currentJob.jobType == JobType.Production && _currentJob.StoragePos != default(Vector3Int))
             {
                 MovingData backToStorageData = new MovingData(_currentJob.StoragePos, () => JobEnded()); 
-                WorkingData workingData = new WorkingData(_currentJob.JobTime, JobType.Production, () => BackToStorage(backToStorageData));
+                WorkingData workingData = new WorkingData(_currentJob.JobTime, JobType.Production, _currentJob.ResourcePos,() => BackToStorage(backToStorageData));
                 MovingData toBuildingData = new MovingData(_currentJob.BuildingPos, () => WorkingProduction(workingData));
                 MovingData toStorageData = new MovingData(_currentJob.StoragePos, () => AfterTakingJob(toBuildingData));
 

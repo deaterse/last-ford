@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class VisualResourceType : ScriptableObject
 {
     [SerializeField] private string _name;
-    [SerializeField] private List<TileBase> _resourceTiles;
+    [SerializeField] private List<GameObject> _resourceObjs;
 
     public string Name => _name;
-    public List<TileBase> ResourceTiles => _resourceTiles;
+    public List<GameObject> ResourceObjs => _resourceObjs;
 }

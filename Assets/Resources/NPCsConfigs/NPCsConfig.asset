@@ -19,4 +19,4 @@ MonoBehaviour:
   - {fileID: 113040732034116560, guid: b3b6a3a46a3da5e48ab76ac1a2d781ac, type: 3}
   - {fileID: -4412726920248151842, guid: b3b6a3a46a3da5e48ab76ac1a2d781ac, type: 3}
   - {fileID: 1577354527986139013, guid: b3b6a3a46a3da5e48ab76ac1a2d781ac, type: 3}
-  _avaliableSpeed: {x: 4, y: 6}
+  _avaliableSpeed: {x: 4, y: 7}

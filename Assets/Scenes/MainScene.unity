@@ -755,6 +755,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _terrainTilemap: {fileID: 108441100}
   _startResourcesConfig: {fileID: 11400000, guid: 40a42990444937740b65dd9358b7dd38, type: 2}
+  _mapGenerateConfig: {fileID: 11400000, guid: fe9824513ea30044892c44eb69ba266a, type: 2}
+  _resourcesSubtypeConfig: {fileID: 11400000, guid: 051a74372976af9438a0278e2cd52afb, type: 2}
   _debugUI: {fileID: 359102399}
   _resourceUI: {fileID: 2027308163}
   _buildingUI: {fileID: 1475059720}
@@ -764,6 +766,7 @@ MonoBehaviour:
   _jobManager: {fileID: 779687826}
   _worldGenerator: {fileID: 118533754}
   _worldGeneratorOld: {fileID: 1004978793}
+  _visualizer: {fileID: 1481804803}
   _dayCycle: {fileID: 1886054396}
   _terrainMapManager: {fileID: 2103379414}
   _windowLightManager: {fileID: 1270866744}
@@ -2275,7 +2278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1839735485 &903334845
 Tilemap:
   m_ObjectHideFlags: 0
@@ -2646,7 +2649,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7683af95c06686f47b598374f9bcd81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceTilemap: {fileID: 903334845}
   _resourcesVisualizer: {fileID: 1346867135}
 --- !u!4 &1099372738
 Transform:
@@ -3184,6 +3186,7 @@ Transform:
   - {fileID: 2103379413}
   - {fileID: 106239283}
   - {fileID: 1270866743}
+  - {fileID: 1481804802}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429480950
@@ -3383,6 +3386,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2099557520}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1481804801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481804802}
+  - component: {fileID: 1481804803}
+  m_Layer: 0
+  m_Name: Visualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1481804802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481804801}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1409680292}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1481804803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481804801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559200a584ae8c14e8e414540c7e9b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _terrainRenderer: {fileID: 1673380620}
+  _resourcesRenderer: {fileID: 1099372737}
 --- !u!1 &1558438129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4269,7 +4318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794c9a6df36ca22418f1d8af618cd70a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceMap: {fileID: 903334845}
   _terrainTilemap: {fileID: 108441100}
 --- !u!1 &2114262130
 GameObject:

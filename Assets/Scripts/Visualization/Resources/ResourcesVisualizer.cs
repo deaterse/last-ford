@@ -4,10 +4,12 @@ using System.Collections.Generic;
 public class ResourcesVisualizer : MonoBehaviour
 {
 
-    public void Visualize(TerrainMap _terrainMap, Tilemap _resourceTilemap, ResourcesSubtypeConfig _resourcesSubtypeConfig)
+    public void Visualize(TerrainMap _terrainMap, ResourcesSubtypeConfig _resourcesSubtypeConfig)
     {
         int width = _terrainMap.Width;
         int height = _terrainMap.Height;
+
+        GameObject[,] resourcesObjs = new GameObject[width, height];
 
         for(int x = 0; x < width; x++)
         {
@@ -16,21 +18,25 @@ public class ResourcesVisualizer : MonoBehaviour
                 ResourceType currentResourceType = _terrainMap.TerrainData[x, y].Resource.Type;
                 int currentSubType = _terrainMap.TerrainData[x, y].Resource.SubType;
 
-                foreach(ResourceTypesConfig rc in _resourcesSubtypeConfig.TypesConfig)
+                ResourceTypesConfig config = _resourcesSubtypeConfig.GetConfigByType(currentResourceType);
+        
+                if (config != null)
                 {
-                    if(rc.ResourceType == currentResourceType)
-                    {
-                        List<TileBase> resourceTiles = _resourcesSubtypeConfig.GetTypesFromResourceType(currentResourceType).GetTilesByIndex(currentSubType);
+                    List<GameObject> resourceTiles = _resourcesSubtypeConfig.GetTypeFromResourceType(currentResourceType).GetObjByIndex(currentSubType);
 
-                        _resourceTilemap.SetTile(new Vector3Int(x, y, 0), RandomTile(resourceTiles));
-                    }
+                    Vector3 pos = new Vector3(x + 0.5f, y + 0.5f, 0);
+                    GameObject newRes = Instantiate(RandomTile(resourceTiles), pos, Quaternion.identity);
+
+                    resourcesObjs[x, y] = newRes;
                 }
             }
         }
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnResourcesVisualized>(new OnResourcesVisualized(resourcesObjs));
     }
 
-    private TileBase RandomTile(List<TileBase> tileList)
+    private GameObject RandomTile(List<GameObject> objList)
     {
-        return tileList[Random.Range(0, tileList.Count)];
+        return objList[Random.Range(0, objList.Count)];
     }
 }

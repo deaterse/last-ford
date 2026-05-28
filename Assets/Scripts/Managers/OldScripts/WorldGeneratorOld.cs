@@ -20,6 +20,7 @@ public class WorldGeneratorOld : MonoBehaviour
     [SerializeField] private ResourcesRenderer _resourcesRenderer;
 
     private HeightMap _heightMap;
+    private FertilityMap _fertilityMap;
     private TerrainMap _terrainMap;
 
     public void GenerateButton()
@@ -30,8 +31,7 @@ public class WorldGeneratorOld : MonoBehaviour
     public void GenerateWorld()
     {
         _terrainRenderer.CleanTerrainTilemap();
-        _resourcesRenderer.CleanResourcesTilemap();
-
+        
         int widthX = _mapConfig.MapSize.x;
         int heightY =  _mapConfig.MapSize.y;
 
@@ -93,7 +93,6 @@ public class WorldGeneratorOld : MonoBehaviour
             Debug.Log("Forests succesfully generated.");
         }
 
-        FertilityMap _fertilityMap = null;
         if(_mapGenerateConfig.GenerateFertility)
         {
             //Generate FertilityMap
@@ -108,22 +107,14 @@ public class WorldGeneratorOld : MonoBehaviour
         OnTerrainMapGenerated signal = new OnTerrainMapGenerated(_terrainMap);
         ServiceLocator.GetService<EventBus>().Invoke<OnTerrainMapGenerated>(signal);
 
+        OnFertilityMapGenerated signalFertility = new OnFertilityMapGenerated(_fertilityMap);
+        ServiceLocator.GetService<EventBus>().Invoke<OnFertilityMapGenerated>(signalFertility);
+
+        OnHeightMapGenerated signalHeight = new OnHeightMapGenerated(_heightMap);
+        ServiceLocator.GetService<EventBus>().Invoke<OnHeightMapGenerated>(signalHeight);
+
         //Generate start meadow
         GenerateBase generateBase = new GenerateBase(_terrainMap);
         Vector2Int castlePos = generateBase.Generate();
-
-        //_baseVisualize.BuildBase(castlePos);
-
-        //Visualize All
-        _terrainRenderer.Visualize(_terrainMap);
-        if(_mapGenerateConfig.GenerateHeight)
-        {
-            _terrainRenderer.VisualizeHeightMap(_heightMap);
-        }
-        if(_mapGenerateConfig.GenerateFertility)
-        {
-            _terrainRenderer.VisualizeFertilityMap(_fertilityMap);
-        }
-        _resourcesRenderer.Visualize(_terrainMap, _resourceSubtypeConfig);
     }
 }

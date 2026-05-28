@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class IdleState: State
 {
     [SerializeField] private int _radius;
-    [SerializeField] private float _moveSpeed;
 
     private static readonly WaitForSeconds waitPoint = new WaitForSeconds(3);
 
@@ -23,14 +22,6 @@ public class IdleState: State
     public override void Exit()
     {
         StopAllCoroutines();
-    }
-
-    public void SetSpeed(float speed)
-    {
-        if(speed > 0)
-        {
-            _moveSpeed = speed;
-        }
     }
 
     private IEnumerator ChoosePoint()
