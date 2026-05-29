@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BuildingNonWorkable : Building
 {
-    public override Job GetAvailableJob(Job lastJob = null)
+    public override Job GetAvailableJob(JobData? lastJob = null)
     {
         return null;
     }

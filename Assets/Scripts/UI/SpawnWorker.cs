@@ -10,14 +10,20 @@ public class SpawnWorker : MonoBehaviour
 
     public void SpawnWorkerButton()
     {
-        var newWorker = Instantiate(_workerPrefab);
-        if(newWorker.TryGetComponent<Worker>(out Worker worker))
+        GameObject newWorker = Instantiate(_workerPrefab, transform.position, Quaternion.identity);
+        Worker _currentWorker;
+
+        newWorker.transform.parent = null;
+
+        if(newWorker.TryGetComponent<Worker>(out _currentWorker))
         {
-            Debug.Log("initing");
-            worker.Init(_npcsConfig, _attributesConfig);
+            _currentWorker.Init(_npcsConfig, _attributesConfig);
         }
-        newWorker.transform.position = transform.position;
-        
-        ServiceLocator.GetService<EventBus>().Invoke<OnWorkerSpawned>(new OnWorkerSpawned(newWorker.GetComponent<Worker>()));
+        else
+        {
+            Debug.LogWarning("U are trying to spawn not a Worker");
+        }
+
+        ServiceLocator.GetService<EventBus>().Invoke<OnWorkerSpawned>(new OnWorkerSpawned(_currentWorker));
     }
 }

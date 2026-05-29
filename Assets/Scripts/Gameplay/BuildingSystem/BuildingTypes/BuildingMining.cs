@@ -4,19 +4,21 @@ using System.Collections.Generic;
 
 public class BuildingMining : Building
 {
-
-    public override Job GetAvailableJob(Job lastJob = null)
+    public override Job GetAvailableJob(JobData? lastJob = null)
     {
         if(!_dontHaveJob)
         {
-            if(lastJob != null && lastJob.jobType == _buildingData.jobType && lastJob.resourceType == _buildingData.resourceType)
+            if(lastJob != null && lastJob.Value.jobType == _buildingData.jobType && lastJob.Value.resourceType == _buildingData.resourceType)
             {
-                Vector3Int resPos = lastJob.resourceNeighbour.resourcePos;
+                Vector3Int resPos = lastJob.Value.resourceNeighbour.resourcePos;
                 if(ServiceLocator.GetService<TerrainMapManager>().IsResource(resPos))
                 {
-                    ResourceNeighbour currentResNeighbour = lastJob.resourceNeighbour;
+                    ResourceNeighbour currentResNeighbour = lastJob.Value.resourceNeighbour;
+
+                    Job job = ServiceLocator.GetService<JobPool>().Get();
+                    job.SetData(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, currentResNeighbour);
                     
-                    return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, currentResNeighbour);
+                    return job;
                 }
             }
 
@@ -24,7 +26,10 @@ public class BuildingMining : Building
 
             if(!IsNoneResource(positionData))
             {
-                return new Job(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, positionData);
+                Job job = ServiceLocator.GetService<JobPool>().Get();
+                job.SetData(this, buildingData.jobType, buildingData.resourceType, new Vector3Int(GridPosition.x, GridPosition.y, 0), buildingData.WorkingTime, positionData);
+
+                return job;
             }
 
             _dontHaveJob = true;

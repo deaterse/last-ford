@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -29,7 +30,9 @@ public class Job
 
     public float JobTime => _jobTime;
 
-    public Job(Building building, JobType jobType, ResourceType resourceType, Vector3Int buildingPosition, float jobTime, ResourceNeighbour? resourceNeighbour = null, Vector3Int storage = default(Vector3Int))
+    public Job() {}
+
+    public void SetData(Building building, JobType jobType, ResourceType resourceType, Vector3Int buildingPosition, float jobTime, ResourceNeighbour? resourceNeighbour = null, Vector3Int storage = default(Vector3Int))
     {
         _building = building;
         _jobType = jobType;
@@ -52,6 +55,17 @@ public class Job
         {
             _storagePosition = storage;
         }
+    }
+
+    public void Reset()
+    {
+        _building = null;
+        _jobType = JobType.None;
+        _resourceType = ResourceType.None;
+        _buildingPosition = default(Vector3Int);
+        _jobTime = 0;
+        _resourceNeighbour = ResourceNeighbour.None;
+        _storagePosition = default(Vector3Int);
     }
 
     public string JobString()

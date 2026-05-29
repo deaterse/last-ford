@@ -157,5 +157,5 @@ public abstract class Building : Entity, IDamageable
         ServiceLocator.GetService<EventBus>().Unsubscribe<CanDestroyBuilding>(DestroySignal);
     }
 
-    public abstract Job GetAvailableJob(Job lastJob = null);
+    public abstract Job GetAvailableJob(JobData? lastJob = null);
 }

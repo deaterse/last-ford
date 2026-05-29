@@ -49,6 +49,7 @@ public class GameInitializer : MonoBehaviour
         _buildingManager.Init();
 
         InitResourceManager();
+        InitJobPool();
         _jobManager.Init();
 
         _buildingUI.Init(_buildSystem);
@@ -67,6 +68,12 @@ public class GameInitializer : MonoBehaviour
     private void GetTerrainMap(OnTerrainMapGenerated signal)
     {
         _terrainMap = signal._terrainMap;
+    }
+
+    private void InitJobPool()
+    {
+        JobPool jobPool = new JobPool();
+        ServiceLocator.ProvideService<JobPool>(jobPool);
     }
 
     private void InitResourceManager()

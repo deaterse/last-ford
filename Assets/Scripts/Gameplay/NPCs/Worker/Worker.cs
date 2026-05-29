@@ -22,9 +22,9 @@ public class Worker : MonoBehaviour
 
     public ResourceAmount CurrentInventoryResource => _inventory;
 
-    private Building _assignedBuilding;
+    [SerializeField] private Building _assignedBuilding;
     private Job _currentJob;
-    private Job _lastJob;
+    private JobData _lastJob;
 
     private NPCsConfig _npcsConfig;
     private WorkAttributesConfig _attributesConfig;
@@ -35,7 +35,7 @@ public class Worker : MonoBehaviour
 
     public State CurrentState => _currentState;
     public Job CurrentJob => _currentJob;
-    public Job LastJob => _lastJob;
+    public JobData LastJob => _lastJob;
     public Building AssignedBuilding => _assignedBuilding;
 
 
@@ -54,6 +54,7 @@ public class Worker : MonoBehaviour
 
         ChooseRandomParameters();
     }
+
 
     private void ChooseRandomParameters()
     {
@@ -117,9 +118,7 @@ public class Worker : MonoBehaviour
     }
 
     public void ChangeState<T>(object data = null) where T : State
-    {
-        Debug.Log($"ChangeState<{typeof(T).Name}> called on {gameObject.name}, frame: {Time.frameCount}, stack: {Environment.StackTrace}");
-    
+    {    
         foreach(StateString sstr in _statesByString)
         {
             if(sstr.name == typeof(T).Name)
@@ -155,11 +154,16 @@ public class Worker : MonoBehaviour
     private void Update()
     {
         _currentState?.OnUpdate();
+
+        // if(_currentJob != null && _currentState is IdleState)
+        // {
+        //     Debug.Log($"{name} Attempting to recover - restarting job");
+        //     StartJob();
+        // }
     }
 
     public void SetJob(Job job)
     {
-
         if(!_atWork)
         {
             _currentJob = job;
@@ -294,7 +298,8 @@ public class Worker : MonoBehaviour
 
     public void OnJobCompleted()
     {
-        _lastJob = _currentJob;
+        _lastJob = new JobData(_currentJob);
+        JobPool.Return(_currentJob);
         _currentJob = null;
         _atWork = false;
     }

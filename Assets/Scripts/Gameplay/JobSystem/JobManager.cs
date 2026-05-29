@@ -49,6 +49,7 @@ public class JobManager : MonoBehaviour, IService
     {
         foreach(Worker worker in _assignedWorkers)
         {
+            //BUG
             if (worker.CurrentJob == null && !worker.AssignedBuilding.DontHaveJob)
             {
                 Job newJob = worker.AssignedBuilding.GetAvailableJob(worker.LastJob);
@@ -163,7 +164,6 @@ public class JobManager : MonoBehaviour, IService
         if(_freeBuildings.Count > 0)
         {
             var pair = _freeBuildings.ElementAt(0);
-            int needed = _freeBuildings[pair.Key];
 
             AssignWorker(worker, pair.Key);
             if(_freeBuildings[pair.Key] - 1 > 0)
