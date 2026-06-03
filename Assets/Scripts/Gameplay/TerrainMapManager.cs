@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class TerrainMapManager: MonoBehaviour, IService
 {
     private TerrainMap _terrainMap;
     private GameObject[,] _resourceMap;
+    private List<GameObject> _animatedResources = new();
 
     [Header("Tilemaps")]
     [SerializeField] private Tilemap _terrainTilemap;
@@ -81,12 +83,27 @@ public class TerrainMapManager: MonoBehaviour, IService
 
     private void ResourceAnimation(int x, int y)
     {
-        Transform resTransform = _resourceMap[x, y].transform;
+        GameObject resourceObj = _resourceMap[x, y];
+        if(!_animatedResources.Contains(resourceObj))
+        {
+            _animatedResources.Add(resourceObj);
+            Transform resTransform = resourceObj.transform;
 
-        Vector3 scaleBefore = resTransform.localScale;
+            Vector3 scaleBefore = resTransform.localScale;
 
-        resTransform.DOScale(scaleBefore * 1.2f, 0.5f)
-            .SetLoops(-1, LoopType.Yoyo)
-            .OnKill(() => resTransform.localScale = scaleBefore);
+            resTransform.DOScale(scaleBefore * 1.2f, 0.5f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .OnKill(() => StopAnimation(resTransform, scaleBefore, resourceObj));
+        }
+    }
+
+    private void StopAnimation(Transform resTransform, Vector3 scaleBefore, GameObject resObj)
+    {
+        resTransform.localScale = scaleBefore;
+
+        if(_animatedResources.Contains(resObj))
+        {
+            _animatedResources.Remove(resObj);
+        }
     }
 }

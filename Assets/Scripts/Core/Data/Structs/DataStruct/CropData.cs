@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CropData
+public struct CropData
 {
     public Crop Crop;
 

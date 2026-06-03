@@ -28,17 +28,17 @@ public class CropMap
         CropData[x, y] = tile;
     }
 
-    public bool IsEmpty(int x, int y)
-    {
-        if(x >= Width || y >= Height || x < 0 || y < 0)  return false;
+    // public bool IsEmpty(int x, int y)
+    // {
+    //     if(x >= Width || y >= Height || x < 0 || y < 0)  return false;
 
-        if(CropData[x, y] != null)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    //     // if(CropData[x, y] != null)
+    //     // {
+    //     //     return false;
+    //     // }
+    //     // else
+    //     // {
+    //     //     return true;
+    //     // }
+    // }
 }
